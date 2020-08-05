@@ -195,6 +195,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="DAL\DatabContext.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -202,6 +203,10 @@
     <Compile Include="Migrations\202008050143088_initial-migration.cs" />
     <Compile Include="Migrations\202008050143088_initial-migration.designer.cs">
       <DependentUpon>202008050143088_initial-migration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202008051352115_contrat_fields.cs" />
+    <Compile Include="Migrations\202008051352115_contrat_fields.designer.cs">
+      <DependentUpon>202008051352115_contrat_fields.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Admin.cs" />
@@ -221,16 +226,68 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\app.css" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\images\bg-login-page-dark.svg" />
+    <Content Include="Content\images\bg-login-page.svg" />
+    <Content Include="Content\images\error-illustration.svg" />
+    <Content Include="Content\images\food-beverage-10.jpg" />
+    <Content Include="Content\images\food-beverage-12.jpg" />
+    <Content Include="Content\images\food-beverage-13.jpg" />
+    <Content Include="Content\images\food-beverage-14.jpg" />
+    <Content Include="Content\images\food-beverage-16.jpg" />
+    <Content Include="Content\images\food-beverage-17.jpg" />
+    <Content Include="Content\images\food-beverage-18.jpg" />
+    <Content Include="Content\images\food-beverage-19.jpg" />
+    <Content Include="Content\images\food-beverage-3.jpg" />
+    <Content Include="Content\images\food-beverage-4.jpg" />
+    <Content Include="Content\images\food-beverage-5.jpg" />
+    <Content Include="Content\images\food-beverage-7.jpg" />
+    <Content Include="Content\images\food-beverage-8.jpg" />
+    <Content Include="Content\images\food-beverage-9.jpg" />
+    <Content Include="Content\images\illustration.svg" />
+    <Content Include="Content\images\logo.svg" />
+    <Content Include="Content\images\preview-1.jpg" />
+    <Content Include="Content\images\preview-10.jpg" />
+    <Content Include="Content\images\preview-11.jpg" />
+    <Content Include="Content\images\preview-12.jpg" />
+    <Content Include="Content\images\preview-13.jpg" />
+    <Content Include="Content\images\preview-14.jpg" />
+    <Content Include="Content\images\preview-15.jpg" />
+    <Content Include="Content\images\preview-2.jpg" />
+    <Content Include="Content\images\preview-3.jpg" />
+    <Content Include="Content\images\preview-4.jpg" />
+    <Content Include="Content\images\preview-5.jpg" />
+    <Content Include="Content\images\preview-6.jpg" />
+    <Content Include="Content\images\preview-7.jpg" />
+    <Content Include="Content\images\preview-8.jpg" />
+    <Content Include="Content\images\preview-9.jpg" />
+    <Content Include="Content\images\profile-1.jpg" />
+    <Content Include="Content\images\profile-10.jpg" />
+    <Content Include="Content\images\profile-11.jpg" />
+    <Content Include="Content\images\profile-12.jpg" />
+    <Content Include="Content\images\profile-13.jpg" />
+    <Content Include="Content\images\profile-14.jpg" />
+    <Content Include="Content\images\profile-15.jpg" />
+    <Content Include="Content\images\profile-2.jpg" />
+    <Content Include="Content\images\profile-3.jpg" />
+    <Content Include="Content\images\profile-4.jpg" />
+    <Content Include="Content\images\profile-5.jpg" />
+    <Content Include="Content\images\profile-6.jpg" />
+    <Content Include="Content\images\profile-7.jpg" />
+    <Content Include="Content\images\profile-8.jpg" />
+    <Content Include="Content\images\profile-9.jpg" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Scripts\app.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="fonts\summernote.woff" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -256,9 +313,16 @@
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Users\Create.cshtml" />
+    <Content Include="Views\Users\Delete.cshtml" />
+    <Content Include="Views\Users\Details.cshtml" />
+    <Content Include="Views\Users\Edit.cshtml" />
+    <Content Include="Views\Users\Index.cshtml" />
+    <Content Include="Views\Shared\Back.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Services\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
@@ -276,6 +340,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202008050143088_initial-migration.resx">
       <DependentUpon>202008050143088_initial-migration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202008051352115_contrat_fields.resx">
+      <DependentUpon>202008051352115_contrat_fields.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

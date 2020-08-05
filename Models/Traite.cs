@@ -10,6 +10,8 @@ namespace PFE_reclamation.Models
     {
         [Key]
         public int id { get; set; }
+        public DateTime date { get; set; }
+        public string detaille { get; set; }
         public Traite traite { get; set; }
         public Reclamation reclamation { get; set; }
     }

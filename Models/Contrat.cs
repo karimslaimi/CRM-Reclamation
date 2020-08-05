@@ -10,6 +10,10 @@ namespace PFE_reclamation.Models
     {
         [Key]
         public int id { get; set; }
+        public string titre { get; set; }
+        public DateTime deb_contrat { get; set; }
+        public DateTime fin_contrat { get; set; }
+        public string description { get; set; }
         public virtual Client Client { get; set; }
     }
 }
