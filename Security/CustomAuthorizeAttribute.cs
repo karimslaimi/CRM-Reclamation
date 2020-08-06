@@ -1,4 +1,5 @@
-﻿using Microsoft.Owin;
+﻿using Microsoft.Ajax.Utilities;
+using Microsoft.Owin;
 using PFE_reclamation.Models;
 using System;
 using System.Collections.Generic;
@@ -34,11 +35,11 @@ namespace PFE_reclamation.Security
             var ctx = HttpContext.Current.GetOwinContext();
 
             IEnumerable<Claim> claims = ClaimsPrincipal.Current.Claims;
-           
+
             bool authorize = false;
 
 
-            if (Roles.Contains(claims.FirstOrDefault(x => x.Type == "role").Value))
+            if (HttpContext.Current.User.IsInRole(allowedroles[0]))
             {
                 authorize = true;
             }

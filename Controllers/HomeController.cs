@@ -18,13 +18,20 @@ namespace PFE_reclamation.Controllers
        
         public ActionResult Index()
         {
-           
+            if (User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("redirectrole", "Users");
+            }
+            else
+            {
+                return RedirectToAction("Signin", "Users");
+            }
+
+             
 
            
 
-
-
-            return View();
+             
         }
 
         public ActionResult About()

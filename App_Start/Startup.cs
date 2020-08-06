@@ -11,16 +11,22 @@ namespace PFE_reclamation.App_Start
 {
     public class Startup
     {
-        public void Configuration(IAppBuilder app)
+        public void ConfigureAuth(IAppBuilder app)
         {
-            // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=316888
             app.UseCookieAuthentication(new CookieAuthenticationOptions
             {
                 AuthenticationType = DefaultAuthenticationTypes.ApplicationCookie,
                 LoginPath = new PathString("/Users/Signin"),
-                LogoutPath = new PathString("/Users/Logout"),
-                ExpireTimeSpan = TimeSpan.FromMinutes(30.0)
+                LogoutPath = new PathString("/Users/logout"),
+                ExpireTimeSpan = TimeSpan.FromDays(7)
             });
+        }
+
+        public void Configuration(IAppBuilder app)
+        {
+            // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=316888
+            ConfigureAuth(app); // <-- this
+       
         }
     }
 }
