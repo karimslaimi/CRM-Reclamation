@@ -4,10 +4,13 @@ using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
+using System.Security.Claims;
 using System.Web;
 using System.Web.Mvc;
 using PFE_reclamation.DAL;
 using PFE_reclamation.Models;
+using PFE_reclamation.Services;
 
 namespace PFE_reclamation.Controllers
 {
@@ -15,9 +18,77 @@ namespace PFE_reclamation.Controllers
     {
         private DatabContext db = new DatabContext();
 
+        private Authentication authservice = new Authentication();
+
+
+        public ActionResult Signin(User user)
+        {
+            if (HttpContext.Request.HttpMethod == HttpMethod.Post.Method)
+            {
+                User auth = authservice.AuthUser(user.username, user.password);
+
+                if (auth != null)
+                {
+
+                  
+
+                    if (auth is Admin) return RedirectToAction("index", "Admin");
+
+                    
+                    else if (auth is Client) return RedirectToAction("index", "Client");
+                    else if (auth is Agent) return RedirectToAction("index", "Agent");
+                    else if (auth is Responsable_departement) return RedirectToAction("index", "RD");
+                    else if (auth is Responsable_relation_client) return RedirectToAction("index", "RRC");
+                    else if (auth is Superviseur) return RedirectToAction("index", "Superviseur");
+
+                }
+                else
+                {
+                    ViewBag.error="Error try again";
+                    return View();
+                }
+
+            }
+            else if(HttpContext.Request.HttpMethod == HttpMethod.Get.Method)
+            {
+
+
+                HttpContext.GetOwinContext().Authentication.SignOut(Microsoft.AspNet.Identity.DefaultAuthenticationTypes.ApplicationCookie);
+
+                return View();
+            }
+            return View();
+        }
+
+
+
+
+        public ActionResult Logout()
+        {
+            HttpContext.GetOwinContext().Authentication.SignOut(Microsoft.AspNet.Identity.DefaultAuthenticationTypes.ApplicationCookie);
+
+            return Redirect("signin");
+        }
+
+
+
+
+        [HttpPost]
+        public ActionResult save_c(Client client)
+        {
+            
+
+            return View();
+        }
+
+
+
+
+
         // GET: Users
         public ActionResult Index()
         {
+             
             return View(db.Users.ToList());
         }
 

@@ -11,5 +11,7 @@ namespace PFE_reclamation.Models
         [Key]
         public int id { get; set; }
         public string label { get; set; }
+
+        public virtual ICollection<Reclamation> Reclamations { get; set; }
     }
 }
