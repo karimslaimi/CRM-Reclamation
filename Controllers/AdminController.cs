@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Net;
 using System.Security.Claims;
 using System.Web;
 using System.Web.Mvc;
@@ -124,11 +125,59 @@ namespace PFE_reclamation.Controllers {
         public ActionResult newClient(Client _client) {
             if (ModelState.IsValid) {
                 db.Clients.Add(_client);
-                db.SaveChanges();
+                db.SaveChanges(); 
+                return RedirectToAction("clients");
                 }
-            return RedirectToAction("clients");
+            return View(_client);
             }
 
+
+
+        public ActionResult Editc(int? id) {
+            if (id == null) {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+            Client _client = db.Clients.Find(id);
+            if (_client == null) {
+                return HttpNotFound();
+                }
+            return View(_client);
+            }
+
+        // POST: Users/Edit/5
+      
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Editc(Client _client) {
+            if (ModelState.IsValid) {
+                db.Entry(_client).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("clients");
+                }
+            return View(_client);
+            }
+
+        // GET: Users/Delete/5
+        public ActionResult Deletec(int? id) {
+            if (id == null) {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+            Client _client = db.Clients.Find(id);
+            if (_client == null) {
+                return HttpNotFound();
+                }
+            return View(_client);
+            }
+
+        // POST: Users/Delete/5
+        [HttpPost, ActionName("Deletec")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteConfirmed(int id) {
+            Client _client = db.Clients.Find(id);
+            db.Clients.Remove(_client);
+            db.SaveChanges();
+            return RedirectToAction("Index");
+            }
 
 
 

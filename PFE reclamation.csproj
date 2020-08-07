@@ -368,6 +368,9 @@
     <Content Include="Views\Home\Unauthorized.cshtml" />
     <Content Include="Views\Admin\Index.cshtml" />
     <Content Include="Views\Admin\profile.cshtml" />
+    <Content Include="Views\Admin\clients.cshtml" />
+    <Content Include="Views\Admin\newClient.cshtml" />
+    <Content Include="Views\Admin\Editc.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
