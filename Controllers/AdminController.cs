@@ -166,7 +166,7 @@ namespace PFE_reclamation.Controllers {
             if (_client == null) {
                 return HttpNotFound();
                 }
-            return View(_client);
+            return Redirect("clients");
             }
 
         // POST: Users/Delete/5
