@@ -1,8 +1,10 @@
 ﻿using PFE_reclamation.DAL;
 using PFE_reclamation.Models;
 using PFE_reclamation.Security;
+using PFE_reclamation.Services;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Security.Claims;
@@ -18,6 +20,7 @@ namespace PFE_reclamation.Controllers
        
         public ActionResult Index()
         {
+            /*
             if (User.Identity.IsAuthenticated)
             {
                 return RedirectToAction("redirectrole", "Users");
@@ -26,7 +29,8 @@ namespace PFE_reclamation.Controllers
             {
                 return RedirectToAction("Signin", "Users");
             }
-
+            */
+            return View();
              
 
            
@@ -61,16 +65,7 @@ namespace PFE_reclamation.Controllers
         {
             ///this action to persist data without haveing to type in form
 
-            Admin ad = new Admin();
-            ad.cin = "00000000";
-            ad.mail = "admin@admin.com";
-            ad.nom = "admin";
-            ad.prenom = "adminos";
-            ad.tel = "700000";
-            ad.username = "admin";
-            ad.password = "karim123";
-            db.Admins.AddOrUpdate(ad);
-            db.SaveChanges();
+           
 
             return Redirect("index");
 

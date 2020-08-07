@@ -13,12 +13,13 @@ namespace PFE_reclamation
     public class MvcApplication : System.Web.HttpApplication
     {
         protected void Application_Start()
-        {
+        {    
+            AntiForgeryConfig.UniqueClaimTypeIdentifier = "id";
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
-            AntiForgeryConfig.UniqueClaimTypeIdentifier = ClaimTypes.NameIdentifier;
+        
             }
     }
 }
