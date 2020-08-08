@@ -10,7 +10,7 @@
     <div class=" ">
         <div class="intro-y col-span-12 flex flex-wrap sm:flex-no-wrap items-center mt-2">
             <a href="@Url.Action("newClient","Admin")" class="button text-white bg-theme-1 shadow-md mr-2">Ajouter un client</a>
-          
+
             <div class="hidden md:block mx-auto text-gray-600"> </div>
             <div class="w-full sm:w-auto mt-3 sm:mt-0 sm:ml-auto md:ml-0">
                 <div class="w-56 relative text-gray-700 dark:text-gray-300">
@@ -47,6 +47,7 @@
                         <th class="text-center whitespace-no-wrap">
                             Actions
                         </th>
+                         
 
                     </tr>
                 </thead>
@@ -84,7 +85,13 @@
 
                             <td class="table-report__action w-56">
                                 <div class="flex justify-center items-center">
-                                    <a class="flex items-center mr-3" href="javascript:;"> <i data-feather="check-square" class="w-4 h-4 mr-1"></i> Modifier </a>
+                                    <a href="@Url.Action("Editc","Admin",new {id=item.id })" class="dropdown-toggle button inline-block flex items-center mr-3"><i data-feather="check-square" class="w-4 h-4 mr-1"></i> Gérer</a>
+
+
+                                  
+
+
+
                                     <a class="flex items-center text-theme-6" href="javascript:;" id="deletemodal" data-id="@item.id" data-toggle="modal" data-target="#delete-confirmation-modal"> <i data-feather="trash-2" class="w-4 h-4 mr-1"></i> Supprimer </a>
                                 </div>
                             </td>
@@ -93,9 +100,9 @@
                 </tbody>
             </table>
         </div>
+
+        <!-- END: Data List -->
     </div>
-    <!-- END: Data List -->
- 
 
 
 <!-- BEGIN: Delete Confirmation Modal -->
