@@ -371,6 +371,9 @@
     <Content Include="Views\Admin\clients.cshtml" />
     <Content Include="Views\Admin\newClient.cshtml" />
     <Content Include="Views\Admin\Editc.cshtml" />
+    <Content Include="Views\Superviseur\responsables.cshtml" />
+    <Content Include="Views\Superviseur\Create.cshtml" />
+    <Content Include="Views\Superviseur\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -378,7 +381,6 @@
     <Folder Include="Views\Client\" />
     <Folder Include="Views\RD\" />
     <Folder Include="Views\RRC\" />
-    <Folder Include="Views\Superviseur\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

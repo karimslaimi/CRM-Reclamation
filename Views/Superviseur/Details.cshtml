@@ -1,0 +1,83 @@
+﻿@model PFE_reclamation.Models.Responsable_departement
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/Back.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Responsable_departement</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.nom)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.nom)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.prenom)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.prenom)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.cin)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.cin)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.tel)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.tel)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.mail)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.mail)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.username)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.username)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.password)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.password)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.date_aff)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.date_aff)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
