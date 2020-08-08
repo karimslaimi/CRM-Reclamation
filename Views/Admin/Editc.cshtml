@@ -1,86 +1,351 @@
 ﻿@model PFE_reclamation.Models.Client
+ 
 
 @{
     ViewBag.Title = "Editc";
     Layout = "~/Views/Shared/Back.cshtml";
 }
+@using System.Globalization;
+@{
+    CultureInfo french = new CultureInfo("fr-FR"); }
 
-<h2>Editc</h2>
+<div class="intro-y flex items-center mt-8">
+    <h2 class="text-lg font-medium mr-auto">
+        Modfier le client gérer ses contrats
+    </h2>
+</div>
 
-@using (Html.BeginForm())
-{
-    @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
-        <h4>Client</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.id)
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.nom, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.nom, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.nom, "", new { @class = "text-danger" })
+<div class="grid grid-cols-12 gap-6 mt-5">
+
+    <div class="intro-y col-span-12 lg:col-span-6">
+        <!-- BEGIN: Form Layout -->
+        <div class="intro-y box lg:mt-5">
+            <div class="flex items-center p-5 border-b border-gray-200 dark:border-dark-5">
+                <h2 class="font-medium text-base mr-auto">
+                    Information Client
+                </h2>
             </div>
-        </div>
+            @using (Html.BeginForm()) {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true, "", new { @class = "text-theme-6" })
+                @Html.HiddenFor(model => model.id)
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.prenom, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.prenom, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.prenom, "", new { @class = "text-danger" })
-            </div>
-        </div>
+                <div class="p-5">
+                    <div class="grid grid-cols-12 gap-5">
+                        <div class="col-span-12 xl:col-span-6">
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.cin, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.cin, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.cin, "", new { @class = "text-danger" })
-            </div>
-        </div>
+                            <div class="mt-3">
+                                <label>Nom d'utilisateur</label>
+                                @Html.EditorFor(model => model.username, new { htmlAttributes = new { @class = "input w-full border    mt-2" } })
+                                @Html.ValidationMessageFor(model => model.username, "", new { @class = "text-theme-6 mt-2" })
+                            </div>
+                            <div class="mt-3">
+                                <label>Nom</label>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.tel, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.tel, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.tel, "", new { @class = "text-danger" })
-            </div>
-        </div>
+                                @Html.EditorFor(model => model.nom, new { htmlAttributes = new { @class = "input w-full border mt-2" } })
+                                @Html.ValidationMessageFor(model => model.nom, "", new { @class = "text-theme-6 mt-2" })
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.mail, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.mail, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.mail, "", new { @class = "text-danger" })
-            </div>
-        </div>
+                            </div>
+                            <div class="mt-3">
+                                <label>Prenom</label>
+                                @Html.EditorFor(model => model.prenom, new { htmlAttributes = new { @class = "input w-full border mt-2" } })
+                                @Html.ValidationMessageFor(model => model.prenom, "", new { @class = "text-theme-6 mt-2" })
+                            </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.username, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.username, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.username, "", new { @class = "text-danger" })
-            </div>
-        </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.password, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.password, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.password, "", new { @class = "text-danger" })
-            </div>
-        </div>
+                        </div>
+                        <div class="col-span-12 xl:col-span-6">
+                            <div class="mt-3">
+                                <label>Email</label>
 
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
-            </div>
+                                @Html.EditorFor(model => model.mail, new { htmlAttributes = new { @class = "input w-full border    mt-2" } })
+                                @Html.ValidationMessageFor(model => model.mail, "", new { @class = "text-theme-6 mt-2" })
+                            </div>
+                            <div class="mt-3">
+                                <label>Numéro téléphone</label>
+                                @Html.EditorFor(model => model.tel, new { htmlAttributes = new { @class = "input w-full border mt-2" } })
+                                @Html.ValidationMessageFor(model => model.tel, "", new { @class = "text-theme-6 mt-2" })
+                            </div>
+
+                            <div class="mt-3">
+                                <label>CIN</label>
+                                @Html.EditorFor(model => model.cin, new { htmlAttributes = new { @class = "input w-full border mt-2" } })
+                                @Html.ValidationMessageFor(model => model.cin, "", new { @class = "text-theme-6 mt-2" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex justify-end mt-4">
+                        @if (ViewBag.msg != null) {
+
+                            <span class="text-theme-9">
+                                @ViewBag.msg
+                            </span>
+                            }
+                        @if (ViewBag.error != null) {
+
+                            <span class=" text-theme-6 ">
+                                @ViewBag.error
+                            </span>
+                            }
+                        <button type="submit" class="button w-22 bg-theme-1 text-white ml-auto">Enregistrer</button>
+                    </div>
+                </div>
+                }
         </div>
+        <!-- END: Form Layout -->
     </div>
-}
+    <div class="intro-y col-span-12 lg:col-span-6">
+        <!-- BEGIN: Form Layout -->
+        <div class="intro-y box lg:mt-5">
+            <div class="flex items-center p-5 border-b border-gray-200 dark:border-dark-5">
+                <h2 class="font-medium text-base mr-auto">
+                    AJouter un contrat
+                </h2>
+            </div>
+            <form>
+                <div class="p-5">
+                    <div class="grid grid-cols-12 gap-5">
+                        <div class="col-span-12 xl:col-span-6">
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
+
+                            <input type="hidden" name="clid" value="@Model.id" />
+                            <div class="mt-3">
+                                <label>Titre</label>
+
+                                <input type="text" name="titre" class="input w-full border mt-2" placeholder="Titre" />
+                            </div>
+                            <div class="mt-3">
+                                <label>Début contrat</label>
+                               
+                                <div class="relative w-56 mx-auto">
+                                    <div class="absolute rounded-l w-10 h-full flex items-center justify-center bg-gray-100 border text-gray-600 dark:bg-dark-1 dark:border-dark-4"> 
+                                    <i data-feather="calendar" class="w-4 h-4"></i> </div>
+                                    <input type="text" class="datepicker input pl-12 border"  name="ddeb">
+                                </div>
+
+
+
+                            </div>
+                            <div class="mt-3">
+                                <label>Date fin contrat</label>
+                             
+
+                                <div class="relative w-56 mx-auto">
+                                    <div class="absolute rounded-l w-10 h-full flex items-center justify-center bg-gray-100 border text-gray-600 dark:bg-dark-1 dark:border-dark-4">
+                                        <i data-feather="calendar" class="w-4 h-4"></i>
+                                    </div>
+                                    <input type="text" class="datepicker input pl-12 border"   name="dfin">
+                                </div>
+                            </div>
+                            <div class="mt-3">
+                                <label>Textarea</label>
+                                <div class="mt-2">
+                                    <textarea data-feature="basic" class="summernote" name="editor"></textarea>
+                                </div>
+                            </div>
+
+                        </div>
+                    
+                    </div>
+                    <div class="flex justify-end mt-4">
+                        @if (ViewBag.msg != null) {
+
+                            <span class="text-theme-9">
+                                @ViewBag.msg
+                            </span>
+                            }
+                        @if (ViewBag.error != null) {
+
+                            <span class=" text-theme-6 ">
+                                @ViewBag.error
+                            </span>
+                            }
+                        <button type="submit" class="button w-22 bg-theme-1 text-white ml-auto">Enregistrer</button>
+                    </div>
+                </div>
+            </form>
+
+
+              
+                
+        </div>
+        <!-- END: Form Layout -->
+    </div>
+</div>
+
+
+
+
+
+<!--
+this for list claims and contracts
+-->
+<div class="grid grid-cols-12 gap-6 mt-5">
+
+    <div class="intro-y col-span-12 lg:col-span-6">
+        <!-- BEGIN: Form Layout -->
+        <div class="intro-y box lg:mt-5">
+            <div class="flex items-center p-5 border-b border-gray-200 dark:border-dark-5">
+                <h2 class="font-medium text-base mr-auto">
+                    Information Personnel
+                </h2>
+            </div>
+            <!-- BEGIN: Datatable -->
+            <div class="intro-y datatable-wrapper box p-5 mt-5">
+                <table class="table table-report table-report--bordered display datatable w-full">
+                    <thead>
+                        <tr>
+                            <th class="border-b-2 text-center whitespace-no-wrap sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 80px;" aria-label="Nom: activer pour trier colonne croissanbt">
+                                Numéro
+                            </th>
+                            <th class=" whitespace-no-wrap">
+
+                                Date création
+                            </th>
+                            <th class=" whitespace-no-wrap">
+                                Date de réglement
+                            </th>
+                            <th class=" whitespace-no-wrap">
+                                Type
+                            </th>
+                            <th class="whitespace-no-wrap">
+                                Departement
+                            </th>
+                            <th class=" whitespace-no-wrap">
+                                Etat
+                            </th>
+                            <th class="text-center whitespace-no-wrap">
+                                Actions
+                            </th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{
+                            var reclamations = Model.Reclamations; // Cast the list
+                        }
+                        @foreach (var recl in reclamations) {
+
+                            <tr class="intro-x">
+
+                                <td>
+
+                                    <div class="font-medium whitespace-no-wrap">  @Html.DisplayFor(modelItem => recl.id)</div>
+                                </td>
+                                <td>
+
+                                    <div class="font-medium whitespace-no-wrap">
+                                        @{
+                                            var d2 = recl.debut_reclam.ToString("dd/MM/yyyy", french);
+                                            Html.DisplayFor(modelItem => d2);
+                                        }
+
+                                    </div>
+                                </td>
+                                <td>
+
+                                    <div class="font-medium whitespace-no-wrap">
+                                        @if (recl.fin_reclam != null) {
+
+
+                                            var d1 = recl.fin_reclam.ToString("dd/MM/yyyy", french);
+                                            Html.DisplayFor(modelItem => d1);
+                                            } else {
+                                            Html.DisplayFor(modelItem => "");
+                                            }
+
+
+
+
+
+                                    </div>
+                                </td>
+                                <td>
+
+                                    <div class="font-medium whitespace-no-wrap">  @Html.DisplayFor(modelItem => recl.type)</div>
+                                </td>
+                                <td>
+
+                                    <div class="font-medium whitespace-no-wrap">  @Html.DisplayFor(modelItem => recl.Departement.label)</div>
+                                </td>
+                                <td class="w-40">
+                                    @if (recl.etat == PFE_reclamation.Models.Etat.Nouveau) {
+                                        <div class="flex items-center justify-center text-gray-600"> <i data-feather="check-square" class="w-4 h-4 mr-2"></i> Nouveau </div>
+                                        } else if (recl.etat == PFE_reclamation.Models.Etat.En_cours) {
+                                        <div class="flex items-center justify-center text-theme-6"> <i data-feather="check-square" class="w-4 h-4 mr-2"></i> En cours </div>
+                                        } else {
+                                        <div class="flex items-center justify-center text-theme-9"> <i data-feather="check-square" class="w-4 h-4 mr-2"></i> Finis</div>
+                                        }
+
+
+
+
+                                </td>
+
+
+
+                                <td class="table-report__action w-56">
+                                    <div class="flex justify-center items-center">
+                                        <a class="flex items-center mr-3" href="@Url.Action("Vérifier_reclam","Admin",new { id = recl.id })"> <i data-feather="check-square" class="w-4 h-4 mr-1"></i> Vérifier </a>
+                                        <a class="flex items-center text-theme-6" href="javascript:;" id="deletemodal" data-id="@recl.id" data-toggle="modal" data-target="#delete-confirmation-modal"> <i data-feather="trash-2" class="w-4 h-4 mr-1"></i> Supprimer </a>
+                                    </div>
+                                </td>
+                            </tr>
+                            }
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- END: Data List -->
+        </div>
+        <!-- END: Form Layout -->
+    </div>
+    <div class="intro-y col-span-12 lg:col-span-6">
+        <!-- BEGIN: Form Layout -->
+        <div class="intro-y box lg:mt-5">
+            <div class="flex items-center p-5 border-b border-gray-200 dark:border-dark-5">
+                <h2 class="font-medium text-base mr-auto">
+                    Information Personnel
+                </h2>
+            </div>
+            <!-- BEGIN: Datatable -->
+            <div class="intro-y datatable-wrapper box p-5 mt-5">
+                <table class="table table-report table-report--bordered display datatable w-full">
+                    <thead>
+                        <tr>
+                            <th class="border-b-2 text-center whitespace-no-wrap sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 80px;" aria-label="Nom: activer pour trier colonne croissanbt">
+                                NOM
+                            </th>
+                            <th class=" whitespace-no-wrap">
+
+                                Prenom
+                            </th>
+                            <th class=" whitespace-no-wrap">
+                                CIN
+                            </th>
+                            <th class=" whitespace-no-wrap">
+                                Num. Tel.
+                            </th>
+                            <th class="whitespace-no-wrap">
+                                Adresse mail
+                            </th>
+                            <th class=" whitespace-no-wrap">
+                                Nom d'utilisateur'
+                            </th>
+                            <th class="text-center whitespace-no-wrap">
+                                Actions
+                            </th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- END: Data List -->
+        </div>
+        <!-- END: Form Layout -->
+    </div>
 </div>
