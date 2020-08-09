@@ -374,13 +374,21 @@
     <Content Include="Views\Superviseur\Details.cshtml" />
     <Content Include="Views\Admin\clientContrat.cshtml" />
     <Content Include="Views\Admin\clientReclam.cshtml" />
+    <Content Include="Views\Shared\RRCLayout.cshtml" />
+    <Content Include="Views\RRC\clients.cshtml" />
+    <Content Include="Views\RRC\newClient.cshtml" />
+    <Content Include="Views\RRC\Editc.cshtml" />
+    <Content Include="Views\RRC\clientContrat.cshtml" />
+    <Content Include="Views\RRC\clientReclam.cshtml" />
+    <Content Include="Views\RRC\Index.cshtml" />
+    <Content Include="Views\RRC\profile.cshtml" />
+    <Content Include="Views\Client\profile.cshtml" />
+    <Content Include="Views\Shared\ClientLayout.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\Agent\" />
-    <Folder Include="Views\Client\" />
     <Folder Include="Views\RD\" />
-    <Folder Include="Views\RRC\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

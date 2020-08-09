@@ -15,6 +15,12 @@ using System.Web.Mvc;
 namespace PFE_reclamation.Controllers {
     [CustomAuthorize("ADMIN")]
     public class AdminController : Controller {
+
+
+        //here i have to add reclam mmethods the cheeck and the verify methods
+        //and checkfor sami the superviseur management 
+
+
         DatabContext db = new DatabContext();
         Authentication authservice = new Authentication();
 
