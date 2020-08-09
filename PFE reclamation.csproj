@@ -374,12 +374,23 @@
     <Content Include="Views\Superviseur\responsables.cshtml" />
     <Content Include="Views\Superviseur\Create.cshtml" />
     <Content Include="Views\Superviseur\Details.cshtml" />
+    <Content Include="Views\Admin\newResponsableDep.cshtml" />
+    <Content Include="Views\Admin\responsables.cshtml" />
+    <Content Include="Views\Admin\detailsResponsableDep.cshtml" />
+    <Content Include="Views\Admin\newSuperviseur.cshtml" />
+    <Content Include="Views\Admin\superviseurs.cshtml" />
+    <Content Include="Views\Admin\detailsSuperviseur.cshtml" />
+    <Content Include="Views\RD\newAgent.cshtml" />
+    <Content Include="Views\RD\agents.cshtml" />
+    <Content Include="Views\Admin\newAgent.cshtml" />
+    <Content Include="Views\Admin\agents.cshtml" />
+    <Content Include="Views\Admin\detailsAgent.cshtml" />
+    <Content Include="Views\RD\detailsAgent.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\Agent\" />
     <Folder Include="Views\Client\" />
-    <Folder Include="Views\RD\" />
     <Folder Include="Views\RRC\" />
   </ItemGroup>
   <ItemGroup>

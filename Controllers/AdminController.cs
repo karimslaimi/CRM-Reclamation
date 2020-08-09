@@ -183,6 +183,160 @@ namespace PFE_reclamation.Controllers {
 
 
 
+        // créer un responsable
+        [HttpGet]
+        public ActionResult newResponsableDep()
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult newResponsableDep(Responsable_departement responsable)
+        {
+            DatabContext db = new DatabContext();
+            if (ModelState.IsValid)
+            {
+                Authentication authservice = new Authentication();
+                responsable.password = authservice.HashPassword(responsable.password);
+                db.Responsable_Departements.Add(responsable);
+                db.SaveChanges();
+                return RedirectToAction("responsables");
+            }
+            return View(responsable);
+        }
+
+        // afficher la liste des responsables dep
+        public ActionResult responsables()
+        {
+            DatabContext db = new DatabContext();
+            List<Responsable_departement> rs = db.Responsable_Departements.ToList();
+
+            return View(rs);
+        }
+
+        // supprimer un responsable département
+        public ActionResult deleteResponsableDep(int id)
+        {
+            DatabContext db = new DatabContext();
+            Responsable_departement rs = db.Responsable_Departements.Find(id);
+            db.Responsable_Departements.Remove(rs);
+            db.SaveChanges();
+            return RedirectToAction("responsables");
 
         }
+        // methode pour  affichage des details d'un resp departement
+        public ActionResult detailsResponsableDep(int id)
+        {
+            DatabContext db = new DatabContext();
+            Responsable_departement rs = db.Responsable_Departements.Find(id);
+
+            return View(rs);
+        }
+
+        //------------------------superviseur-----------------------------
+
+        // créer un superviseur
+        [HttpGet]
+        public ActionResult newSuperviseur()
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult newSuperviseur(Superviseur superviseur)
+        {
+            DatabContext db = new DatabContext();
+            if (ModelState.IsValid)
+            {
+                Authentication authservice = new Authentication();
+                superviseur.password = authservice.HashPassword(superviseur.password);
+                db.Superviseurs.Add(superviseur);
+                db.SaveChanges();
+                return RedirectToAction("superviseurs");
+            }
+            return View(superviseur);
+        }
+
+        // afficher la liste des superviseurs
+        public ActionResult superviseurs()
+        {
+            DatabContext db = new DatabContext();
+            List<Superviseur> rs = db.Superviseurs.ToList();
+
+            return View(rs);
+        }
+
+        // supprimer un responsable département
+        public ActionResult deleteSuperviseur(int id)
+        {
+            DatabContext db = new DatabContext();
+            Superviseur rs = db.Superviseurs.Find(id);
+            db.Superviseurs.Remove(rs);
+            db.SaveChanges();
+            return RedirectToAction("superviseurs");
+
+        }
+        // methode pour  affichage des details d'un resp departement
+        public ActionResult detailsSuperviseur(int id)
+        {
+
+            DatabContext db = new DatabContext();
+            Superviseur rs = db.Superviseurs.Find(id);
+
+
+            return View(rs);
+        }
+
+        //---------------Agents------------------------------
+
+        // créer un agent
+        [HttpGet]
+        public ActionResult newAgent()
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult newAgent(Agent agent)
+        {
+            DatabContext db = new DatabContext();
+            if (ModelState.IsValid)
+            {
+                Authentication authservice = new Authentication();
+                agent.password = authservice.HashPassword(agent.password);
+                db.Agents.Add(agent);
+                db.SaveChanges();
+                return RedirectToAction("agents");
+            }
+            return View(agent);
+        }
+
+        // afficher la liste des agents
+        public ActionResult agents()
+        {
+            DatabContext db = new DatabContext();
+            List<Agent> rs = db.Agents.ToList();
+
+            return View(rs);
+        }
+
+        // supprimer un agent
+        public ActionResult deleteAgent(int id)
+        {
+            DatabContext db = new DatabContext();
+            Agent rs = db.Agents.Find(id);
+            db.Agents.Remove(rs);
+            db.SaveChanges();
+            return RedirectToAction("agents");
+
+        }
+        // methode pour  affichage des details d'un agent
+        public ActionResult detailsAgent(int id)
+        {
+            DatabContext db = new DatabContext();
+            Agent rs = db.Agents.Find(id);
+
+            return View(rs);
+        }
+
+
+
     }
+}
