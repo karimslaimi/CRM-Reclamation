@@ -63,22 +63,21 @@ namespace PFE_reclamation.Controllers
 
         public ActionResult persist()
         {
-            Authentication authservice = new Authentication();
             ///this action to persist data without haveing to type in form
-            Admin _ad = new Admin();
-            _ad.mail = "admin@admin.com";
-            _ad.nom = "admin";
-            _ad.prenom = "adminos";
+            Authentication authservice = new Authentication();
+            Superviseur _ad = new Superviseur();
+            _ad.mail = "sami@sami.com";
+            _ad.nom = "sami";
+            _ad.prenom = "krimi";
             _ad.tel = "25415633";
-            _ad.username = "admin";
-            _ad.cin = "14253687";
-            _ad.password =authservice.HashPassword( "admin123");
-
-            db.Admins.Add(_ad);
+            _ad.username = "sami";
+            _ad.cin = "11654521";
+            _ad.password = authservice.HashPassword("sami123");
+            _ad.date_aff = DateTime.Now;
+            db.Superviseurs.Add(_ad);
             db.SaveChanges();
 
 
-           
 
             return Redirect("index");
 
