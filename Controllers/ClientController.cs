@@ -121,7 +121,7 @@ namespace PFE_reclamation.Controllers
         [HttpGet]
         public ActionResult addreclam() {
             Reclamation _reclam = new Reclamation();
-
+          
             return View(_reclam);
             }
         [HttpPost]
@@ -130,6 +130,8 @@ namespace PFE_reclamation.Controllers
                 int id = int.Parse(ClaimsPrincipal.Current.Claims.FirstOrDefault(x => x.Type == "id").Value);
                 Client cl = db.Clients.Find(id);
                 _reclam.Client = cl;
+                _reclam.debut_reclam = DateTime.Now;
+               _reclam.etat = Etat.Nouveau;
                 db.Reclamations.Add(_reclam);
                 db.SaveChanges();
                 }
@@ -137,5 +139,26 @@ namespace PFE_reclamation.Controllers
 
 
             }
+ 
+
+
+        public ActionResult deletereclam(int id) {
+            
+            Reclamation _reclam=db.Reclamations.Find(id);
+            if (_reclam != null) {
+
+            db.Reclamations.Remove(_reclam);
+                }
+            return Redirect("myreclams");
+            }
+
+        public ActionResult EditR() {
+            // i will finish it later
+
+            return Redirect("myreclams");
+
+            }
+
+
     }
 }

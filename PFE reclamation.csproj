@@ -247,6 +247,18 @@
     <Compile Include="Migrations\202008060335247_remove depassoc.designer.cs">
       <DependentUpon>202008060335247_remove depassoc.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202008091629168_reclam_title.cs" />
+    <Compile Include="Migrations\202008091629168_reclam_title.designer.cs">
+      <DependentUpon>202008091629168_reclam_title.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202008091639062_reclam_nullable_fields.cs" />
+    <Compile Include="Migrations\202008091639062_reclam_nullable_fields.designer.cs">
+      <DependentUpon>202008091639062_reclam_nullable_fields.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202008091644319_reclam_nullable_fields_stupid.cs" />
+    <Compile Include="Migrations\202008091644319_reclam_nullable_fields_stupid.designer.cs">
+      <DependentUpon>202008091644319_reclam_nullable_fields_stupid.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Admin.cs" />
     <Compile Include="Models\Agent.cs" />
@@ -384,6 +396,9 @@
     <Content Include="Views\RRC\profile.cshtml" />
     <Content Include="Views\Client\profile.cshtml" />
     <Content Include="Views\Shared\ClientLayout.cshtml" />
+    <Content Include="Views\Client\Index.cshtml" />
+    <Content Include="Views\Client\myreclams.cshtml" />
+    <Content Include="Views\Client\addreclam.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -412,6 +427,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202008060335247_remove depassoc.resx">
       <DependentUpon>202008060335247_remove depassoc.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202008091629168_reclam_title.resx">
+      <DependentUpon>202008091629168_reclam_title.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202008091639062_reclam_nullable_fields.resx">
+      <DependentUpon>202008091639062_reclam_nullable_fields.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202008091644319_reclam_nullable_fields_stupid.resx">
+      <DependentUpon>202008091644319_reclam_nullable_fields_stupid.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

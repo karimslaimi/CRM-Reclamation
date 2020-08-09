@@ -91,7 +91,7 @@ namespace PFE_reclamation.Controllers
               
             }  else
                 {
-                    ViewBag.error="Mot de passe incorrect";
+                    ViewBag.error= "Authentification invalide";
                     return View();
                 }
 

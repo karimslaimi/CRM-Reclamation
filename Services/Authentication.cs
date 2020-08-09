@@ -25,7 +25,8 @@ namespace PFE_reclamation.Services
         public User AuthUser(string username, string password)
             {
             User u = db.Users.Where(x => x.username == username).FirstOrDefault();
-            if (VerifyHashedPassword(u.password, password))
+           
+            if (u!=null && VerifyHashedPassword(u.password, password))
                 {
                      return u;
                 }

@@ -135,7 +135,8 @@ namespace PFE_reclamation.Controllers {
 
                
             if (ModelState.IsValid) {
-                db.Clients.Add(_client);
+                    _client.password = authservice.HashPassword(_client.password);
+                    db.Clients.Add(_client);
                 db.SaveChanges(); 
                 return RedirectToAction("clients");
                 } else {

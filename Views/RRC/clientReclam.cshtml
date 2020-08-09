@@ -1,11 +1,13 @@
-﻿
+﻿@model IEnumerable<PFE_reclamation.Models.Reclamation>
 @{
     ViewBag.Title = "clientReclam";
     Layout = "~/Views/Shared/RRCLayout.cshtml";
 }
- 
 
- 
+@using System.Globalization;
+@{
+    CultureInfo french = new CultureInfo("fr-FR"); }
+
 
 
 <!--
@@ -52,10 +54,8 @@ this for list claims and contracts
                         </tr>
                     </thead>
                     <tbody>
-                        @{
-                            var reclamations = Model.Reclamations; // Cast the list
-                        }
-                        @foreach (var recl in reclamations) {
+                        
+                        @foreach (var recl in Model) {
 
                             <tr class="intro-x">
 
