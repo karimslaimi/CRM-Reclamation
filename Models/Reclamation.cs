@@ -10,8 +10,10 @@ namespace PFE_reclamation.Models
 
         public int id { get; set; }
 
+        public string titre { get; set; }
+
         public DateTime debut_reclam { get; set; }
-        public DateTime fin_reclam { get; set; }
+        public DateTime? fin_reclam { get; set; }
         
         public Etat etat{get;set;}
 
@@ -19,7 +21,9 @@ namespace PFE_reclamation.Models
 
         public string description { get; set; }
 
+        public int? DepartementId { get; set; }    
         public virtual Departement Departement { get; set; }
+        public virtual Client Client { get; set; }
 
 
     }

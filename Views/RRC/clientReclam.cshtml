@@ -1,0 +1,139 @@
+﻿@model IEnumerable<PFE_reclamation.Models.Reclamation>
+@{
+    ViewBag.Title = "clientReclam";
+    Layout = "~/Views/Shared/RRCLayout.cshtml";
+}
+
+@using System.Globalization;
+@{
+    CultureInfo french = new CultureInfo("fr-FR"); }
+
+
+
+<!--
+this for list claims and contracts
+-->
+<div class="grid grid-cols-12 gap-6 mt-5">
+
+    <div class="intro-y col-span-12 lg:col-span-7">
+        <!-- BEGIN: Form Layout -->
+        <div class="intro-y box lg:mt-5">
+            <div class="flex items-center p-5 border-b border-gray-200 dark:border-dark-5">
+                <h2 class="font-medium text-base mr-auto">
+                    Reclamations
+                </h2>
+            </div>
+            <!-- BEGIN: Datatable -->
+            <div class="intro-y datatable-wrapper box p-5 mt-5">
+                <table class="table table-report table-report--bordered display datatable w-full">
+                    <thead>
+                        <tr>
+                            <th class="border-b-2 text-center whitespace-no-wrap sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 80px;" aria-label="Nom: activer pour trier colonne croissanbt">
+                                Numéro
+                            </th>
+                            <th class=" whitespace-no-wrap">
+
+                                Date création
+                            </th>
+                            <th class=" whitespace-no-wrap">
+                                Date de réglement
+                            </th>
+                            <th class=" whitespace-no-wrap">
+                                Type
+                            </th>
+                            <th class="whitespace-no-wrap">
+                                Departement
+                            </th>
+                            <th class=" whitespace-no-wrap">
+                                Etat
+                            </th>
+                            <th class=" whitespace-no-wrap">
+                                Actions
+                            </th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
+                        @foreach (var recl in Model) {
+
+                            <tr class="intro-x">
+
+                                <td>
+
+                                    <div class="font-medium whitespace-no-wrap">  @Html.DisplayFor(modelItem => recl.id)</div>
+                                </td>
+                                <td>
+
+                                    <div class="font-medium whitespace-no-wrap">
+                                        @{
+                                            var d2 = recl.debut_reclam.ToString("dd/MM/yyyy", french);
+                                            Html.DisplayFor(modelItem => d2);
+                                        }
+
+                                    </div>
+                                </td>
+                                <td>
+
+                                    <div class="font-medium whitespace-no-wrap">
+                                        @if (recl.fin_reclam != null) {
+
+
+                                            var d1 = recl.fin_reclam.ToString("dd/MM/yyyy", french);
+                                            Html.DisplayFor(modelItem => d1);
+                                            } else {
+                                            Html.DisplayFor(modelItem => "");
+                                            }
+
+
+
+
+
+                                    </div>
+                                </td>
+                                <td>
+
+                                    <div class="font-medium whitespace-no-wrap">  @Html.DisplayFor(modelItem => recl.type)</div>
+                                </td>
+                                <td>
+
+                                    <div class="font-medium whitespace-no-wrap">
+                                        @if (recl.Departement != null) {
+                                            Html.DisplayFor(modelItem => recl.Departement.label);
+                                            }
+                                    </div>
+                                </td>
+                                <td class="w-40">
+                                    @if (recl.etat == PFE_reclamation.Models.Etat.Nouveau) {
+                                        <div class="flex items-center justify-center text-gray-600"> <i data-feather="check-square" class="w-4 h-4 mr-2"></i> Nouveau </div>
+                                        } else if (recl.etat == PFE_reclamation.Models.Etat.En_cours) {
+                                        <div class="flex items-center justify-center text-theme-6"> <i data-feather="check-square" class="w-4 h-4 mr-2"></i> En cours </div>
+                                        } else {
+                                        <div class="flex items-center justify-center text-theme-9"> <i data-feather="check-square" class="w-4 h-4 mr-2"></i> Finis</div>
+                                        }
+
+
+
+
+                                </td>
+
+
+
+                                <td class="table-report__action w-56">
+                                    <div class="flex justify-center items-center">
+                                        <a class="flex items-center mr-3" href="@Url.Action("Vérifier_reclam","Admin",new { id = recl.id })"> <i data-feather="check-square" class="w-4 h-4 mr-1"></i> Vérifier </a>
+                                        <a class="flex items-center text-theme-6" href="javascript:;" id="deletemodal" data-id="@recl.id" data-toggle="modal" data-target="#delete-confirmation-modal"> <i data-feather="trash-2" class="w-4 h-4 mr-1"></i> Supprimer </a>
+                                    </div>
+                                </td>
+                            </tr>
+                            }
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- END: Data List -->
+        </div>
+        <!-- END: Form Layout -->
+    </div>
+
+</div>

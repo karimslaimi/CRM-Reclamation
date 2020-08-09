@@ -1,0 +1,107 @@
+﻿@model PFE_reclamation.Models.Client
+
+@{
+    ViewBag.Title = "newClient";
+    Layout = "~/Views/Shared/RRCLayout.cshtml";
+}
+
+<div class="intro-y flex items-center mt-8">
+    <h2 class="text-lg font-medium mr-auto">
+        Ajouter un client
+    </h2>
+</div>
+
+
+<div class="intro-y box lg:mt-5">
+    <div class="flex items-center p-5 border-b border-gray-200 dark:border-dark-5">
+        <h2 class="font-medium text-base mr-auto">
+            Information Personnel
+        </h2>
+    </div>
+    @using (Html.BeginForm("newClient", "RRC")) {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true, "", new { @class = "text-theme-6" })
+
+
+        <div class="p-5">
+            <div class="grid grid-cols-12 gap-5">
+                <div class="col-span-12 xl:col-span-6">
+
+                    <div class="mt-3">
+                        <label>Nom d'utilisateur</label>
+                        @Html.EditorFor(model => model.username, new { htmlAttributes = new { @class = "input w-full border    mt-2" } })
+                        @Html.ValidationMessageFor(model => model.username, "", new { @class = "text-theme-6 mt-2" })
+                    </div>
+                    <div class="mt-3">
+                        <label>Nom</label>
+
+                        @Html.EditorFor(model => model.nom, new { htmlAttributes = new { @class = "input w-full border mt-2" } })
+                        @Html.ValidationMessageFor(model => model.nom, "", new { @class = "text-theme-6 mt-2" })
+
+                    </div>
+                    <div class="mt-3">
+                        <label>Prenom</label>
+                        @Html.EditorFor(model => model.prenom, new { htmlAttributes = new { @class = "input w-full border mt-2" } })
+                        @Html.ValidationMessageFor(model => model.prenom, "", new { @class = "text-theme-6 mt-2" })
+                    </div>
+
+                    <div class="mt-3">
+                        <label>Mot de passe</label>
+                        @Html.EditorFor(model => model.password, new { htmlAttributes = new { @class = "input w-full border mt-2", type = "password" } })
+                        @Html.ValidationMessageFor(model => model.password, "", new { @class = "text-theme-6 mt-2" })
+                    </div>
+                </div>
+                <div class="col-span-12 xl:col-span-6">
+                    <div class="mt-3">
+                        <label>Email</label>
+
+                        @Html.EditorFor(model => model.mail, new { htmlAttributes = new { @class = "input w-full border    mt-2" } })
+                        @Html.ValidationMessageFor(model => model.mail, "", new { @class = "text-theme-6 mt-2" })
+                    </div>
+                    <div class="mt-3">
+                        <label>Numéro téléphone</label>
+                        @Html.EditorFor(model => model.tel, new { htmlAttributes = new { @class = "input w-full border mt-2" } })
+                        @Html.ValidationMessageFor(model => model.tel, "", new { @class = "text-theme-6 mt-2" })
+                    </div>
+
+                    <div class="mt-3">
+                        <label>CIN</label>
+                        @Html.EditorFor(model => model.cin, new { htmlAttributes = new { @class = "input w-full border mt-2" } })
+                        @Html.ValidationMessageFor(model => model.cin, "", new { @class = "text-theme-6 mt-2" })
+                    </div>
+                    <div class="mt-3">
+                        <label>Confirmer mot de passe</label>
+                        <input name="cpass" type="password" class="input w-full border mt-2" />
+
+                    </div>
+                </div>
+            </div>
+            <div class="flex justify-end mt-4">
+                @if (ViewBag.passerr != null) {
+
+                    <span class="text-theme-6">
+                        @ViewBag.passerr
+                    </span>
+                    }
+                @if (ViewBag.error != null) {
+
+                    <span class=" text-theme-6 ">
+                        @ViewBag.error
+                    </span>
+                    }
+                <button type="submit" class="button w-22 bg-theme-1 text-white ml-auto">Enregistrer</button>
+            </div>
+        </div>
+        }
+</div>
+
+<script>
+    function activeLink() {
+        var element = document.getElementById("dashlink");
+        element.classList.remove("side-menu--active")
+        var element1 = document.getElementById("clientlink");
+        element1.classList.add("side-menu--active")
+    }
+
+    window.onload = activeLink;
+</script>

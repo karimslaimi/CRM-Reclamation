@@ -5,6 +5,7 @@ using PFE_reclamation.Services;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Security.Claims;
@@ -14,6 +15,12 @@ using System.Web.Mvc;
 namespace PFE_reclamation.Controllers {
     [CustomAuthorize("ADMIN")]
     public class AdminController : Controller {
+
+
+        //here i have to add reclam mmethods the cheeck and the verify methods
+        //and checkfor sami the superviseur management 
+
+
         DatabContext db = new DatabContext();
         Authentication authservice = new Authentication();
 
@@ -122,11 +129,21 @@ namespace PFE_reclamation.Controllers {
 
         //post method for new client
         [HttpPost]
-        public ActionResult newClient(Client _client) {
+        public ActionResult newClient(Client _client,string cpass) {
+            //checl if the 2 pass are equals
+            if (_client.password.Equals(cpass) ) {
+
+               
             if (ModelState.IsValid) {
-                db.Clients.Add(_client);
+                    _client.password = authservice.HashPassword(_client.password);
+                    db.Clients.Add(_client);
                 db.SaveChanges(); 
                 return RedirectToAction("clients");
+                } else {
+                    ViewBag.error = "vérifier les données saisi";
+                    }
+                } else {
+                ViewBag.passerr = "vérifier les mots de passe";
                 }
             return View(_client);
             }
@@ -137,7 +154,7 @@ namespace PFE_reclamation.Controllers {
             if (id == null) {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
                 }
-            Client _client = db.Clients.Find(id);
+            Client _client = db.Clients.Where(x => x.id == id).Include(s=>s.Contrats).Include(r=>r.Reclamations).FirstOrDefault();
             if (_client == null) {
                 return HttpNotFound();
                 }
@@ -149,6 +166,9 @@ namespace PFE_reclamation.Controllers {
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Editc(Client _client) {
+            _client.password = db.Clients.Find(_client.id).password;
+
+
             if (ModelState.IsValid) {
                 db.Entry(_client).State = EntityState.Modified;
                 db.SaveChanges();
@@ -180,8 +200,43 @@ namespace PFE_reclamation.Controllers {
             }
 
 
+        public ActionResult newContrat(string titre, string descr,DateTime debut,DateTime fin,string clid) {
+
+            int idc = int.Parse(clid);
+         
+
+            Contrat contrat = new Contrat();
+            contrat.Client = db.Clients.Find(idc);
+            contrat.deb_contrat = debut;
+            contrat.fin_contrat = fin;
+            contrat.titre = titre;
+            contrat.description = descr;
+            db.Contrats.Add(contrat);
+            db.SaveChanges();
+            return RedirectToAction("clientContrat", new { id = idc });
 
 
+            }
+
+
+        public ActionResult clientContrat(int id) {
+            if (id == 0) {
+                return Redirect("clients");
+                }
+            List<Contrat> contrats = db.Contrats.Where(x => x.Client.id == id).ToList();
+            ViewBag.clientid = id;
+            return View(contrats);
+
+
+            }
+
+        public ActionResult clientReclam(int id) {
+            if (id == 0) {
+                return Redirect("clients");
+             }
+
+            List<Reclamation> reclamations = db.Reclamations.Where(x => x.Client.id == id).ToList();
+            return View(reclamations);
 
         // créer un responsable
         [HttpGet]

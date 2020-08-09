@@ -1,0 +1,190 @@
+﻿@model IEnumerable<PFE_reclamation.Models.Contrat>
+
+@{
+    ViewBag.Title = "clientContrat";
+    Layout = "~/Views/Shared/Back.cshtml";
+}
+
+@using System.Globalization;
+@{
+    CultureInfo french = new CultureInfo("fr-FR"); }
+
+
+
+<div>
+
+
+    <div class="intro-y flex flex-col sm:flex-row items-center mt-8">
+        <h2 class="text-lg font-medium mr-auto">
+            Contrats
+        </h2>
+        <div class="w-full sm:w-auto flex mt-4 sm:mt-0">
+            <a href="javascript:;" data-toggle="modal" data-target="#contrat-modal" class="button inline-block bg-theme-1 text-white">Ajouter un contrat</a>
+            
+
+        </div>
+    </div>
+    <!-- BEGIN: Datatable -->
+    <div class="intro-y datatable-wrapper box p-5 mt-5">
+        <table class="table table-report table-report--bordered display datatable w-full">
+            <thead>
+                <tr>
+                    <th class="border-b-2 text-center whitespace-no-wrap sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 80px;" aria-label="Nom: activer pour trier colonne croissanbt">
+                        Numéro
+                    </th>
+                    <th class=" whitespace-no-wrap">
+
+                        Titre
+                    </th>
+                    <th class=" whitespace-no-wrap">
+                        Debut
+                    </th>
+                    <th class=" whitespace-no-wrap">
+                        Fin
+                    </th>
+                    <th class="whitespace-no-wrap">
+                        Description
+                    </th>
+
+                    <th class="text-center whitespace-no-wrap">
+                        Actions
+                    </th>
+
+                </tr>
+            </thead>
+            <tbody>
+
+                @foreach (var cont in Model) {
+                <tr class="intro-x">
+                    <td>
+
+                        <div class="font-medium whitespace-no-wrap">  @Html.DisplayFor(modelItem => cont.id)</div>
+                    </td>
+                    <td>
+
+                        <div class="font-medium whitespace-no-wrap">  @Html.DisplayFor(modelItem => cont.titre)</div>
+                    </td>
+                    <td>
+
+                        <div class="font-medium whitespace-no-wrap">
+
+                            @{
+                                var d1 = cont.deb_contrat.ToString("dd/MM/yyyy", french);
+
+                            }
+                            @d1
+
+                        </div>
+                    </td>
+                    <td>
+
+                        <div class="font-medium whitespace-no-wrap">
+
+
+                            @{
+
+
+                                var d2 = cont.fin_contrat.ToString("dd/MM/yyyy", french);
+                                @d2 }
+                        </div>
+                    </td>
+                    <td>
+
+                        <div class="font-medium whitespace-no-wrap">  @Html.DisplayFor(modelItem => cont.description)</div>
+                    </td>
+                    <td>
+
+                        <div class="font-medium whitespace-no-wrap"> Action </div>
+                    </td>
+                </tr>
+
+                    }
+            </tbody>
+        </table>
+    </div>
+
+    <!-- END: Data List -->
+
+</div>
+<div class="modal" id="contrat-modal">
+    <div class="modal__content">
+        <div class="flex items-center px-5 py-5 sm:py-3 border-b border-gray-200 dark:border-dark-5">
+            <h2 class="font-medium text-base mr-auto"> AJouter un contrat</h2>
+
+        </div>
+        <!-- BEGIN: Form Layout -->
+        <form action="@Url.Action("newContrat","Admin")">
+            <div class="intro-y box lg:mt-5">
+
+
+                <div class="p-5">
+                    <div class="grid grid-cols-12 gap-5">
+                        <div class="col-span-12 xl:col-span-6">
+                            <input type="hidden" value="@ViewBag.clientid" name="clid" />
+                            <div class="mt-3">
+                                <label>Titre</label>
+
+                                <input type="text" name="titre" class="input w-full border mt-2" placeholder="Titre" />
+                            </div>
+                            <div class="mt-3">
+
+
+                                <div class="col-span-12 sm:col-span-6">
+                                    <label>Debut Contrat</label>
+                                    <input name="debut" class="datepicker input w-full border mt-2">
+                                </div>
+                            </div>
+                            <div class="mt-3">
+                                <div class="col-span-12 sm:col-span-6">
+                                    <label>Fin Contrat</label>
+                                    <input name="fin" class="datepicker input w-full border mt-2">
+                                </div>
+
+
+                            </div>
+                        </div>
+                        <div class="col-span-12 xl:col-span-6">
+
+                            <div class="mt-3">
+                                <label>Détaille contrat</label>
+
+                                <textarea style="height:200px" placeholder="Description" class="w-full border mt-2" name="descr"></textarea>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <div class="flex justify-end mt-4">
+                        @if (ViewBag.msg != null) {
+
+                            <span class="text-theme-9">
+                                @ViewBag.msg
+                            </span>
+                            }
+                        @if (ViewBag.error != null) {
+
+                            <span class=" text-theme-6 ">
+                                @ViewBag.error
+                            </span>
+                            } 
+                    </div>
+                </div>
+
+
+
+
+
+            </div>
+            <!-- END: Form Layout -->
+            <div class="px-5 py-3 text-right border-t border-gray-200 dark:border-dark-5">
+                <button type="button" data-dismiss="modal" class="button w-20 border text-gray-700 dark:border-dark-5 dark:text-gray-300 mr-1">Annuler</button>
+                <button type="submit" class="button w-25 bg-theme-1 text-white">Enregistrer</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+ 
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>

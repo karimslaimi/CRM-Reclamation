@@ -1,0 +1,298 @@
+﻿@model IEnumerable<PFE_reclamation.Models.Reclamation>
+
+@{
+    ViewBag.Title = "myreclams";
+    Layout = "~/Views/Shared/ClientLayout.cshtml";
+}
+
+
+@using System.Globalization;
+@{
+    CultureInfo french = new CultureInfo("fr-FR"); }
+
+
+
+<!--
+this for list claims and contracts
+-->
+<div class="grid grid-cols-12 gap-6 mt-5">
+
+    <div class="intro-y col-span-12 lg:col-span-12">
+        <!-- BEGIN: Form Layout -->
+        <div class="intro-y box lg:mt-5">
+            <div class="flex items-center p-5 border-b border-gray-200 dark:border-dark-5">
+                <h2 class="font-medium text-base mr-auto">
+                    Reclamations
+                </h2>
+            </div>
+            <!-- BEGIN: Datatable -->
+            <div class="intro-y datatable-wrapper box p-5 mt-5">
+                <table class="table table-report table-report--bordered display datatable w-full">
+                    <thead>
+                        <tr>
+                            <th class="border-b-2 text-center whitespace-no-wrap sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 80px;" aria-label="Nom: activer pour trier colonne croissanbt">
+                                Numéro
+                            </th>
+                            <th class=" whitespace-no-wrap">
+
+                                Date création
+                            </th>
+                            <th class=" whitespace-no-wrap">
+                                Date de réglement
+                            </th>
+                            <th class=" whitespace-no-wrap">
+                                Type
+                            </th>
+                            <th class="whitespace-no-wrap">
+                                Departement
+                            </th>
+                            <th class=" whitespace-no-wrap">
+                                Etat
+                            </th>
+                            <th class=" whitespace-no-wrap">
+                                Description
+                            </th>
+                            <th class=" whitespace-no-wrap">
+                                Actions
+                            </th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        @foreach (var recl in Model) {
+
+                            <tr class="intro-x">
+
+                                <td>
+
+                                    <div class="font-medium whitespace-no-wrap">  @Html.DisplayFor(modelItem => recl.id)</div>
+                                </td>
+                                <td>
+
+                                    <div class="font-medium whitespace-no-wrap">
+                                        @{
+                                            var d2 = recl.debut_reclam.ToString("dd/MM/yyyy", french);
+
+                                            @d2;
+                                        }
+
+                                    </div>
+                                </td>
+                                <td>
+
+                                    <div class="font-medium whitespace-no-wrap">
+                                        @if (recl.fin_reclam != null) {
+
+
+                                            var d1 = recl.fin_reclam.Value.ToString("dd/MM/yyyy", french);
+
+                                            @d1
+                                            } else {
+
+                                            @Html.Raw("----")
+
+                                            }
+
+
+
+
+
+                                    </div>
+                                </td>
+                                <td>
+
+                                    <div class="font-medium whitespace-no-wrap">  @Html.DisplayFor(modelItem => recl.type)</div>
+                                </td>
+                                <td>
+
+                                    <div class="font-medium whitespace-no-wrap">
+                                        @if (recl.Departement != null) {
+                                            Html.DisplayFor(modelItem => recl.Departement.label);
+                                            } else {
+                                            @Html.Raw("en cours")
+                                            }
+                                    </div>
+                                </td>
+                                <td>
+                                    @if (recl.etat == PFE_reclamation.Models.Etat.Nouveau) {
+                                        <div class="flex text-theme-6"> <i data-feather="check-square" class="w-4 h-4 mr-2"></i> Nouveau </div>
+                                        } else if (recl.etat == PFE_reclamation.Models.Etat.En_cours) {
+                                        <div class="flex  text-theme-9"> <i data-feather="fa fa-spinner" class="w-4 h-4 mr-2"></i> En cours </div>
+                                        } else {
+                                        <div class="flex   text-gray-600"> <i data-feather="check-square" class="w-4 h-4 mr-2"></i> Finis</div>
+                                        }
+
+
+
+
+                                </td>
+                                <td>
+                                    <div class="font-medium whitespace-no-wrap">   @Html.DisplayFor(modelItem => recl.description)</div>
+                                </td>
+
+
+
+                                <td class="table-report__action w-56">
+                                    <div class="flex justify-center items-center">
+                                        @if (recl.etat == PFE_reclamation.Models.Etat.Nouveau) {
+
+
+                                            string titre = "\"" + recl.titre + "\"";
+                                            string descr = "\"" + recl.description + "\"";
+                                            string type= "\"" + recl.type + "\"";
+
+
+                                            <a class="flex items-center mr-3" onclick="edit(@recl.id,@titre,@descr,@type)"
+                                               data-toggle="modal" data-target="#reclam-modal" id="editreclam"  
+                                               
+                                               
+                                               href="javascript:;"> <i data-feather="settings" class="w-4 h-4 mr-1"></i> Modifier </a>
+                                            <a class="flex  items-center text-theme-6" href="javascript:;"
+                                               id="deletemodal" data-id="@recl.id" data-toggle="modal" data-target="#delete-confirmation-modal"> <i data-feather="trash-2" class="w-4 h-4 mr-1"></i> Supprimer </a>
+
+                                            }
+                                    </div>
+                                </td>
+                            </tr>
+                            }
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- END: Data List -->
+        </div>
+        <!-- END: Form Layout -->
+    </div>
+
+</div>
+
+
+
+<div class="modal" id="reclam-modal">
+    <div class="modal__content">
+        <div class="flex items-center px-5 py-5 sm:py-3 border-b border-gray-200 dark:border-dark-5">
+            <h2 class="font-medium text-base mr-auto"> AJouter un contrat</h2>
+
+        </div>
+        <!-- BEGIN: Form Layout -->
+        <form action="@Url.Action("EditR","Client")">
+            <div class="intro-y box lg:mt-5">
+
+
+                <div class="p-5">
+                    <div class="grid grid-cols-12 gap-5">
+                        <div class="col-span-12 xl:col-span-6">
+                            <input type="hidden" value="" name="recid" id="recid" />
+                            <div class="mt-3">
+                                <label>Titre</label>
+
+                                <input type="text" name="titre" class="input w-full border mt-2" placeholder="Titre" value="" id="modaltitle" />
+                            </div>
+                            <div class="mt-3">
+
+
+                                <div class="col-span-12 sm:col-span-6">
+                                    <label>Type</label>
+                              
+                                    @{ 
+                                        var enums = new SelectList(Enum.GetValues(typeof(PFE_reclamation.Models.Types)).Cast<PFE_reclamation.Models.Types>().Select(v => new SelectListItem {
+                                            Text = v.ToString(),
+                                            Value = ((int)v).ToString()
+                                            }).ToList(), "Value", "Text");
+                                    }
+                                    @Html.DropDownList("Type",enums,   new { @class = "select2 w-full", data_hide_search = "true",@id="enum_select" })
+                                </div>
+                            </div>
+                           
+                        </div>
+                        <div class="col-span-12 xl:col-span-6">
+
+                            <div class="mt-3">
+                                <label>Détaille contrat</label>
+
+                                <textarea style="height:115px" placeholder="Description" class="w-full border mt-2" name="descr" id="modaldescr"></textarea>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <div class="flex justify-end mt-4">
+                        @if (ViewBag.msg != null) {
+
+                            <span class="text-theme-9">
+                                @ViewBag.msg
+                            </span>
+                            }
+                        @if (ViewBag.error != null) {
+
+                            <span class=" text-theme-6 ">
+                                @ViewBag.error
+                            </span>
+                            }
+                    </div>
+                </div>
+
+
+
+
+
+            </div>
+            <!-- END: Form Layout -->
+            <div class="px-5 py-3 text-right border-t border-gray-200 dark:border-dark-5">
+                <button type="button" data-dismiss="modal" class="button w-20 border text-gray-700 dark:border-dark-5 dark:text-gray-300 mr-1">Annuler</button>
+                <button type="submit" class="button w-25 bg-theme-1 text-white">Enregistrer</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+<!-- BEGIN: Delete Confirmation Modal -->
+<div class="modal" id="delete-confirmation-modal">
+    <div class="modal__content">
+        <div class="p-5 text-center">
+            <i data-feather="x-circle" class="w-16 h-16 text-theme-6 mx-auto mt-3"></i>
+            <div class="text-3xl mt-5">Êtes-vous sûr?</div>
+            <div class="text-gray-600 mt-2">Voulez-vous vraiment supprimer ce client? Ce processus ne peut pas être annulé.</div>
+        </div>
+        <div class="px-5 pb-8 text-center">
+            <form action="@Url.Action("deletereclam","Client" )">
+                <button type="button" data-dismiss="modal" class="button w-24 border text-gray-700 mr-1">Annuler</button>
+
+                <input type="hidden" name="id" value="" id="deleteid" />
+                <button type="submit" class="button w-24 bg-theme-6 text-white">Supprimer</button>
+            </form>
+
+        </div>
+    </div>
+</div>
+<!-- END: Delete Confirmation Modal -->
+
+<script>
+
+
+    function edit(id, titre,descr,type) {
+
+
+        console.log(titre + id + descr + type);
+
+        document.getElementById("recid").value = id;
+        document.getElementById("modaltitle").value = titre;
+        document.getElementById("modaldescr").value = descr
+
+        enumetat=document.getElementById("enum_select") 
+            var opts = enumetat.options;
+            for (var opt, j = 0; opt = opts[j]; j++) {
+                if (opt.value == type) {
+                    enumetat.selectedIndex = j;
+                    enumetat.change();
+                    break;
+                }
+            }
+
+
+    }
+</script>

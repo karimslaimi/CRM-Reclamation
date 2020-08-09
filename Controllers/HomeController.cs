@@ -20,7 +20,7 @@ namespace PFE_reclamation.Controllers
        
         public ActionResult Index()
         {
-            /*
+            
             if (User.Identity.IsAuthenticated)
             {
                 return RedirectToAction("redirectrole", "Users");
@@ -29,7 +29,7 @@ namespace PFE_reclamation.Controllers
             {
                 return RedirectToAction("Signin", "Users");
             }
-            */
+           
             return View();
              
 
@@ -65,16 +65,16 @@ namespace PFE_reclamation.Controllers
         {
             ///this action to persist data without haveing to type in form
             Authentication authservice = new Authentication();
-            Superviseur _ad = new Superviseur();
-            _ad.mail = "sami@sami.com";
-            _ad.nom = "sami";
-            _ad.prenom = "krimi";
+            Responsable_relation_client _ad = new Responsable_relation_client();
+            _ad.mail = "karimrrc@gmail.com";
+            _ad.nom = "slaimi";
+            _ad.prenom = "karim";
             _ad.tel = "25415633";
-            _ad.username = "sami";
+            _ad.username = "karimrrc";
             _ad.cin = "11654521";
-            _ad.password = authservice.HashPassword("sami123");
-            _ad.date_aff = DateTime.Now;
-            db.Superviseurs.Add(_ad);
+            _ad.password = authservice.HashPassword("karim123");
+            
+            db.Responsable_Relation_Clients.Add(_ad);
             db.SaveChanges();
 
 
