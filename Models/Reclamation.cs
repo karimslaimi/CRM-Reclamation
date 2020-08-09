@@ -20,6 +20,7 @@ namespace PFE_reclamation.Models
         public string description { get; set; }
 
         public virtual Departement Departement { get; set; }
+        public virtual Client Client { get; set; }
 
 
     }

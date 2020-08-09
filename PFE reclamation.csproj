@@ -372,6 +372,8 @@
     <Content Include="Views\Superviseur\responsables.cshtml" />
     <Content Include="Views\Superviseur\Create.cshtml" />
     <Content Include="Views\Superviseur\Details.cshtml" />
+    <Content Include="Views\Admin\clientContrat.cshtml" />
+    <Content Include="Views\Admin\clientReclam.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
