@@ -298,6 +298,39 @@ namespace PFE_reclamation.Controllers {
             return View(responsable);
         }
 
+        [HttpGet]
+        public ActionResult editResponsableDep(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Responsable_departement _rs = db.Responsable_Departements.Find(id);
+            if (_rs == null)
+            {
+                return HttpNotFound();
+            }
+            return View(_rs);
+        }
+
+        // POST: Users/Edit/5
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult editResponsableDep(Responsable_departement _rs)
+        {
+            _rs.password = db.Responsable_Departements.Find(_rs.id).password;
+
+
+            if (ModelState.IsValid)
+            {
+                db.Entry(_rs).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("responsables");
+            }
+            return View(_rs);
+        }
+
         // afficher la liste des responsables dep
         public ActionResult responsables()
         {
@@ -378,7 +411,38 @@ namespace PFE_reclamation.Controllers {
 
             return View(rs);
         }
+        [HttpGet]
+        public ActionResult editSuperviseur(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Superviseur _rs = db.Superviseurs.Find(id);
+            if (_rs == null)
+            {
+                return HttpNotFound();
+            }
+            return View(_rs);
+        }
 
+        // POST: Users/Edit/5
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult editSuperviseur(Superviseur _rs)
+        {
+            _rs.password = db.Superviseurs.Find(_rs.id).password;
+
+
+            if (ModelState.IsValid)
+            {
+                db.Entry(_rs).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("superviseurs");
+            }
+            return View(_rs);
+        }
         //---------------Agents------------------------------
 
         // créer un agent
@@ -430,7 +494,38 @@ namespace PFE_reclamation.Controllers {
             return View(rs);
         }
 
+        [HttpGet]
+        public ActionResult editAgent(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+           Agent _rs = db.Agents.Find(id);
+            if (_rs == null)
+            {
+                return HttpNotFound();
+            }
+            return View(_rs);
+        }
 
+        // POST: Users/Edit/5
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult editAgent(Agent _rs)
+        {
+            _rs.password = db.Agents.Find(_rs.id).password;
+
+
+            if (ModelState.IsValid)
+            {
+                db.Entry(_rs).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("agents");
+            }
+            return View(_rs);
+        }
 
     }
 }

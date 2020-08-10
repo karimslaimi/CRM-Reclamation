@@ -259,6 +259,10 @@
     <Compile Include="Migrations\202008091644319_reclam_nullable_fields_stupid.designer.cs">
       <DependentUpon>202008091644319_reclam_nullable_fields_stupid.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202008101753485_mig-sami.cs" />
+    <Compile Include="Migrations\202008101753485_mig-sami.designer.cs">
+      <DependentUpon>202008101753485_mig-sami.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Admin.cs" />
     <Compile Include="Models\Agent.cs" />
@@ -401,6 +405,9 @@
     <Content Include="Views\Client\addreclam.cshtml" />
     <Content Include="Views\RRC\reclams.cshtml" />
     <Content Include="Views\Admin\reclams.cshtml" />
+    <Content Include="Views\Admin\editResponsableDep.cshtml" />
+    <Content Include="Views\Admin\editSuperviseur.cshtml" />
+    <Content Include="Views\Admin\editAgent.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -438,6 +445,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202008091644319_reclam_nullable_fields_stupid.resx">
       <DependentUpon>202008091644319_reclam_nullable_fields_stupid.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202008101753485_mig-sami.resx">
+      <DependentUpon>202008101753485_mig-sami.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
