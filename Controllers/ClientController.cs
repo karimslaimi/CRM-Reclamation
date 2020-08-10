@@ -148,12 +148,30 @@ namespace PFE_reclamation.Controllers
             if (_reclam != null) {
 
             db.Reclamations.Remove(_reclam);
+                db.SaveChanges();
                 }
             return Redirect("myreclams");
             }
 
-        public ActionResult EditR() {
+        public ActionResult EditR(int recid,string titre, string descr, int Type) {
             // i will finish it later
+
+            Reclamation oldreclam = db.Reclamations.Find(recid);
+            if (!oldreclam.titre.Equals(titre) && !string.IsNullOrEmpty(titre) && !string.IsNullOrWhiteSpace(titre)) {
+                oldreclam.titre = titre;
+                }
+            if (!oldreclam.description.Equals(descr) && !string.IsNullOrEmpty(descr) && !string.IsNullOrWhiteSpace(descr)) {
+                oldreclam.description = descr;
+                }
+            if (oldreclam.type!=(Types)Type) {
+                oldreclam.type = (Types)Type;
+                }
+            db.Entry(oldreclam).State = EntityState.Modified;
+            db.SaveChanges();
+             
+
+
+
 
             return Redirect("myreclams");
 

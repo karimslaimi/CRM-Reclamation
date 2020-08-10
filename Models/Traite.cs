@@ -12,7 +12,7 @@ namespace PFE_reclamation.Models
         public int id { get; set; }
         public DateTime date { get; set; }
         public string detaille { get; set; }
-        public Traite traite { get; set; }
+        public Agent agent { get; set; }
         public Reclamation reclamation { get; set; }
     }
 }

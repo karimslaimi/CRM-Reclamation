@@ -233,21 +233,60 @@ namespace PFE_reclamation.Controllers {
         public ActionResult clientReclam(int id) {
             if (id == 0) {
                 return Redirect("clients");
-             }
+                }
 
             List<Reclamation> reclamations = db.Reclamations.Where(x => x.Client.id == id).ToList();
             return View(reclamations);
 
+            }
+        public ActionResult Vérifier_reclam(int? id) {
+            if (id != null) {
+                // i have to implement mail to tell client about the verification
+
+                Reclamation _reclam = db.Reclamations.Find(id);
+                if (_reclam.etat == Etat.Nouveau) {
+                    _reclam.etat = Etat.En_cours;
+                    db.Entry(_reclam).State = EntityState.Modified;
+                    db.SaveChanges();
+                    }
+
+
+
+                }
+            return RedirectToAction("reclams");
+            }
+
+        public ActionResult reclams() {
+            List<Reclamation> _reclamas = db.Reclamations.OrderBy(x => x.etat).ToList();
+            return View(_reclamas);
+            }
+
+
+
+
+
+
+
+
+
+
+
+
+        //-----------------------Respo dep
+
         // créer un responsable
+
         [HttpGet]
         public ActionResult newResponsableDep()
         {
             return View();
         }
+
+
         [HttpPost]
         public ActionResult newResponsableDep(Responsable_departement responsable)
         {
-            DatabContext db = new DatabContext();
+          
             if (ModelState.IsValid)
             {
                 Authentication authservice = new Authentication();
@@ -271,7 +310,7 @@ namespace PFE_reclamation.Controllers {
         // supprimer un responsable département
         public ActionResult deleteResponsableDep(int id)
         {
-            DatabContext db = new DatabContext();
+          
             Responsable_departement rs = db.Responsable_Departements.Find(id);
             db.Responsable_Departements.Remove(rs);
             db.SaveChanges();
@@ -281,7 +320,7 @@ namespace PFE_reclamation.Controllers {
         // methode pour  affichage des details d'un resp departement
         public ActionResult detailsResponsableDep(int id)
         {
-            DatabContext db = new DatabContext();
+      
             Responsable_departement rs = db.Responsable_Departements.Find(id);
 
             return View(rs);
@@ -298,7 +337,7 @@ namespace PFE_reclamation.Controllers {
         [HttpPost]
         public ActionResult newSuperviseur(Superviseur superviseur)
         {
-            DatabContext db = new DatabContext();
+         
             if (ModelState.IsValid)
             {
                 Authentication authservice = new Authentication();
@@ -313,7 +352,7 @@ namespace PFE_reclamation.Controllers {
         // afficher la liste des superviseurs
         public ActionResult superviseurs()
         {
-            DatabContext db = new DatabContext();
+       
             List<Superviseur> rs = db.Superviseurs.ToList();
 
             return View(rs);
@@ -322,7 +361,7 @@ namespace PFE_reclamation.Controllers {
         // supprimer un responsable département
         public ActionResult deleteSuperviseur(int id)
         {
-            DatabContext db = new DatabContext();
+       
             Superviseur rs = db.Superviseurs.Find(id);
             db.Superviseurs.Remove(rs);
             db.SaveChanges();
@@ -333,7 +372,7 @@ namespace PFE_reclamation.Controllers {
         public ActionResult detailsSuperviseur(int id)
         {
 
-            DatabContext db = new DatabContext();
+        
             Superviseur rs = db.Superviseurs.Find(id);
 
 
@@ -351,7 +390,7 @@ namespace PFE_reclamation.Controllers {
         [HttpPost]
         public ActionResult newAgent(Agent agent)
         {
-            DatabContext db = new DatabContext();
+         
             if (ModelState.IsValid)
             {
                 Authentication authservice = new Authentication();
@@ -366,7 +405,7 @@ namespace PFE_reclamation.Controllers {
         // afficher la liste des agents
         public ActionResult agents()
         {
-            DatabContext db = new DatabContext();
+        
             List<Agent> rs = db.Agents.ToList();
 
             return View(rs);
@@ -375,7 +414,7 @@ namespace PFE_reclamation.Controllers {
         // supprimer un agent
         public ActionResult deleteAgent(int id)
         {
-            DatabContext db = new DatabContext();
+    
             Agent rs = db.Agents.Find(id);
             db.Agents.Remove(rs);
             db.SaveChanges();
@@ -385,7 +424,7 @@ namespace PFE_reclamation.Controllers {
         // methode pour  affichage des details d'un agent
         public ActionResult detailsAgent(int id)
         {
-            DatabContext db = new DatabContext();
+      
             Agent rs = db.Agents.Find(id);
 
             return View(rs);

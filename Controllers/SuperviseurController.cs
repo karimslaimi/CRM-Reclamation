@@ -3,7 +3,9 @@ using PFE_reclamation.Models;
 using PFE_reclamation.Services;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
+using System.Security.Claims;
 using System.Web;
 using System.Web.Mvc;
 
@@ -11,11 +13,84 @@ namespace PFE_reclamation.Controllers
 {
     public class SuperviseurController : Controller
     {
+        DatabContext db = new DatabContext();
+        Authentication authservice = new Authentication();
         // GET: Superviseur
         public ActionResult Index()
         {
             return View();
         }
+        [HttpGet]
+        public ActionResult profile() {
+            //get the userid from claims principal where we stored the user data after login
+            string userid = ClaimsPrincipal.Current.Claims.FirstOrDefault(x => x.Type == "id").Value;
+            int id = int.Parse(userid);
+            Superviseur _superviseur = db.Superviseurs.FirstOrDefault(x => x.id == id);
+
+
+
+            if (TempData["error"] != null) {
+                ViewBag.passerr = TempData["error"];
+                }
+            if (TempData["msg"] != null) {
+                ViewBag.passmsg = TempData["msg"];
+                }
+            return View(_superviseur);
+
+
+
+            }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult profile(Superviseur _superviseur) {
+
+            //we get the object so we can fill the fields left empty
+            Superviseur superviseur = db.Superviseurs.AsNoTracking().FirstOrDefault(x => x.id == _superviseur.id);
+
+            _superviseur.password = superviseur.password;
+
+
+
+            if (ModelState.IsValid) {
+                try {
+
+
+
+
+                    db.Entry(_superviseur).State = EntityState.Modified;
+                    db.SaveChanges();
+                    ViewBag.msg = "Profile modifié avec succés";
+                    } catch (Exception e) {
+                    ViewBag.error = "Erreur est survenu réessayer";
+                    }
+                } else {
+                ViewBag.error = "Erreur est survenu réessayer";
+                }
+
+
+            return View(_superviseur);
+
+
+
+            }
+
+
+        public ActionResult passwordchange(string pass, string cpass, int id) {
+
+            if (pass.Equals(cpass) && !String.IsNullOrEmpty(pass) && !string.IsNullOrWhiteSpace(pass)) {
+                Superviseur _superviseur = db.Superviseurs.Find(id);
+                _superviseur.password = authservice.HashPassword(pass);
+                TempData["msg"] = "Mot de passe a été modifié";
+                } else {
+                TempData["error"] = "les mots de passe ne correspondent pas";
+                return Redirect("profile");
+                }
+
+
+
+            return Redirect("profile");
+            }
+
 
 
         [HttpGet]
@@ -26,7 +101,7 @@ namespace PFE_reclamation.Controllers
         [HttpPost]
         public ActionResult Create(Responsable_departement responsable)
         {
-            DatabContext db = new DatabContext();
+   
             if (ModelState.IsValid)
             {
                 Authentication authservice = new Authentication();

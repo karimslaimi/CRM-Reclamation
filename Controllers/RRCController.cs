@@ -225,6 +225,32 @@ namespace PFE_reclamation.Controllers
 
             }
 
+
+
+        public ActionResult reclams() {
+            List<Reclamation> _reclamas = db.Reclamations.OrderBy(x=>x.etat).ToList();
+            return View(_reclamas);
+
+
+            }
+
+        public ActionResult verify(int? id) {
+            if (id != null) {
+                // i have to implement mail to tell client about the verification
+
+                Reclamation _reclam = db.Reclamations.Find(id);
+                if (_reclam.etat == Etat.Nouveau) {
+                        _reclam.etat = Etat.En_cours;
+                    db.Entry(_reclam).State = EntityState.Modified;
+                    db.SaveChanges();
+                    }
+
+                
+
+                }
+            return Redirect("reclams");
+            }
+
         }
 
 

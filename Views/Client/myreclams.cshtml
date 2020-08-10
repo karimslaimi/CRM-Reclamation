@@ -11,10 +11,7 @@
     CultureInfo french = new CultureInfo("fr-FR"); }
 
 
-
-<!--
-this for list claims and contracts
--->
+ 
 <div class="grid grid-cols-12 gap-6 mt-5">
 
     <div class="intro-y col-span-12 lg:col-span-12">
@@ -201,7 +198,7 @@ this for list claims and contracts
                                             Value = ((int)v).ToString()
                                             }).ToList(), "Value", "Text");
                                     }
-                                    @Html.DropDownList("Type",enums,   new { @class = "select2 w-full", data_hide_search = "true",@id="enum_select" })
+                                    @Html.DropDownList("Type",enums,"Sélectionner un type",   new { @class = "select2 w-full", data_hide_search = "true" , @id="enum_select" })
                                 </div>
                             </div>
                            
@@ -276,22 +273,17 @@ this for list claims and contracts
 
     function edit(id, titre,descr,type) {
 
+      
+        // $("#enum_select").val(2).change();
+        //$('#enum_select').text(type).trigger("change");
+        var value = $('#enum_select option').filter(function () { return $(this).html() == type; }).prop('selected', true);;
 
-        console.log(titre + id + descr + type);
-
+      
         document.getElementById("recid").value = id;
         document.getElementById("modaltitle").value = titre;
         document.getElementById("modaldescr").value = descr
 
-        enumetat=document.getElementById("enum_select") 
-            var opts = enumetat.options;
-            for (var opt, j = 0; opt = opts[j]; j++) {
-                if (opt.value == type) {
-                    enumetat.selectedIndex = j;
-                    enumetat.change();
-                    break;
-                }
-            }
+
 
 
     }

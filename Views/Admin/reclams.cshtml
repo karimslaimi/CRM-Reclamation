@@ -1,18 +1,14 @@
-﻿@model IEnumerable<PFE_reclamation.Models.Reclamation>
+﻿
+@model IEnumerable<PFE_reclamation.Models.Reclamation>
+
 @{
-    ViewBag.Title = "clientReclam";
+    ViewBag.Title = "reclams";
     Layout = "~/Views/Shared/Back.cshtml";
 }
-
- 
 
 @using System.Globalization;
 @{
     CultureInfo french = new CultureInfo("fr-FR"); }
-
-<!--
-this for list claims and contracts
--->
 <div class="grid grid-cols-12 gap-6 mt-5">
 
     <div class="intro-y col-span-12 lg:col-span-12">
@@ -47,6 +43,7 @@ this for list claims and contracts
                             <th class=" whitespace-no-wrap">
                                 Etat
                             </th>
+
                             <th class=" whitespace-no-wrap">
                                 Actions
                             </th>
@@ -109,14 +106,15 @@ this for list claims and contracts
                                             }
                                     </div>
                                 </td>
-                                <td class="w-40">
+                                <td>
                                     @if (recl.etat == PFE_reclamation.Models.Etat.Nouveau) {
                                         <div class="flex text-theme-6"> <i data-feather="check-square" class="w-4 h-4 mr-2"></i> Nouveau </div>
                                         } else if (recl.etat == PFE_reclamation.Models.Etat.En_cours) {
-                                <div class="flex  text-theme-9"> <i data-loading-icon="spinning-circles" class="w-4 h-4 mr-2"></i>  En cours </div>
+                                        <div class="flex  text-theme-9"> <i data-feather="check-square" class="w-4 h-4 mr-2"></i> En cours </div>
                                         } else {
-                                        <div class="flex text-gray-600"> <i data-feather="check-square" class="w-4 h-4 mr-2"></i> Finis</div>
+                                        <div class="flex   text-gray-600"> <i data-feather="check-square" class="w-4 h-4 mr-2"></i> Finis</div>
                                         }
+
 
 
 
@@ -124,10 +122,26 @@ this for list claims and contracts
 
 
 
+
                                 <td class="table-report__action w-56">
-                                    <div class="flex justify-center items-center">
-                                        <a class="flex items-center mr-3" href="@Url.Action("Vérifier_reclam","Admin",new { id = recl.id })"> <i data-feather="check-square" class="w-4 h-4 mr-1"></i> Vérifier </a>
-                                        <a class="flex items-center text-theme-6" href="javascript:;" id="deletemodal" data-id="@recl.id" data-toggle="modal" data-target="#delete-confirmation-modal"> <i data-feather="trash-2" class="w-4 h-4 mr-1"></i> Supprimer </a>
+                                    <div class="flex justify-start">
+                                        @{
+
+
+                                            string titre = "\"" + recl.titre + "\"";
+                                            string descr = "\"" + recl.description + "\"";
+                                            string type = "\"" + recl.type + "\"";
+                                            string etat = "\"" + recl.etat + "\"";
+                                            string cin = "\"" + recl.Client.cin + "\"";
+                                            string name = "\"" + recl.Client.nom + " " + recl.Client.prenom + "\"";
+                                            string date = "\"" + recl.debut_reclam.ToString("dd/MM/yyyy", french) + "\"";
+
+
+
+                                            <a class="flex button  items-center button--sm text-white bg-theme-1" href="javascript:;" onclick="Afficher(@recl.id,@titre,@descr,@type,@etat,@cin,@name,@date)"
+                                               data-toggle="modal" data-target="#Recl-confirmation-modal"> <i data-feather="check-square" class="w-4 h-4 mr-1"></i> Afficher </a>
+
+                                        }
                                     </div>
                                 </td>
                             </tr>
@@ -142,3 +156,81 @@ this for list claims and contracts
     </div>
 
 </div>
+
+
+
+<div class="modal" id="Recl-confirmation-modal">
+    <div class="modal__content">
+
+        <div class="intro-y col-span-12 md:col-span-6 lg:col-span-4">
+            <div class="box">
+                <div class="flex items-start px-5 pt-5">
+                    <div class="w-full flex flex-col lg:flex-row items-center">
+
+                        <div class="lg:ml-4 text-center lg:text-left mt-3 lg:mt-0">
+                            <span id="clname" class="font-medium"> </span>
+                            <div class="text-gray-600 text-xs">
+                                <span id="clcin"></span>
+                                <span id="recdate" class="absolute right-0 mr-4 "></span>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+                <div class="text-center lg:text-left p-5">
+                    <div class="flex items-center justify-center lg:justify-start text-gray-600 mt-1">
+                        <span id="recetat" class="mt-2"></span>
+                        <span id="rectype" class="absolute right-0 mr-4 mt-2"></span>
+                    </div>
+                    <div class="flex items-center justify-center lg:justify-start text-gray-600 mt-5">
+                        <span id="rectitle" class="mt-2"></span>
+
+                    </div>
+
+
+                    <div class="mt-4 text-gray-600"><span id="recdescr"></span> </div>
+                </div>  @using (Html.BeginForm("verify", "RRC")) {
+                    <div class="text-center lg:text-right p-5 border-t border-gray-200 dark:border-dark-5">
+
+                        <input type="hidden" name="id" id="modclid" value="" />
+                        <button type="submit" id="verifybtn" class="button button--sm text-white bg-theme-1 mr-2">Vérifier</button>
+
+
+                        <a data-dismiss="modal" href="javascript:;" class="button button--sm text-gray-700 border border-gray-300 dark:border-dark-5 dark:text-gray-300">Annuler</a>
+                    </div>}
+            </div>
+        </div>
+    </div>
+</div>
+
+ 
+<script>
+
+
+    function Afficher(id, titre, descr, type, etat, cin, name, date) {
+
+
+
+
+        document.getElementById("modclid").value = id;
+        document.getElementById("clname").textContent = name;
+        document.getElementById("clcin").textContent = cin;
+
+        document.getElementById("rectitle").textContent = titre;
+        document.getElementById("recdate").textContent = date;
+        document.getElementById("recetat").textContent = etat;
+
+        document.getElementById("rectype").textContent = type;
+        document.getElementById("recdescr").textContent = descr;
+
+        if (etat != "Nouveau") {
+            document.getElementById("verifybtn").disabled = true;
+        }
+
+
+
+
+    }
+</script>
+ 
