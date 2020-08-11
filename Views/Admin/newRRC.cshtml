@@ -1,13 +1,14 @@
-﻿@model PFE_reclamation.Models.Responsable_departement
+﻿@model PFE_reclamation.Models.Responsable_relation_client
 
 @{
-    ViewBag.Title = "newResponsableDep";
+    ViewBag.Title = "newRRC";
     Layout = "~/Views/Shared/Back.cshtml";
 }
 
+
 <div class="intro-y flex items-center mt-8">
     <h2 class="text-lg font-medium mr-auto">
-        Ajouter un responsable département
+        Ajouter un responsable relation client
     </h2>
 </div>
 
@@ -15,10 +16,10 @@
 <div class="intro-y box lg:mt-5">
     <div class="flex items-center p-5 border-b border-gray-200 dark:border-dark-5">
         <h2 class="font-medium text-base mr-auto">
-            Information Personnel
+            Informations Personnel
         </h2>
     </div>
-    @using (Html.BeginForm("newResponsableDep", "Admin"))
+    @using (Html.BeginForm("newRRC", "Admin"))
     {
         @Html.AntiForgeryToken()
         @Html.ValidationSummary(true, "", new { @class = "text-theme-6" })
@@ -75,14 +76,9 @@
                         <label>Confirmer mot de passe</label>
                         <input name="cpass" type="password" class="input w-full border mt-2" />
 
-                    </div>  
-                    <div class="mt-3">
-                        <label>Date affecté</label>
-                        @Html.EditorFor(model => model.date_aff, new { htmlAttributes = new { @class = "input w-full border mt-2 datepicker" } })
-                        @Html.ValidationMessageFor(model => model.date_aff, "", new { @class = "text-theme-6 mt-2" })
                     </div>
                 </div>
-              
+                
             </div>
             <div class="flex justify-end mt-4">
                 @if (ViewBag.passerr != null)
@@ -112,5 +108,6 @@
         var element1 = document.getElementById("clientlink");
         element1.classList.add("side-menu--active")
     }
+
     window.onload = activeLink;
 </script>

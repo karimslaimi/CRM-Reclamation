@@ -284,10 +284,11 @@ namespace PFE_reclamation.Controllers {
 
 
         [HttpPost]
-        public ActionResult newResponsableDep(Responsable_departement responsable)
+        public ActionResult newResponsableDep(Responsable_departement responsable,string cpass)
         {
-          
-            if (ModelState.IsValid)
+            if (responsable.password.Equals(cpass))
+            {
+                if (ModelState.IsValid)
             {
                 Authentication authservice = new Authentication();
                 responsable.password = authservice.HashPassword(responsable.password);
@@ -295,6 +296,13 @@ namespace PFE_reclamation.Controllers {
                 db.SaveChanges();
                 return RedirectToAction("responsables");
             }
+            else
+            {
+                ViewBag.error = "vérifier les données saisi";
+            }
+        } else {
+                ViewBag.passerr = "vérifier les mots de passe";
+                }
             return View(responsable);
         }
 
@@ -368,9 +376,9 @@ namespace PFE_reclamation.Controllers {
             return View();
         }
         [HttpPost]
-        public ActionResult newSuperviseur(Superviseur superviseur)
+        public ActionResult newSuperviseur(Superviseur superviseur,string cpass)
         {
-         
+            if (superviseur.password.Equals(cpass)) { 
             if (ModelState.IsValid)
             {
                 Authentication authservice = new Authentication();
@@ -379,6 +387,13 @@ namespace PFE_reclamation.Controllers {
                 db.SaveChanges();
                 return RedirectToAction("superviseurs");
             }
+            else
+            {
+                ViewBag.error = "vérifier les données saisi";
+            }
+        } else {
+                ViewBag.passerr = "vérifier les mots de passe";
+                }
             return View(superviseur);
         }
 
@@ -452,9 +467,10 @@ namespace PFE_reclamation.Controllers {
             return View();
         }
         [HttpPost]
-        public ActionResult newAgent(Agent agent)
+        public ActionResult newAgent(Agent agent,string cpass)
         {
-         
+
+            if (agent.password.Equals(cpass)) { 
             if (ModelState.IsValid)
             {
                 Authentication authservice = new Authentication();
@@ -463,6 +479,13 @@ namespace PFE_reclamation.Controllers {
                 db.SaveChanges();
                 return RedirectToAction("agents");
             }
+            else
+            {
+                ViewBag.error = "vérifier les données saisi";
+            }
+        } else {
+                ViewBag.passerr = "vérifier les mots de passe";
+                }
             return View(agent);
         }
 
@@ -523,6 +546,101 @@ namespace PFE_reclamation.Controllers {
                 db.Entry(_rs).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("agents");
+            }
+            return View(_rs);
+        }
+        //----------------------------rrc----------------------------
+
+        // créer un RRC
+        [HttpGet]
+        public ActionResult newRRC()
+        {
+            return View();
+        }
+        [HttpPost]
+
+        public ActionResult newRRC(Responsable_relation_client _rrc,string cpass)
+        {
+            if (_rrc.password.Equals(cpass))
+            {
+
+                if (ModelState.IsValid)
+                {
+                    Authentication authservice = new Authentication();
+                    _rrc.password = authservice.HashPassword(_rrc.password);
+                    db.Responsable_Relation_Clients.Add(_rrc);
+                    db.SaveChanges();
+                    return RedirectToAction("RRCs");
+                }
+                else
+                {
+                    ViewBag.error = "vérifier les données saisi";
+                }
+            }
+            else
+            {
+                ViewBag.passerr = "vérifier les mots de passe";
+            }
+            return View(_rrc);
+        }
+
+        // afficher la liste des RRC
+        public ActionResult RRCs()
+        {
+
+            List<Responsable_relation_client> rs = db.Responsable_Relation_Clients.ToList();
+
+            return View(rs);
+        }
+
+        // supprimer un RRC
+        public ActionResult deleteRRC(int id)
+        {
+
+            Responsable_relation_client rs = db.Responsable_Relation_Clients.Find(id);
+            db.Responsable_Relation_Clients.Remove(rs);
+            db.SaveChanges();
+            return RedirectToAction("RRCs");
+
+        }
+        // methode pour  affichage des details d'un RRC
+        public ActionResult detailsRRC(int id)
+        {
+
+            Responsable_relation_client rs = db.Responsable_Relation_Clients.Find(id);
+
+            return View(rs);
+        }
+
+        //modifier un RRC
+        [HttpGet]
+        public ActionResult editRRC(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Responsable_relation_client _rs = db.Responsable_Relation_Clients.Find(id);
+            if (_rs == null)
+            {
+                return HttpNotFound();
+            }
+            return View(_rs);
+        }
+
+        // POST: Users/Edit/5
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult editRRC(Responsable_relation_client _rs)
+        {
+            _rs.password = db.Responsable_Relation_Clients.Find(_rs.id).password;
+
+            if (ModelState.IsValid)
+            {
+                db.Entry(_rs).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("RRCs");
             }
             return View(_rs);
         }
