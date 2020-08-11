@@ -25,6 +25,8 @@ namespace PFE_reclamation.Models
         public virtual Departement Departement { get; set; }
         public virtual Client Client { get; set; }
 
+  
+        public virtual Traite Traite { get; set; }
 
-    }
+        }
 }

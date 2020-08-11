@@ -27,7 +27,7 @@ namespace PFE_reclamation.DAL
         public DbSet<Contrat> Contrats { get; set; }
         public DbSet<Departement> Departements { get; set; }
  
-       // public DbSet<Etat> Etats { get; set; }
+      public DbSet<Message> Messages { get; set; }
         public DbSet<Reclamation> Reclamations { get; set; }
         public DbSet<Responsable_departement> Responsable_Departements { get; set; }
         public DbSet<Responsable_relation_client> Responsable_Relation_Clients { get; set; }

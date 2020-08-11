@@ -105,7 +105,7 @@ namespace PFE_reclamation.Controllers
         
             if (ModelState.IsValid)
             {
-                Authentication authservice = new Authentication();
+              
                 agent.password = authservice.HashPassword(agent.password);
                 db.Agents.Add(agent);
                 db.SaveChanges();
@@ -117,7 +117,7 @@ namespace PFE_reclamation.Controllers
         // afficher la liste des agents
         public ActionResult agents()
         {
-            DatabContext db = new DatabContext();
+         
             List<Agent> rs = db.Agents.ToList();
 
             return View(rs);
@@ -126,7 +126,7 @@ namespace PFE_reclamation.Controllers
         // supprimer un agent
         public ActionResult deleteAgent(int id)
         {
-            DatabContext db = new DatabContext();
+   
             Agent rs = db.Agents.Find(id);
             db.Agents.Remove(rs);
             db.SaveChanges();
@@ -136,11 +136,39 @@ namespace PFE_reclamation.Controllers
         // methode pour  affichage des details d'un agent
         public ActionResult detailsAgent(int id)
         {
-            DatabContext db = new DatabContext();
+          
             Agent rs = db.Agents.Find(id);
 
             return View(rs);
         }
+
+
+        //get the reclams that were sent to his departement
+        public ActionResult reclams() {
+
+            int id = int.Parse(ClaimsPrincipal.Current.Claims.FirstOrDefault(x => x.Type == "id").Value);
+            Responsable_departement _rd = db.Responsable_Departements.Include(x=>x.departement).Where(x=>x.id==id).FirstOrDefault();
+            List<Reclamation> _reclams = db.Reclamations.Where(x => x.Departement.id == _rd.departement.id).ToList();
+            List<Agent> _agents = db.Agents.Where(x => x.departement.id == _rd.departement.id).ToList();
+            ViewBag.agents = _agents;
+            return View(_reclams);
+
+
+            }
+
+        public ActionResult affecte_reclam(int idrec,int idage) {
+            Traite _traite = new Traite();
+            Reclamation _reclam = db.Reclamations.Find(idrec);
+            Agent _agent = db.Agents.Find(idage);
+            _traite.agent = _agent;
+            _traite.Reclamation = _reclam;
+            _traite.detaille = "";
+            db.Traites.Add(_traite);
+            db.SaveChanges();
+            return Redirect("reclams");
+
+
+            }
 
 
 

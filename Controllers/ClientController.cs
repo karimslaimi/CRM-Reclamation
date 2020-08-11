@@ -37,7 +37,7 @@ namespace PFE_reclamation.Controllers
             //get the userid from claims principal where we stored the user data after login
             string userid = ClaimsPrincipal.Current.Claims.FirstOrDefault(x => x.Type == "id").Value;
             int id = int.Parse(userid);
-            Responsable_relation_client _rrc = db.Responsable_Relation_Clients.FirstOrDefault(x => x.id == id);
+            Client _client = db.Clients.FirstOrDefault(x => x.id == id);
 
 
 
@@ -47,19 +47,19 @@ namespace PFE_reclamation.Controllers
             if (TempData["msg"] != null) {
                 ViewBag.passmsg = TempData["msg"];
                 }
-            return View(_rrc);
+            return View(_client);
 
 
 
             }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult profile(Responsable_relation_client _rrc) {
+        public ActionResult profile(Client _client) {
 
             //we get the object so we can fill the fields left empty
-            Responsable_relation_client rrc = db.Responsable_Relation_Clients.AsNoTracking().FirstOrDefault(x => x.id == _rrc.id);
+            Client rrc = db.Clients.AsNoTracking().FirstOrDefault(x => x.id == _client.id);
 
-            _rrc.password = rrc.password;
+            _client.password = rrc.password;
 
 
 
@@ -69,7 +69,7 @@ namespace PFE_reclamation.Controllers
 
 
 
-                    db.Entry(_rrc).State = EntityState.Modified;
+                    db.Entry(_client).State = EntityState.Modified;
                     db.SaveChanges();
                     ViewBag.msg = "Profile modifié avec succés";
                     } catch (Exception e) {
@@ -80,7 +80,7 @@ namespace PFE_reclamation.Controllers
                 }
 
 
-            return View(_rrc);
+            return View(_client);
 
 
 
@@ -90,8 +90,8 @@ namespace PFE_reclamation.Controllers
         public ActionResult passwordchange(string pass, string cpass, int id) {
 
             if (pass.Equals(cpass) && !String.IsNullOrEmpty(pass) && !string.IsNullOrWhiteSpace(pass)) {
-                Responsable_relation_client _rrc = db.Responsable_Relation_Clients.Find(id);
-                _rrc.password = authservice.HashPassword(pass);
+                Client _client = db.Clients.Find(id);
+                _client.password = authservice.HashPassword(pass);
                 TempData["msg"] = "Mot de passe a été modifié";
                 } else {
                 TempData["error"] = "les mots de passe ne correspondent pas";

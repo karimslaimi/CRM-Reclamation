@@ -97,21 +97,74 @@ namespace PFE_reclamation.Controllers
         public ActionResult traiter(int idrec,string detaille) {
 
             //add the view later and user the mailling service
+
+            //get the reclam and change its state and the end date
             Reclamation _reclam = db.Reclamations.Find(idrec);
             _reclam.etat = Etat.Finis;
             _reclam.fin_reclam = DateTime.Now;
             db.Entry(_reclam).State = EntityState.Modified;
 
+            //get the traite object that where created by the Respo Dep find by reclam id 
 
-            Traite _traite = new Traite();
-            int ida = int.Parse(ClaimsPrincipal.Current.Claims.FirstOrDefault(i => i.Type == "id").Value);
-            _traite.agent = db.Agents.Where(x => x.id == ida).FirstOrDefault();
+            Traite _traite = db.Traites.Where(x=>x.Reclamation.id==idrec).FirstOrDefault();
+          
+            //set the date and the details
             _traite.date = DateTime.Now;
             _traite.detaille = detaille;
-            _traite.reclamation = _reclam;
-            db.Traites.Add(_traite);
+            //update
+            db.Entry(_traite).State = EntityState.Modified;
             db.SaveChanges();
             return Redirect("reclams");
+
+            }
+
+        public ActionResult reclams() {
+            //get agent the claims that where sent to him and still untreated
+            int id = int.Parse(ClaimsPrincipal.Current.Claims.FirstOrDefault(x => x.Type == "id").Value);
+            List<Reclamation> _reclams = db.Reclamations.Where(x => x.Traite.agent.id == id && x.etat==Etat.En_cours).ToList();
+            return View();
+
+
+
+            }
+
+        public ActionResult reclams_traite() {
+            int id = int.Parse(ClaimsPrincipal.Current.Claims.FirstOrDefault(x => x.Type == "id").Value);
+            List<Reclamation> _reclams = db.Reclamations.Where(x => x.Traite.agent.id == id && x.etat == Etat.Finis).ToList();
+            return View();
+           
+            
+            }
+
+
+        public ActionResult messages() {
+            // to contact his respo dep
+
+            int ida = int.Parse(ClaimsPrincipal.Current.Claims.FirstOrDefault(x => x.Type == "id").Value);
+            Agent agent = db.Agents.Where(x => x.id == ida).FirstOrDefault();
+
+            Responsable_departement _rd = db.Responsable_Departements.Where(x => x.departement.id == agent.departement.id).FirstOrDefault();
+
+            List<Message> _messages = db.Messages.Where(x => x.sentTo.id == _rd.id && x.sentBy.id == ida).OrderBy(x=>x.date).ToList();
+            return View(_messages);
+
+
+            }
+
+        public ActionResult sendmessage(string content) {
+            int ida = int.Parse(ClaimsPrincipal.Current.Claims.FirstOrDefault(x => x.Type == "id").Value);
+            Agent agent = db.Agents.Where(x => x.id == ida).FirstOrDefault();
+            Responsable_departement _rd = db.Responsable_Departements.Where(x => x.departement.id == agent.departement.id).FirstOrDefault();
+            Message _message = new Message();
+            _message.content = content;
+            _message.date = DateTime.Now;
+            _message.sentBy = agent;
+            _message.sentTo = _rd;
+            db.Messages.Add(_message);
+            db.SaveChanges();
+            return Redirect("messages");
+            
+
 
             }
 

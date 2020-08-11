@@ -263,6 +263,10 @@
     <Compile Include="Migrations\202008101753485_mig-sami.designer.cs">
       <DependentUpon>202008101753485_mig-sami.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202008110144289_tm.cs" />
+    <Compile Include="Migrations\202008110144289_tm.designer.cs">
+      <DependentUpon>202008110144289_tm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Admin.cs" />
     <Compile Include="Models\Agent.cs" />
@@ -270,6 +274,7 @@
     <Compile Include="Models\Contrat.cs" />
     <Compile Include="Models\Departement.cs" />
     <Compile Include="Models\Etat.cs" />
+    <Compile Include="Models\Message.cs" />
     <Compile Include="Models\Reclamation.cs" />
     <Compile Include="Models\Responsable departement.cs" />
     <Compile Include="Models\Responsable relation client.cs" />
@@ -408,10 +413,12 @@
     <Content Include="Views\Admin\editResponsableDep.cshtml" />
     <Content Include="Views\Admin\editSuperviseur.cshtml" />
     <Content Include="Views\Admin\editAgent.cshtml" />
+    <Content Include="Views\Shared\AgentLayout.cshtml" />
+    <Content Include="Views\Agent\Index.cshtml" />
+    <Content Include="Views\Shared\Superviseur.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Agent\" />
     <Folder Include="Views\RD\" />
   </ItemGroup>
   <ItemGroup>
@@ -448,6 +455,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202008101753485_mig-sami.resx">
       <DependentUpon>202008101753485_mig-sami.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202008110144289_tm.resx">
+      <DependentUpon>202008110144289_tm.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
