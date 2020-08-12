@@ -228,7 +228,14 @@ namespace PFE_reclamation.Controllers
 
 
         public ActionResult reclams() {
-            List<Reclamation> _reclamas = db.Reclamations.OrderBy(x=>x.etat).ToList();
+            IEnumerable<Reclamation> _reclamas = db.Reclamations.ToList();
+            return View(_reclamas );
+
+
+            }
+
+        public ActionResult treatedreclams() {
+            List<Reclamation> _reclamas = db.Reclamations.Where(x=>x.etat==Etat.Finis).OrderBy(x => x.etat).ToList();
             return View(_reclamas);
 
 

@@ -28,7 +28,7 @@ namespace PFE_reclamation.Controllers
             //get the userid from claims principal where we stored the user data after login
             string userid = ClaimsPrincipal.Current.Claims.FirstOrDefault(x => x.Type == "id").Value;
             int id = int.Parse(userid);
-            Agent _rrc = db.Agents.FirstOrDefault(x => x.id == id);
+            Agent _agent = db.Agents.FirstOrDefault(x => x.id == id);
 
 
 
@@ -38,7 +38,7 @@ namespace PFE_reclamation.Controllers
             if (TempData["msg"] != null) {
                 ViewBag.passmsg = TempData["msg"];
                 }
-            return View(_rrc);
+            return View(_agent);
 
 
 
@@ -122,16 +122,17 @@ namespace PFE_reclamation.Controllers
             //get agent the claims that where sent to him and still untreated
             int id = int.Parse(ClaimsPrincipal.Current.Claims.FirstOrDefault(x => x.Type == "id").Value);
             List<Reclamation> _reclams = db.Reclamations.Where(x => x.Traite.agent.id == id && x.etat==Etat.En_cours).ToList();
-            return View();
+            return View(_reclams);
 
 
 
             }
 
         public ActionResult reclams_traite() {
+            //his treated claims
             int id = int.Parse(ClaimsPrincipal.Current.Claims.FirstOrDefault(x => x.Type == "id").Value);
             List<Reclamation> _reclams = db.Reclamations.Where(x => x.Traite.agent.id == id && x.etat == Etat.Finis).ToList();
-            return View();
+            return View(_reclams);
            
             
             }

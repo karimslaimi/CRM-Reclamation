@@ -64,18 +64,33 @@ namespace PFE_reclamation.Controllers
         public ActionResult persist()
         {
             ///this action to persist data without haveing to type in form
-            Authentication authservice = new Authentication();
-            Responsable_relation_client _ad = new Responsable_relation_client();
-            _ad.mail = "karimrrc@gmail.com";
-            _ad.nom = "slaimi";
-            _ad.prenom = "karim";
-            _ad.tel = "25415633";
-            _ad.username = "karimrrc";
-            _ad.cin = "11654521";
-            _ad.password = authservice.HashPassword("karim123");
-            
-            db.Responsable_Relation_Clients.Add(_ad);
-            db.SaveChanges();
+            //Authentication authservice = new Authentication();
+            //Responsable_relation_client _ad = new Responsable_relation_client();
+            //_ad.mail = "karimrrc@gmail.com";
+            //_ad.nom = "slaimi";
+            //_ad.prenom = "karim";
+            //_ad.tel = "25415633";
+            //_ad.username = "karimrrc";
+            //_ad.cin = "11654521";
+            //_ad.password = authservice.HashPassword("karim123");
+
+            //db.Responsable_Relation_Clients.Add(_ad);
+            //db.SaveChanges();
+
+
+
+            Departement _dep = new Departement();
+            _dep.label = "Financiére";
+            db.Departements.Add(_dep); 
+            Departement _dep1 = new Departement();
+            _dep.label = "Voiture";
+            db.Departements.Add(_dep1); 
+            Departement _dep2 = new Departement();
+            _dep.label = "Immobillier";
+            db.Departements.Add(_dep2);
+
+             db.SaveChanges();
+
 
 
 

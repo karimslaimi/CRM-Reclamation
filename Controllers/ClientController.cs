@@ -177,6 +177,12 @@ namespace PFE_reclamation.Controllers
 
             }
 
+         public ActionResult reclamation_traite() {
+            int idc = int.Parse(ClaimsPrincipal.Current.Claims.FirstOrDefault(x => x.Type == "id").Value);
+              return View(db.Reclamations.Where(x => x.etat == Etat.Finis && x.Client.id == idc).ToList());
+            
+            }
 
-    }
+
+        }
 }

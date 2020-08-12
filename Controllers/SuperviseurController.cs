@@ -48,6 +48,7 @@ namespace PFE_reclamation.Controllers
             Superviseur superviseur = db.Superviseurs.AsNoTracking().FirstOrDefault(x => x.id == _superviseur.id);
 
             _superviseur.password = superviseur.password;
+            _superviseur.date_aff = superviseur.date_aff;
 
 
 
@@ -114,14 +115,14 @@ namespace PFE_reclamation.Controllers
         }
 
         public ActionResult responsables()
-        { DatabContext db = new DatabContext();
+        {  
             List<Responsable_departement> rs = db.Responsable_Departements.ToList();
 
             return View(rs);
         }
 
         public ActionResult delete(int id)
-        { DatabContext db = new DatabContext();
+        {  
             Responsable_departement rs = db.Responsable_Departements.Find(id);
             db.Responsable_Departements.Remove(rs);
             db.SaveChanges();
@@ -135,5 +136,51 @@ namespace PFE_reclamation.Controllers
 
             return View(rs); 
         }
+
+
+
+        public ActionResult reclams() {
+
+            List<Reclamation> _reclams = db.Reclamations.ToList();
+
+            return View(_reclams);
+
+
+            }
+        public ActionResult encours_reclams() {
+
+            List<Reclamation> _reclams = db.Reclamations.Where(x=>x.Departement==null).ToList();
+            ViewBag.deps = db.Departements.ToList();
+            return View(_reclams);
+
+
+            }
+
+        public ActionResult traite_reclams() {
+            List<Reclamation> _reclams = db.Reclamations.Where(x => x.etat==Etat.Finis).ToList();
+          
+            return View(_reclams);
+            }
+
+
+
+        public ActionResult valider_reclam(int idr,int iddep) {
+
+           
+            Reclamation _reclam = db.Reclamations.Find(idr);
+            if (_reclam.Departement == null) {
+                Departement _dep = db.Departements.Find(iddep);
+                _reclam.Departement = _dep;
+                _reclam.DepartementId = iddep;
+                db.Entry(_reclam).State = EntityState.Modified;
+                db.SaveChanges();
+                }
+            return Redirect("reclams");
+
+
+            }
+
+
+
     }
 }

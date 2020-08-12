@@ -17,7 +17,7 @@ namespace PFE_reclamation.Models
         public ICollection<Traite> reclamTraite { get; set; }
         //date when his account created
         [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
         public DateTime date_aff { get; set; }
     }
 }
