@@ -105,7 +105,8 @@ namespace PFE_reclamation.Controllers
         
             if (ModelState.IsValid)
             {
-              
+                int idresp = int.Parse(ClaimsPrincipal.Current.Claims.FirstOrDefault(x => x.Type == "id").Value);
+               // agent.departement=db.Departements.Where(x=>x.)
                 agent.password = authservice.HashPassword(agent.password);
                 db.Agents.Add(agent);
                 db.SaveChanges();

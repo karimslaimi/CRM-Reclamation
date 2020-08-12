@@ -87,7 +87,12 @@ namespace PFE_reclamation.Controllers
             db.Departements.Add(_dep1); 
             Departement _dep2 = new Departement();
             _dep.label = "Immobillier";
-            db.Departements.Add(_dep2);
+            List<Departement> lsdep = new List<Departement>();
+            lsdep.Add(_dep);
+            lsdep.Add(_dep1);
+            lsdep.Add(_dep2);
+
+            db.Departements.AddRange(lsdep);
 
              db.SaveChanges();
 

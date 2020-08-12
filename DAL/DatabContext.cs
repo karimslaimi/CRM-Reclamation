@@ -13,10 +13,10 @@ namespace PFE_reclamation.DAL
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
 
+            
 
 
-
-        }
+            }
 
 
 

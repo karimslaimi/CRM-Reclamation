@@ -153,6 +153,8 @@
     <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.6.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>packages\System.Runtime.CompilerServices.Unsafe.4.7.1\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
     </Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>packages\System.Threading.Tasks.Extensions.4.5.4\lib\net461\System.Threading.Tasks.Extensions.dll</HintPath>
     </Reference>
@@ -235,37 +237,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202008050143088_initial-migration.cs" />
-    <Compile Include="Migrations\202008050143088_initial-migration.designer.cs">
-      <DependentUpon>202008050143088_initial-migration.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202008051352115_contrat_fields.cs" />
-    <Compile Include="Migrations\202008051352115_contrat_fields.designer.cs">
-      <DependentUpon>202008051352115_contrat_fields.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202008060335247_remove depassoc.cs" />
-    <Compile Include="Migrations\202008060335247_remove depassoc.designer.cs">
-      <DependentUpon>202008060335247_remove depassoc.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202008091629168_reclam_title.cs" />
-    <Compile Include="Migrations\202008091629168_reclam_title.designer.cs">
-      <DependentUpon>202008091629168_reclam_title.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202008091639062_reclam_nullable_fields.cs" />
-    <Compile Include="Migrations\202008091639062_reclam_nullable_fields.designer.cs">
-      <DependentUpon>202008091639062_reclam_nullable_fields.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202008091644319_reclam_nullable_fields_stupid.cs" />
-    <Compile Include="Migrations\202008091644319_reclam_nullable_fields_stupid.designer.cs">
-      <DependentUpon>202008091644319_reclam_nullable_fields_stupid.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202008101753485_mig-sami.cs" />
-    <Compile Include="Migrations\202008101753485_mig-sami.designer.cs">
-      <DependentUpon>202008101753485_mig-sami.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202008110144289_tm.cs" />
-    <Compile Include="Migrations\202008110144289_tm.designer.cs">
-      <DependentUpon>202008110144289_tm.cs</DependentUpon>
+    <Compile Include="Migrations\202008122243101_new migraton.cs" />
+    <Compile Include="Migrations\202008122243101_new migraton.designer.cs">
+      <DependentUpon>202008122243101_new migraton.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Admin.cs" />
@@ -434,6 +408,10 @@
     <Content Include="Views\Superviseur\traite_reclams.cshtml" />
     <Content Include="Views\RD\Index.cshtml" />
     <Content Include="Views\Shared\RDLayout.cshtml" />
+    <Content Include="Views\Admin\superviseurs.cshtml" />
+    <Content Include="Views\RD\reclams.cshtml" />
+    <Content Include="Views\Admin\agents.cshtml" />
+    <Content Include="Views\Admin\responsables.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -452,30 +430,12 @@
     <Content Include="Scripts\jquery-3.4.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202008050143088_initial-migration.resx">
-      <DependentUpon>202008050143088_initial-migration.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202008122243101_new migraton.resx">
+      <DependentUpon>202008122243101_new migraton.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202008051352115_contrat_fields.resx">
-      <DependentUpon>202008051352115_contrat_fields.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202008060335247_remove depassoc.resx">
-      <DependentUpon>202008060335247_remove depassoc.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202008091629168_reclam_title.resx">
-      <DependentUpon>202008091629168_reclam_title.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202008091639062_reclam_nullable_fields.resx">
-      <DependentUpon>202008091639062_reclam_nullable_fields.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202008091644319_reclam_nullable_fields_stupid.resx">
-      <DependentUpon>202008091644319_reclam_nullable_fields_stupid.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202008101753485_mig-sami.resx">
-      <DependentUpon>202008101753485_mig-sami.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202008110144289_tm.resx">
-      <DependentUpon>202008110144289_tm.cs</DependentUpon>
-    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

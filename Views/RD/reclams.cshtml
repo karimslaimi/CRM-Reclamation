@@ -2,8 +2,9 @@
 
 @{
     ViewBag.Title = "reclams";
-    Layout = "~/Views/Shared/SuperviseurLayout.cshtml";
+    Layout = "~/Views/Shared/RDLayout.cshtml";
 }
+
 
 @using System.Globalization;
 @{
@@ -36,15 +37,16 @@
                             <th class=" whitespace-no-wrap">
                                 Type
                             </th>
-                            <th class="whitespace-no-wrap">
-                                Departement
-                            </th>
+
                             <th class=" whitespace-no-wrap">
                                 Etat
                             </th>
+                            <th class="whitespace-no-wrap">
+                                Client
+                            </th>
 
                             <th class=" whitespace-no-wrap">
-                                Client
+                                Actions
                             </th>
 
                         </tr>
@@ -95,16 +97,7 @@
 
                                     <div class="font-medium whitespace-no-wrap">  @Html.DisplayFor(modelItem => recl.type)</div>
                                 </td>
-                                <td>
 
-                                    <div class="font-medium whitespace-no-wrap">
-                                        @if (recl.Departement != null) {
-                                            @Html.DisplayFor(modelItem => recl.Departement.label);
-                                            } else {
-                                            @Html.Raw("en cours")
-                                            }
-                                    </div>
-                                </td>
                                 <td>
                                     @if (recl.etat == PFE_reclamation.Models.Etat.Nouveau) {
                                         <div class="flex text-theme-6"> <i data-feather="check-square" class="w-4 h-4 mr-2"></i> Nouveau </div>
@@ -119,16 +112,38 @@
 
                                 </td>
 
+                                <td>
 
-
-
-                                <td class="table-report__action w-56">
-                                    <div class="flex justify-start ">
+                                    <div class="font-medium whitespace-no-wrap">
                                         @{
                                             var fullName = recl.Client.nom + " " + recl.Client.prenom;
                                             @Html.DisplayFor(m => fullName)
                                         }
 
+
+                                    </div>
+                                </td>
+
+
+                                <td class="table-report__action w-56">
+                                    <div class="flex justify-start ">
+                                        @if (recl.etat == PFE_reclamation.Models.Etat.En_cours) {
+
+
+                                            string titre = "\"" + recl.titre + "\"";
+                                            string descr = "\"" + recl.description + "\"";
+                                            string type = "\"" + recl.type + "\"";
+                                            string etat = "\"" + recl.etat + "\"";
+                                            string cin = "\"" + recl.Client.cin + "\"";
+                                            string name = "\"" + recl.Client.nom + " " + recl.Client.prenom + "\"";
+                                            string date = "\"" + recl.debut_reclam.ToString("dd/MM/yyyy", french) + "\"";
+
+
+
+                                            <a class="flex  items-center text-gray-600" href="javascript:;" onclick="Afficher(@recl.id,@titre,@descr,@type,@etat,@cin,@name,@date)"
+                                               data-toggle="modal" data-target="#Recl-confirmation-modal"> <i data-feather="check-square" class="w-4 h-4 mr-1"></i> Afficher </a>
+
+                                            }
                                     </div>
                                 </td>
                             </tr>
@@ -180,11 +195,22 @@
                 </div>
                 <div class="text-center lg:text-right p-5 border-t border-gray-200 dark:border-dark-5">
                     @using (Html.BeginForm("valider_reclam", "Superviseur")) {
-                        <input type="hidden" name="id" id="modclid" value="" />
-                        <button type="submit" class="button button--sm text-white bg-theme-1 mr-2">Vérifier</button>
-                        }
+                        <input type="hidden" name="idr" id="modclid" value="" />
+                        <select name="iddep" data-hide-search="true" class="select2 w-full mb-2 mt-2">
 
-                    <button data-dismiss="modal" class="button button--sm text-gray-700 border border-gray-300 dark:border-dark-5 dark:text-gray-300">Annuler</button>
+                            <option value="-1">selectionner un département</option>
+                            @foreach (var dep in ViewBag.deps) {
+                                <option value="@dep.id">@dep.label</option>
+
+                                }
+
+                        </select>
+
+                        <button type="submit" class="button button--sm text-white bg-theme-1 mr-2 mt-2">Vérifier</button>
+
+
+                        <button data-dismiss="modal" class="button button--sm text-gray-700 border mt-2 border-gray-300 dark:border-dark-5 dark:text-gray-300">Annuler</button>
+                        }
                 </div>
             </div>
         </div>
@@ -195,7 +221,7 @@
 <script>
 
 
-    function Afficher(id, titre, descr, type,etat,cin,name,date) {
+    function Afficher(id, titre, descr, type, etat, cin, name, date) {
 
 
         console.log(date);

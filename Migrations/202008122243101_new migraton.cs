@@ -3,7 +3,7 @@
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class initialmigration : DbMigration
+    public partial class newmigraton : DbMigration
     {
         public override void Up()
         {
@@ -11,7 +11,7 @@
                 "dbo.Users",
                 c => new
                     {
-                        id = c.Int(nullable: false, identity: true),
+                        id = c.Int(nullable: false),
                         nom = c.String(),
                         prenom = c.String(),
                         cin = c.String(),
@@ -32,31 +32,33 @@
                 .PrimaryKey(t => t.id);
             
             CreateTable(
-                "dbo.Traites",
-                c => new
-                    {
-                        id = c.Int(nullable: false, identity: true),
-                        reclamation_id = c.Int(),
-                        traite_id = c.Int(),
-                        Agent_id = c.Int(),
-                    })
-                .PrimaryKey(t => t.id)
-                .ForeignKey("dbo.Reclamations", t => t.reclamation_id)
-                .ForeignKey("dbo.Traites", t => t.traite_id)
-                .ForeignKey("dbo.Agent", t => t.Agent_id)
-                .Index(t => t.reclamation_id)
-                .Index(t => t.traite_id)
-                .Index(t => t.Agent_id);
-            
-            CreateTable(
                 "dbo.Reclamations",
                 c => new
                     {
                         id = c.Int(nullable: false, identity: true),
+                        titre = c.String(),
                         debut_reclam = c.DateTime(nullable: false),
-                        fin_reclam = c.DateTime(nullable: false),
+                        fin_reclam = c.DateTime(),
                         etat = c.Int(nullable: false),
                         type = c.Int(nullable: false),
+                        description = c.String(),
+                        DepartementId = c.Int(),
+                        Client_id = c.Int(),
+                    })
+                .PrimaryKey(t => t.id)
+                .ForeignKey("dbo.Client", t => t.Client_id)
+                .ForeignKey("dbo.Departements", t => t.DepartementId)
+                .Index(t => t.DepartementId)
+                .Index(t => t.Client_id);
+            
+            CreateTable(
+                "dbo.Contrats",
+                c => new
+                    {
+                        id = c.Int(nullable: false, identity: true),
+                        titre = c.String(),
+                        deb_contrat = c.DateTime(nullable: false),
+                        fin_contrat = c.DateTime(nullable: false),
                         description = c.String(),
                         Client_id = c.Int(),
                     })
@@ -65,29 +67,35 @@
                 .Index(t => t.Client_id);
             
             CreateTable(
-                "dbo.Contrats",
+                "dbo.Traites",
                 c => new
                     {
-                        id = c.Int(nullable: false, identity: true),
-                        Client_id = c.Int(),
+                        id = c.Int(nullable: false),
+                        date = c.DateTime(nullable: false),
+                        detaille = c.String(),
+                        agent_id = c.Int(),
                     })
                 .PrimaryKey(t => t.id)
-                .ForeignKey("dbo.Client", t => t.Client_id)
-                .Index(t => t.Client_id);
+                .ForeignKey("dbo.Agent", t => t.agent_id)
+                .ForeignKey("dbo.Reclamations", t => t.id)
+                .Index(t => t.id)
+                .Index(t => t.agent_id);
             
             CreateTable(
-                "dbo.DepAssocies",
+                "dbo.Messages",
                 c => new
                     {
                         id = c.Int(nullable: false, identity: true),
-                        Departement_id = c.Int(),
-                        Reclamation_id = c.Int(),
+                        date = c.DateTime(nullable: false),
+                        content = c.String(),
+                        sentBy_id = c.Int(),
+                        sentTo_id = c.Int(),
                     })
                 .PrimaryKey(t => t.id)
-                .ForeignKey("dbo.Departements", t => t.Departement_id)
-                .ForeignKey("dbo.Reclamations", t => t.Reclamation_id)
-                .Index(t => t.Departement_id)
-                .Index(t => t.Reclamation_id);
+                .ForeignKey("dbo.Users", t => t.sentBy_id)
+                .ForeignKey("dbo.Users", t => t.sentTo_id)
+                .Index(t => t.sentBy_id)
+                .Index(t => t.sentTo_id);
             
             CreateTable(
                 "dbo.Admin",
@@ -128,14 +136,12 @@
                 c => new
                     {
                         id = c.Int(nullable: false),
-                        departement_id = c.Int(),
                         date_aff = c.DateTime(nullable: false),
                     })
                 .PrimaryKey(t => t.id)
                 .ForeignKey("dbo.Users", t => t.id)
-                .ForeignKey("dbo.Departements", t => t.departement_id)
-                .Index(t => t.id)
-                .Index(t => t.departement_id);
+                .ForeignKey("dbo.Departements", t => t.id)
+                .Index(t => t.id);
             
             CreateTable(
                 "dbo.Responsable_relation_client",
@@ -164,44 +170,43 @@
         {
             DropForeignKey("dbo.Superviseur", "id", "dbo.Users");
             DropForeignKey("dbo.Responsable_relation_client", "id", "dbo.Users");
-            DropForeignKey("dbo.Responsable_departement", "departement_id", "dbo.Departements");
+            DropForeignKey("dbo.Responsable_departement", "id", "dbo.Departements");
             DropForeignKey("dbo.Responsable_departement", "id", "dbo.Users");
             DropForeignKey("dbo.Client", "id", "dbo.Users");
             DropForeignKey("dbo.Agent", "departement_id", "dbo.Departements");
             DropForeignKey("dbo.Agent", "id", "dbo.Users");
             DropForeignKey("dbo.Admin", "id", "dbo.Users");
-            DropForeignKey("dbo.DepAssocies", "Reclamation_id", "dbo.Reclamations");
-            DropForeignKey("dbo.DepAssocies", "Departement_id", "dbo.Departements");
+            DropForeignKey("dbo.Messages", "sentTo_id", "dbo.Users");
+            DropForeignKey("dbo.Messages", "sentBy_id", "dbo.Users");
+            DropForeignKey("dbo.Traites", "id", "dbo.Reclamations");
+            DropForeignKey("dbo.Traites", "agent_id", "dbo.Agent");
+            DropForeignKey("dbo.Reclamations", "DepartementId", "dbo.Departements");
             DropForeignKey("dbo.Reclamations", "Client_id", "dbo.Client");
             DropForeignKey("dbo.Contrats", "Client_id", "dbo.Client");
-            DropForeignKey("dbo.Traites", "Agent_id", "dbo.Agent");
-            DropForeignKey("dbo.Traites", "traite_id", "dbo.Traites");
-            DropForeignKey("dbo.Traites", "reclamation_id", "dbo.Reclamations");
             DropIndex("dbo.Superviseur", new[] { "id" });
             DropIndex("dbo.Responsable_relation_client", new[] { "id" });
-            DropIndex("dbo.Responsable_departement", new[] { "departement_id" });
             DropIndex("dbo.Responsable_departement", new[] { "id" });
             DropIndex("dbo.Client", new[] { "id" });
             DropIndex("dbo.Agent", new[] { "departement_id" });
             DropIndex("dbo.Agent", new[] { "id" });
             DropIndex("dbo.Admin", new[] { "id" });
-            DropIndex("dbo.DepAssocies", new[] { "Reclamation_id" });
-            DropIndex("dbo.DepAssocies", new[] { "Departement_id" });
+            DropIndex("dbo.Messages", new[] { "sentTo_id" });
+            DropIndex("dbo.Messages", new[] { "sentBy_id" });
+            DropIndex("dbo.Traites", new[] { "agent_id" });
+            DropIndex("dbo.Traites", new[] { "id" });
             DropIndex("dbo.Contrats", new[] { "Client_id" });
             DropIndex("dbo.Reclamations", new[] { "Client_id" });
-            DropIndex("dbo.Traites", new[] { "Agent_id" });
-            DropIndex("dbo.Traites", new[] { "traite_id" });
-            DropIndex("dbo.Traites", new[] { "reclamation_id" });
+            DropIndex("dbo.Reclamations", new[] { "DepartementId" });
             DropTable("dbo.Superviseur");
             DropTable("dbo.Responsable_relation_client");
             DropTable("dbo.Responsable_departement");
             DropTable("dbo.Client");
             DropTable("dbo.Agent");
             DropTable("dbo.Admin");
-            DropTable("dbo.DepAssocies");
+            DropTable("dbo.Messages");
+            DropTable("dbo.Traites");
             DropTable("dbo.Contrats");
             DropTable("dbo.Reclamations");
-            DropTable("dbo.Traites");
             DropTable("dbo.Departements");
             DropTable("dbo.Users");
         }

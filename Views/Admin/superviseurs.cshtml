@@ -5,72 +5,137 @@
     Layout = "~/Views/Shared/Back.cshtml";
 }
 
-<h2>superviseurs</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.nom)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.prenom)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.cin)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.tel)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.mail)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.username)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.password)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.date_aff)
-        </th>
-        <th></th>
-    </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.nom)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.prenom)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.cin)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.tel)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.mail)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.username)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.password)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.date_aff)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.id })
-        </td>
-    </tr>
-}
+<div class=" ">
+    <div class="intro-y col-span-12 flex flex-wrap sm:flex-no-wrap items-center mt-2">
+        <a href="@Url.Action("newClient","Admin")" class="button text-white bg-theme-1 shadow-md mr-2">Ajouter un client</a>
 
-</table>
+        <div class="hidden md:block mx-auto text-gray-600"> </div>
+        <div class="w-full sm:w-auto mt-3 sm:mt-0 sm:ml-auto md:ml-0">
+            <div class="w-56 relative text-gray-700 dark:text-gray-300">
+                <input type="text" class="input w-56 box pr-10 placeholder-theme-13" placeholder="Search...">
+                <i class="w-4 h-4 absolute my-auto inset-y-0 mr-3 right-0" data-feather="search"></i>
+            </div>
+        </div>
+    </div>
+
+    <!-- BEGIN: Datatable -->
+    <div class="intro-y datatable-wrapper box p-5 mt-5">
+        <table class="table table-report table-report--bordered display datatable w-full">
+            <thead>
+                <tr>
+                    <th class="   whitespace-no-wrap  " tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 80px;" aria-label="Nom: activer pour trier colonne croissanbt">
+                        NOM
+                    </th>
+                    <th class=" whitespace-no-wrap">
+
+                        Prenom
+                    </th>
+                    <th class=" whitespace-no-wrap">
+                        CIN
+                    </th>
+                    <th class=" whitespace-no-wrap">
+                        Num. Tel.
+                    </th>
+                    <th class="whitespace-no-wrap">
+                        Adresse mail
+                    </th>
+                    <th class=" whitespace-no-wrap">
+                        Nom d'utilisateur'
+                    </th>
+                    <th class="text-center whitespace-no-wrap">
+                        Actions
+                    </th>
+
+
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model) {
+
+                    <tr class="intro-x">
+
+                        <td>
+
+                            <div class="font-medium whitespace-no-wrap">  @Html.DisplayFor(modelItem => item.nom)</div>
+                        </td>
+                        <td>
+
+                            <div class="font-medium whitespace-no-wrap">  @Html.DisplayFor(modelItem => item.prenom)</div>
+                        </td>
+                        <td>
+
+                            <div class="font-medium whitespace-no-wrap">  @Html.DisplayFor(modelItem => item.cin)</div>
+                        </td>
+                        <td>
+
+                            <div class="font-medium whitespace-no-wrap">  @Html.DisplayFor(modelItem => item.tel)</div>
+                        </td>
+                        <td>
+
+                            <div class="font-medium whitespace-no-wrap">  @Html.DisplayFor(modelItem => item.mail)</div>
+                        </td>
+                        <td>
+
+                            <div class="font-medium whitespace-no-wrap">  @Html.DisplayFor(modelItem => item.username)</div>
+                        </td>
+
+
+
+                        <td class="table-report__action w-56">
+                            <div class="flex justify-center items-center">
+                               
+                                <a href="@Url.Action("editSuperviseur","Admin",new { id = item.id })"  class="  button inline-block flex items-center mr-3"><i data-feather="edit" class="w-4 h-4 mr-1"></i> Modifier</a>
+
+
+
+
+
+
+                                <a class="flex items-center text-theme-6" href="javascript:;" id="deletemodal" data-id="@item.id" data-toggle="modal" data-target="#delete-confirmation-modal"> <i data-feather="trash-2" class="w-4 h-4 mr-1"></i> Supprimer </a>
+                            </div>
+                        </td>
+                    </tr>
+                    }
+            </tbody>
+        </table>
+    </div>
+
+    <!-- END: Data List -->
+</div>
+
+
+<!-- BEGIN: Delete Confirmation Modal -->
+<div class="modal" id="delete-confirmation-modal">
+    <div class="modal__content">
+        <div class="p-5 text-center">
+            <i data-feather="x-circle" class="w-16 h-16 text-theme-6 mx-auto mt-3"></i>
+            <div class="text-3xl mt-5">Êtes-vous sûr?</div>
+            <div class="text-gray-600 mt-2">Voulez-vous vraiment supprimer ce client? Ce processus ne peut pas être annulé.</div>
+        </div>
+        <div class="px-5 pb-8 text-center">
+            <form action="@Url.Action("deleteSuperviseur","Admin" )">
+                <button type="button" data-dismiss="modal" class="button w-24 border text-gray-700 mr-1">Annuler</button>
+
+                <input type="hidden" name="id" value="" id="deleteid" />
+                <button type="submit" class="button w-24 bg-theme-6 text-white">Supprimer</button>
+            </form>
+
+        </div>
+    </div>
+</div>
+<!-- END: Delete Confirmation Modal -->
+
+<script>
+    $("#deletemodal").on("click", function () {
+        var id = $(this).data('id');
+        console.log(id);
+        document.getElementById("deleteid").value = id;
+
+        // As pointed out in comments,
+        // it is unnecessary to have to manually call the modal.
+        // $('#addBookDialog').modal('show');
+    });
+
+</script>

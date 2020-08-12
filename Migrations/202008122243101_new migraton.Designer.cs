@@ -7,13 +7,13 @@ namespace PFE_reclamation.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.4.4")]
-    public sealed partial class reclam_nullable_fields : IMigrationMetadata
+    public sealed partial class newmigraton : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(reclam_nullable_fields));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(newmigraton));
         
         string IMigrationMetadata.Id
         {
-            get { return "202008091639062_reclam_nullable_fields"; }
+            get { return "202008122243101_new migraton"; }
         }
         
         string IMigrationMetadata.Source

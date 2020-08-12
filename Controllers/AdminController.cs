@@ -97,6 +97,8 @@ namespace PFE_reclamation.Controllers {
             if (pass.Equals(cpass) && !String.IsNullOrEmpty(pass) && !string.IsNullOrWhiteSpace(pass)) {
                 Admin _admin = db.Admins.Find(id);
                 _admin.password = authservice.HashPassword(pass);
+                db.Entry(_admin).State = EntityState.Modified;
+                db.SaveChanges();
                 TempData["msg"] = "Mot de passe a été modifié";
                 } else {
                 TempData["error"] = "les mots de passe ne correspondent pas";
@@ -438,6 +440,12 @@ namespace PFE_reclamation.Controllers {
             {
                 return HttpNotFound();
             }
+            if (TempData["passerr"] != null) {
+                ViewBag.passerr = TempData["error"];
+                }
+            if (TempData["msg"] != null) {
+                ViewBag.passmsg = TempData["msg"];
+                }
             return View(_rs);
         }
 
@@ -458,6 +466,24 @@ namespace PFE_reclamation.Controllers {
             }
             return View(_rs);
         }
+
+
+
+        public ActionResult passwordchangesuperv(string pass, string cpass, int id) {
+            if(pass.Equals(cpass) && !string.IsNullOrEmpty(pass) && !string.IsNullOrWhiteSpace(cpass)) {
+                
+                    Superviseur _superv = db.Superviseurs.Find(id);
+                    _superv.password = authservice.HashPassword(pass);
+                    db.Entry(_superv).State =EntityState.Modified;
+                    db.SaveChanges();
+                TempData["msg"] = "Mot de passe a été modifié";
+                } else {
+                TempData["passerr"] = "Erreur est survenu réessayer";
+                }
+            return RedirectToAction("editSuperviseur", new { id = id });
+            }
+
+
         //---------------Agents------------------------------
 
         // créer un agent

@@ -41,13 +41,13 @@
                 </a>
                 <ul class="">
                     <li>
-                        <a href="@Url.Action("newClient","RRC")" class="menu">
+                        <a href="@Url.Action("newAgent","RD")" class="menu">
                             <div class="menu__icon"> <i data-feather="user-plus"></i> </div>
                             <div class="menu__title"> Ajouter un client</div>
                         </a>
                     </li>
                     <li>
-                        <a href="@Url.Action("clients","RRC")" class="menu">
+                        <a href="@Url.Action("agents","RD")" class="menu">
                             <div class="menu__icon"> <i data-feather="list"></i> </div>
                             <div class="menu__title">Liste clients </div>
                         </a>
@@ -63,13 +63,13 @@
                 </a>
                 <ul class="">
                     <li>
-                        <a href="@Url.Action("reclams","RRC")" class="menu">
+                        <a href="@Url.Action("reclams","RD")" class="menu">
                             <div class="menu__icon"> <i data-feather="list"></i> </div>
                             <div class="menu__title"> Reclamations </div>
                         </a>
                     </li>
                     <li>
-                        <a href="@Url.Action("treatedreclams","RRC")" class="menu">
+                        <a href="@Url.Action("treatedreclams","RD")" class="menu">
                             <div class="menu__icon"> <i data-feather="align-justify"></i> </div>
                             <div class="menu__title"> Reclamations traité </div>
                         </a>
@@ -93,7 +93,7 @@
 
 
             <li>
-                <a href="@Url.Action("profile","RRC")" class="menu">
+                <a href="@Url.Action("profile","RD")" class="menu">
                     <div class="menu__icon"> <i data-feather="user"></i> </div>
                     <div class="menu__title"> Profile </div>
                 </a>
@@ -130,13 +130,13 @@
                     </a>
                     <ul class="">
                         <li>
-                            <a href="@Url.Action("newClient","RRC")" class="side-menu">
+                            <a href="@Url.Action("newAgent","RD")" class="side-menu">
                                 <div class="side-menu__icon"> <i data-feather="user-plus"></i> </div>
                                 <div class="side-menu__title"> Ajouter un client</div>
                             </a>
                         </li>
                         <li>
-                            <a href="@Url.Action("clients","RRC")" class="side-menu">
+                            <a href="@Url.Action("agents","RD")" class="side-menu">
                                 <div class="side-menu__icon"> <i data-feather="list"></i> </div>
                                 <div class="side-menu__title">Liste clients </div>
                             </a>
@@ -154,13 +154,13 @@
                     <ul class="">
 
                         <li>
-                            <a href="@Url.Action("reclams","RRC")" class="side-menu">
+                            <a href="@Url.Action("reclams","RD")" class="side-menu">
                                 <div class="side-menu__icon"> <i data-feather="list"></i> </div>
                                 <div class="side-menu__title"> Reclamations </div>
                             </a>
                         </li>
                         <li>
-                            <a href="@Url.Action("treatedreclams","RRC")" class="side-menu">
+                            <a href="@Url.Action("treatedreclams","RD")" class="side-menu">
                                 <div class="side-menu__icon"> <i data-feather="align-justify"></i> </div>
                                 <div class="side-menu__title"> Reclamations traité </div>
                             </a>
@@ -181,7 +181,7 @@
 
 
                 <li>
-                    <a href="@Url.Action("profile","RRC")" class="side-menu">
+                    <a href="@Url.Action("profile","RD")" class="side-menu">
                         <div class="side-menu__icon"> <i data-feather="user"></i> </div>
                         <div class="side-menu__title"> Profile </div>
                     </a>
@@ -218,7 +218,7 @@
                                 <div class="text-xs text-theme-41 dark:text-gray-600"> @claimsIdentity.FindFirst(x => x.Type == System.Security.Claims.ClaimTypes.Role).Value</div>
                             </div>
                             <div class="p-2">
-                                <a href="@Url.Action("profile","RRC")" class="flex items-center block p-2 transition duration-300 ease-in-out hover:bg-theme-1 dark:hover:bg-dark-3 rounded-md"> <i data-feather="user" class="w-4 h-4 mr-2"></i> Profile </a>
+                                <a href="@Url.Action("profile","RD")" class="flex items-center block p-2 transition duration-300 ease-in-out hover:bg-theme-1 dark:hover:bg-dark-3 rounded-md"> <i data-feather="user" class="w-4 h-4 mr-2"></i> Profile </a>
                             </div>
                             <div class="p-2 border-t border-theme-40 dark:border-dark-3">
                                 <a href="@Url.Action("logout","Users")" class="flex items-center block p-2 transition duration-300 ease-in-out hover:bg-theme-1 dark:hover:bg-dark-3 rounded-md"> <i data-feather="toggle-right" class="w-4 h-4 mr-2"></i> Logout </a>

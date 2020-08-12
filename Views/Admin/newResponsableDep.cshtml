@@ -78,7 +78,7 @@
                     </div>  
                     <div class="mt-3">
                         <label>Date affecté</label>
-                        @Html.EditorFor(model => model.date_aff, new { htmlAttributes = new { @class = "input w-full border mt-2 datepicker" } })
+                        @Html.EditorFor(model => model.date_aff, new { htmlAttributes = new { @class = "input w-full border mt-2 " } })
                         @Html.ValidationMessageFor(model => model.date_aff, "", new { @class = "text-theme-6 mt-2" })
                     </div>
                 </div>
