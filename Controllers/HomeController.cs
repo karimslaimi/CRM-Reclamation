@@ -70,11 +70,12 @@ namespace PFE_reclamation.Controllers
             //_ad.nom = "slaimi";
             //_ad.prenom = "karim";
             //_ad.tel = "25415633";
-            //_ad.username = "karimrrc";
-            //_ad.cin = "11654521";
-            //_ad.password = authservice.HashPassword("karim123");
-
-            //db.Responsable_Relation_Clients.Add(_ad);
+            //_ad.username = "ghassen";
+            //_ad.cin = "11654555";
+            //_ad.password = authservice.HashPassword("ghassen123");
+            //_ad.date_aff = DateTime.Today;
+            //_ad.departement = db.Departements.Find(1);
+            //db.Responsable_Departements.Add(_ad);
             //db.SaveChanges();
 
 

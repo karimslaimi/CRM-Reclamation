@@ -4,6 +4,7 @@ using PFE_reclamation.Security;
 using PFE_reclamation.Services;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data.Entity;
 using System.Globalization;
 using System.Linq;
@@ -314,23 +315,19 @@ namespace PFE_reclamation.Controllers {
         [HttpGet]
         public ActionResult newResponsableDep()
         {
-
-
+            List<Departement> dp = db.Departements.ToList();
+            ViewBag.list = dp;
             return View();
         }
 
 
         [HttpPost]
-        public ActionResult newResponsableDep(Responsable_departement responsable,string cpass, int iddep)
+        public ActionResult newResponsableDep(Responsable_departement responsable,string cpass,string select)
         {
 
             if (responsable.password.Equals(cpass))
-            {
-                responsable.departement = db.Departements.Find(iddep);
-                var errorList = ModelState.ToDictionary(
-                     kvp => kvp.Key,
-                  kvp => kvp.Value.Errors.Select(e => e.ErrorMessage).ToArray()
-                    );
+            {  int id = Int32.Parse(select);
+               responsable.departement = db.Departements.Find(id);
                 ModelState.Remove("departement");
                 if (ModelState.IsValid)
             {
@@ -347,6 +344,9 @@ namespace PFE_reclamation.Controllers {
         } else {
                 ViewBag.passerr = "vérifier les mots de passe";
                 }
+
+            List<Departement> dp = db.Departements.ToList();
+            ViewBag.list = dp;
             return View(responsable);
         }
 
