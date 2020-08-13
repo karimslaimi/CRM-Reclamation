@@ -65,36 +65,38 @@ namespace PFE_reclamation.Controllers
         {
             ///this action to persist data without haveing to type in form
             //Authentication authservice = new Authentication();
-            //Responsable_relation_client _ad = new Responsable_relation_client();
-            //_ad.mail = "karimrrc@gmail.com";
-            //_ad.nom = "slaimi";
-            //_ad.prenom = "karim";
+            //Responsable_departement _ad = new Responsable_departement();
+            //_ad.id = 5;
+            //_ad.mail = "ghassen@gmail.com";
+            //_ad.nom = "sami";
+            //_ad.prenom = "sami";
             //_ad.tel = "25415633";
-            //_ad.username = "karimrrc";
-            //_ad.cin = "11654521";
-            //_ad.password = authservice.HashPassword("karim123");
-
-            //db.Responsable_Relation_Clients.Add(_ad);
+            //_ad.username = "ghassen";
+            //_ad.cin = "11654555";
+            //_ad.password = authservice.HashPassword("ghassen123");
+            //_ad.date_aff = DateTime.Today;
+            //_ad.departement = db.Departements.Find(1);
+            //db.Responsable_Departements.Add(_ad);
             //db.SaveChanges();
 
 
 
-            Departement _dep = new Departement();
-            _dep.label = "Financiére";
-            db.Departements.Add(_dep); 
-            Departement _dep1 = new Departement();
-            _dep.label = "Voiture";
-            db.Departements.Add(_dep1); 
-            Departement _dep2 = new Departement();
-            _dep.label = "Immobillier";
-            List<Departement> lsdep = new List<Departement>();
-            lsdep.Add(_dep);
-            lsdep.Add(_dep1);
-            lsdep.Add(_dep2);
+            //Departement _dep = new Departement();
+            //_dep.label = "Financiére";
+            //db.Departements.Add(_dep); 
+            //Departement _dep1 = new Departement();
+            //_dep.label = "Voiture";
+            //db.Departements.Add(_dep1); 
+            //Departement _dep2 = new Departement();
+            //_dep.label = "Immobillier";
+            //List<Departement> lsdep = new List<Departement>();
+            //lsdep.Add(_dep);
+            //lsdep.Add(_dep1);
+            //lsdep.Add(_dep2);
 
-            db.Departements.AddRange(lsdep);
+            //db.Departements.AddRange(lsdep);
 
-             db.SaveChanges();
+            // db.SaveChanges();
 
 
 
