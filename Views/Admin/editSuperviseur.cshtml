@@ -108,7 +108,7 @@
                 @Html.AntiForgeryToken()
                 @Html.ValidationSummary(true, "", new { @class = "text-theme-6" })
                 @Html.HiddenFor(model => model.id)
-                <input type="hidden" value="@Model.id" />
+                <input type="hidden" name="id" value="@Model.id" />
 
                 <div class="p-5">
                     <div class="grid grid-cols-12 gap-5">

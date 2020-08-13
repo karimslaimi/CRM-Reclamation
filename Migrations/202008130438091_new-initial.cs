@@ -3,7 +3,7 @@
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class newmigraton : DbMigration
+    public partial class newinitial : DbMigration
     {
         public override void Up()
         {
@@ -28,6 +28,7 @@
                     {
                         id = c.Int(nullable: false, identity: true),
                         label = c.String(),
+                        ResponsableId = c.Int(),
                     })
                 .PrimaryKey(t => t.id);
             

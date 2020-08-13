@@ -7,13 +7,13 @@ namespace PFE_reclamation.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.4.4")]
-    public sealed partial class newmigraton : IMigrationMetadata
+    public sealed partial class idnull : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(newmigraton));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(idnull));
         
         string IMigrationMetadata.Id
         {
-            get { return "202008122243101_new migraton"; }
+            get { return "202008130448331_idnull"; }
         }
         
         string IMigrationMetadata.Source

@@ -1,4 +1,5 @@
 ﻿using PFE_reclamation.Models;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
 
 namespace PFE_reclamation.DAL
@@ -12,8 +13,12 @@ namespace PFE_reclamation.DAL
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<User>()
+             .Property(p => p.id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+             
 
-            
+
+
 
 
             }

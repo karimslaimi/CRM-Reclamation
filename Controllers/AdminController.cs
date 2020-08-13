@@ -160,6 +160,12 @@ namespace PFE_reclamation.Controllers {
             if (_client == null) {
                 return HttpNotFound();
                 }
+            if (TempData["passerr"] != null) {
+                ViewBag.passerr = TempData["error"];
+                }
+            if (TempData["msg"] != null) {
+                ViewBag.passmsg = TempData["msg"];
+                }
             return View(_client);
             }
 
@@ -178,6 +184,23 @@ namespace PFE_reclamation.Controllers {
                 }
             return View(_client);
             }
+
+
+
+        public ActionResult passwordchangeclient(string pass, string cpass, int id) {
+            if (pass.Equals(cpass) && !string.IsNullOrEmpty(pass) && !string.IsNullOrWhiteSpace(cpass)) {
+
+                Client _client = db.Clients.Find(id);
+                _client.password = authservice.HashPassword(pass);
+                db.Entry(_client).State = EntityState.Modified;
+                db.SaveChanges();
+                TempData["msg"] = "Mot de passe a été modifié";
+                } else {
+                TempData["passerr"] = "Erreur est survenu réessayer";
+                }
+            return RedirectToAction("Editc", new { id = id });
+            }
+
 
         // GET: Users/Delete/5
         public ActionResult Deletec(int? id) {
@@ -263,6 +286,16 @@ namespace PFE_reclamation.Controllers {
             return View(_reclamas);
             }
 
+        public ActionResult traite_reclams() {
+            IList<Reclamation> _reclams = db.Reclamations.Where(x => x.etat == Etat.Finis).ToList();
+            return View(_reclams);
+            } 
+        public ActionResult encours_reclams() {
+            IList<Reclamation> _reclams = db.Reclamations.Where(x => x.etat == Etat.En_cours).ToList();
+            return View(_reclams);
+            }
+
+
         //aadd another method for treated reclams and another for ongoing reclams
 
 
@@ -281,15 +314,24 @@ namespace PFE_reclamation.Controllers {
         [HttpGet]
         public ActionResult newResponsableDep()
         {
+
+
             return View();
         }
 
 
         [HttpPost]
-        public ActionResult newResponsableDep(Responsable_departement responsable,string cpass)
+        public ActionResult newResponsableDep(Responsable_departement responsable,string cpass, int iddep)
         {
+
             if (responsable.password.Equals(cpass))
             {
+                responsable.departement = db.Departements.Find(iddep);
+                var errorList = ModelState.ToDictionary(
+                     kvp => kvp.Key,
+                  kvp => kvp.Value.Errors.Select(e => e.ErrorMessage).ToArray()
+                    );
+                ModelState.Remove("departement");
                 if (ModelState.IsValid)
             {
                 Authentication authservice = new Authentication();

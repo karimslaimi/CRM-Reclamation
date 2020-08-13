@@ -237,9 +237,13 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202008122243101_new migraton.cs" />
-    <Compile Include="Migrations\202008122243101_new migraton.designer.cs">
-      <DependentUpon>202008122243101_new migraton.cs</DependentUpon>
+    <Compile Include="Migrations\202008130438091_new-initial.cs" />
+    <Compile Include="Migrations\202008130438091_new-initial.designer.cs">
+      <DependentUpon>202008130438091_new-initial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202008130448331_idnull.cs" />
+    <Compile Include="Migrations\202008130448331_idnull.designer.cs">
+      <DependentUpon>202008130448331_idnull.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Admin.cs" />
@@ -412,6 +416,8 @@
     <Content Include="Views\RD\reclams.cshtml" />
     <Content Include="Views\Admin\agents.cshtml" />
     <Content Include="Views\Admin\responsables.cshtml" />
+    <Content Include="Views\Admin\traite_reclams.cshtml" />
+    <Content Include="Views\Admin\encours_reclams.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -430,12 +436,15 @@
     <Content Include="Scripts\jquery-3.4.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202008122243101_new migraton.resx">
-      <DependentUpon>202008122243101_new migraton.cs</DependentUpon>
-    </EmbeddedResource>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+    <EmbeddedResource Include="Migrations\202008130438091_new-initial.resx">
+      <DependentUpon>202008130438091_new-initial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202008130448331_idnull.resx">
+      <DependentUpon>202008130448331_idnull.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

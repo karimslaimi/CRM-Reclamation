@@ -6,12 +6,13 @@ using System.Web;
 
 namespace PFE_reclamation.Models
 {
-    public class Departement
-    {
+    public class Departement {
         [Key]
         public int id { get; set; }
         public string label { get; set; }
-        public virtual Responsable_departement Responsable_Departement { get; set; }
+
+        public int? ResponsableId { get; set; }
+        public virtual Responsable_departement Responsable {get;set;}
         public virtual ICollection<Reclamation> Reclamations { get; set; }
     }
 }
