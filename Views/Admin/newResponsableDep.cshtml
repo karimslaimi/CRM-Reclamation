@@ -54,13 +54,11 @@
 
                     <div class="mt-3">
                         <label>Département</label>
-                        @{ PFE_reclamation.DAL.DatabContext db = new PFE_reclamation.DAL.DatabContext();
-                            List<PFE_reclamation.Models.Departement> deps = db.Departements.ToList();
-                                }
-                         <select name="iddep" data-hide-search="true" class="select2 w-full   mt-2" required>
+                      
+                         <select name="select" data-hide-search="true" class="select2 w-full   mt-2" required>
 
-                            <option value="">selectionner un département</option>
-                            @foreach (var dep in  deps) {
+                            <option value="0">selectionner un département</option>
+                            @foreach (var dep in  (List<PFE_reclamation.Models.Departement>)ViewBag.list) {
                                 <option value="@dep.id">@dep.label</option>
 
                                 }

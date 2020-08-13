@@ -327,8 +327,9 @@ namespace PFE_reclamation.Controllers {
 
             if (responsable.password.Equals(cpass))
             {  int id = Int32.Parse(select);
-               responsable.departement = db.Departements.Find(id);
-                ModelState.Remove("departement");
+               if (id!=0)
+                 responsable.departement = db.Departements.Find(id);
+            
                 if (ModelState.IsValid)
             {
                 Authentication authservice = new Authentication();
