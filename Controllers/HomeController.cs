@@ -65,11 +65,11 @@ namespace PFE_reclamation.Controllers
         {
             ///this action to persist data without haveing to type in form
             Authentication authservice = new Authentication();
-          
 
-             
-            Admin _admin = new Admin { cin = "11445566", mail = "admin@gmail.com", nom = "adminos", prenom = "admin", tel = "51447788", username = "admin", password = authservice.HashPassword("karim123") };
-            db.Admins.Add(_admin);
+
+
+            //Admin _admin = new Admin { cin = "11445566", mail = "admin@gmail.com", nom = "adminos", prenom = "admin", tel = "51447788", username = "admin", password = authservice.HashPassword("karim123") };
+            //db.Admins.Add(_admin);
 
             //Responsable_departement _ad = new Responsable_departement();
             //_ad.mail = "karimrd@gmail.com";
@@ -82,34 +82,34 @@ namespace PFE_reclamation.Controllers
             //_ad.date_aff = DateTime.Today;
             //_ad.departement = db.Departements.Find(1);
             //db.Responsable_Departements.Add(_ad);
-           // db.SaveChanges();
-           // IList<Client> _clients = new List<Client>();
+            // db.SaveChanges();
+            // IList<Client> _clients = new List<Client>();
 
-           // _clients.Add(new Client() { cin = "11335566", mail = "karimc@gmail.com", nom = "client", prenom = "karim", tel = "51667788", username = "karimc", password = authservice.HashPassword("karim123") });
-           // _clients.Add(new Client() { cin = "11225566", mail = "monjic@gmail.com", nom = "client", prenom = "monji", tel = "51777788", username = "monjic", password = authservice.HashPassword("karim123") });
+            // _clients.Add(new Client() { cin = "11335566", mail = "karimc@gmail.com", nom = "client", prenom = "karim", tel = "51667788", username = "karimc", password = authservice.HashPassword("karim123") });
+            // _clients.Add(new Client() { cin = "11225566", mail = "monjic@gmail.com", nom = "client", prenom = "monji", tel = "51777788", username = "monjic", password = authservice.HashPassword("karim123") });
 
-           // db.Clients.AddRange(_clients);
+            // db.Clients.AddRange(_clients);
 
-           // db.SaveChanges();
-           // IList<Departement> _deps = new List<Departement>();
-           // db.Departements.Add(new Departement() { label = "Financiére" });
-           // db.SaveChanges();
-           // db.Departements.Add(new Departement() { label = "Immobilier" });
-           // db.SaveChanges();
-           // db.Departements.Add(new Departement() { label = "Automobile" });
-           //// db.Departements.AddRange(_deps);
-           // db.SaveChanges();
-
-            Departement dep = db.Departements.Find(1);
-
-            Responsable_departement _rd = new Responsable_departement() { cin = "15487963", mail = "karimrd@gmail.com", nom = "rd", prenom = "karim", tel = "51676788", username = "karimrd", password = authservice.HashPassword("karim123"), departement =dep , date_aff = DateTime.Now };
-             
-            db.Responsable_Departements.Add(_rd);
-           
-            dep.responsable = _rd;
-             db.Entry(dep).State = EntityState.Modified;
-         
+            // db.SaveChanges();
+            // IList<Departement> _deps = new List<Departement>();
+            //db.Departements.Add(new Departement() { label = "Financiére" });
+            //db.SaveChanges();
+            // db.Departements.Add(new Departement() { label = "Immobilier" });
+            // db.SaveChanges();
+            db.Departements.Add(new Departement() { label = "Immobillier" });
+            // db.Departements.AddRange(_deps);
             db.SaveChanges();
+
+            Departement dp = db.Departements.Find(1);
+
+            Responsable_departement _rd = new Responsable_departement() { cin = "15487963", mail = "karimrd@gmail.com", nom = "rd", prenom = "karim", departementId=dp.id ,tel = "51676788", username = "karimrd", password = authservice.HashPassword("karim123"), date_aff = DateTime.Now };
+
+            db.Responsable_Departements.Add(_rd);
+            db.SaveChanges();
+            //dep.responsable = _rd;
+            // db.Entry(dep).State = EntityState.Modified;
+
+            //db.SaveChanges();
 
 
 

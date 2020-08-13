@@ -3,7 +3,7 @@
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class initial : DbMigration
+    public partial class mssss : DbMigration
     {
         public override void Up()
         {
@@ -28,7 +28,6 @@
                     {
                         id = c.Int(nullable: false, identity: true),
                         label = c.String(),
-                        responsableId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.id);
             
@@ -141,7 +140,7 @@
                     })
                 .PrimaryKey(t => t.id)
                 .ForeignKey("dbo.Users", t => t.id)
-                .ForeignKey("dbo.Departements", t => t.id)
+                .ForeignKey("dbo.Departements", t => t.id, cascadeDelete: true)
                 .Index(t => t.id);
             
             CreateTable(

@@ -14,11 +14,6 @@ namespace PFE_reclamation.Models {
         public int id { get; set; }
         public string label { get; set; }
 
-        [ForeignKey("responsable")]
-        public int responsableId { get; set; }
-
-
-        public virtual Responsable_departement responsable { get; set; }
 
         public virtual ICollection<Reclamation> Reclamations { get; set; }
         }

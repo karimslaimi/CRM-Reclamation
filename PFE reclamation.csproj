@@ -237,9 +237,17 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202008130718482_initial.cs" />
-    <Compile Include="Migrations\202008130718482_initial.designer.cs">
-      <DependentUpon>202008130718482_initial.cs</DependentUpon>
+    <Compile Include="Migrations\202008130856408_mssss.cs" />
+    <Compile Include="Migrations\202008130856408_mssss.designer.cs">
+      <DependentUpon>202008130856408_mssss.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202008130913178_msssss.cs" />
+    <Compile Include="Migrations\202008130913178_msssss.designer.cs">
+      <DependentUpon>202008130913178_msssss.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202008130924012_mtt.cs" />
+    <Compile Include="Migrations\202008130924012_mtt.designer.cs">
+      <DependentUpon>202008130924012_mtt.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Admin.cs" />
@@ -435,8 +443,14 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202008130718482_initial.resx">
-      <DependentUpon>202008130718482_initial.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202008130856408_mssss.resx">
+      <DependentUpon>202008130856408_mssss.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202008130913178_msssss.resx">
+      <DependentUpon>202008130913178_msssss.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202008130924012_mtt.resx">
+      <DependentUpon>202008130924012_mtt.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

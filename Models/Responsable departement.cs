@@ -10,9 +10,12 @@ namespace PFE_reclamation.Models
     [Table("Responsable_departement")]
     public class Responsable_departement :User
     {
+        [Index(IsUnique = true)]
+        [ForeignKey("departement")]
+        public int departementId { get; set; }
 
 
-        public virtual  Departement departement { get; set; }
+        public virtual Departement departement { get; set; }
 
 
         [DataType(DataType.Date)]
