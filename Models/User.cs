@@ -10,6 +10,8 @@ namespace PFE_reclamation.Models
     public class User
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+
         public int id { get; set; }
         public string nom { get; set; }
         public string prenom { get; set; }

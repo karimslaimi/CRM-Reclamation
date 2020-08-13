@@ -7,13 +7,13 @@ namespace PFE_reclamation.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.4.4")]
-    public sealed partial class idnull : IMigrationMetadata
+    public sealed partial class initial : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(idnull));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(initial));
         
         string IMigrationMetadata.Id
         {
-            get { return "202008130448331_idnull"; }
+            get { return "202008130718482_initial"; }
         }
         
         string IMigrationMetadata.Source

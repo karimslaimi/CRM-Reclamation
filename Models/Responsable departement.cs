@@ -10,14 +10,8 @@ namespace PFE_reclamation.Models
     [Table("Responsable_departement")]
     public class Responsable_departement :User
     {
-   
 
 
-       
-
-
-       
-        [Required]
         public virtual  Departement departement { get; set; }
 
 

@@ -237,13 +237,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202008130438091_new-initial.cs" />
-    <Compile Include="Migrations\202008130438091_new-initial.designer.cs">
-      <DependentUpon>202008130438091_new-initial.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202008130448331_idnull.cs" />
-    <Compile Include="Migrations\202008130448331_idnull.designer.cs">
-      <DependentUpon>202008130448331_idnull.cs</DependentUpon>
+    <Compile Include="Migrations\202008130718482_initial.cs" />
+    <Compile Include="Migrations\202008130718482_initial.designer.cs">
+      <DependentUpon>202008130718482_initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Admin.cs" />
@@ -439,11 +435,8 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202008130438091_new-initial.resx">
-      <DependentUpon>202008130438091_new-initial.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202008130448331_idnull.resx">
-      <DependentUpon>202008130448331_idnull.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202008130718482_initial.resx">
+      <DependentUpon>202008130718482_initial.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

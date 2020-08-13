@@ -3,7 +3,7 @@
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class newinitial : DbMigration
+    public partial class initial : DbMigration
     {
         public override void Up()
         {
@@ -11,7 +11,7 @@
                 "dbo.Users",
                 c => new
                     {
-                        id = c.Int(nullable: false),
+                        id = c.Int(nullable: false, identity: true),
                         nom = c.String(),
                         prenom = c.String(),
                         cin = c.String(),
@@ -28,7 +28,7 @@
                     {
                         id = c.Int(nullable: false, identity: true),
                         label = c.String(),
-                        ResponsableId = c.Int(),
+                        responsableId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.id);
             
