@@ -171,6 +171,27 @@ namespace PFE_reclamation.Controllers
             return View(_client);
             }
 
+
+
+
+        public ActionResult clientpasswordchange(string pass, string cpass, int id) {
+
+            if (pass.Equals(cpass) && !String.IsNullOrEmpty(pass) && !string.IsNullOrWhiteSpace(pass)) {
+                Client _client = db.Clients.Find(id);
+                _client.password = authservice.HashPassword(pass);
+                TempData["msg"] = "Mot de passe a été modifié";
+                } else {
+                TempData["error"] = "les mots de passe ne correspondent pas";
+                return Redirect("profile");
+                }
+
+
+
+            return RedirectToAction("Editc",new { id=id});
+            }
+
+
+
         // GET: Users/Delete/5
         public ActionResult Deletec(int? id) {
             if (id == null) {

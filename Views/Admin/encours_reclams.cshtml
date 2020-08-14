@@ -100,7 +100,7 @@
 
                                     <div class="font-medium whitespace-no-wrap">
                                         @if (recl.Departement != null) {
-                                            Html.DisplayFor(modelItem => recl.Departement.label);
+                                            @Html.DisplayFor(modelItem => recl.Departement.label);
                                             } else {
                                             @Html.Raw("en cours")
                                             }
@@ -190,13 +190,13 @@
 
 
                     <div class="mt-4 text-gray-600"><span id="recdescr"></span> </div>
-                </div>
-                <div class="text-center lg:text-right p-5 border-t border-gray-200 dark:border-dark-5">
+                </div>  
+                    <div class="text-center lg:text-right p-5 border-t border-gray-200 dark:border-dark-5">
+                 
 
 
-
-                    <a data-dismiss="modal" href="javascript:;" class="button button--sm text-gray-700 border border-gray-300 dark:border-dark-5 dark:text-gray-300">Fermer</a>
-                </div>
+                        <a data-dismiss="modal" href="javascript:;" class="button button--sm text-gray-700 border border-gray-300 dark:border-dark-5 dark:text-gray-300">Fermer</a>
+                    </div> 
             </div>
         </div>
     </div>
@@ -211,7 +211,7 @@
 
 
 
-        document.getElementById("modclid").value = id;
+     
         document.getElementById("clname").textContent = name;
         document.getElementById("clcin").textContent = cin;
 
@@ -222,6 +222,7 @@
         document.getElementById("rectype").textContent = type;
         document.getElementById("recdescr").textContent = descr;
 
+     
 
 
 
