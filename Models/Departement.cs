@@ -11,7 +11,7 @@ namespace PFE_reclamation.Models {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
 
-        public int id { get; set; }
+        public int id { get; set; } 
         public string label { get; set; }
 
 
