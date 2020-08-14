@@ -5,90 +5,13 @@
     Layout = "~/Views/Shared/Back.cshtml";
 }
 
-<h2>agents</h2>
-
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.nom)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.prenom)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.cin)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.tel)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.mail)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.username)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.password)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.date_aff)
-        </th>
-        <th></th>
-    </tr>
-
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.nom)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.prenom)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.cin)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.tel)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.mail)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.username)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.password)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.date_aff)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.id }) |
-                @Html.ActionLink("Details", "Details", new { id = item.id }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.id })
-            </td>
-        </tr>
-    }
-
-</table>
-
-
 
 <div class=" ">
     <div class="intro-y col-span-12 flex flex-wrap sm:flex-no-wrap items-center mt-2">
-        <a href="@Url.Action("newClient","Admin")" class="button text-white bg-theme-1 shadow-md mr-2">Ajouter un client</a>
+        <a href="@Url.Action("newAgent","Admin")" class="button text-white bg-theme-1 shadow-md mr-2">Ajouter un Agent</a>
 
         <div class="hidden md:block mx-auto text-gray-600"> </div>
-        <div class="w-full sm:w-auto mt-3 sm:mt-0 sm:ml-auto md:ml-0">
-            <div class="w-56 relative text-gray-700 dark:text-gray-300">
-                <input type="text" class="input w-56 box pr-10 placeholder-theme-13" placeholder="Search...">
-                <i class="w-4 h-4 absolute my-auto inset-y-0 mr-3 right-0" data-feather="search"></i>
-            </div>
-        </div>
+
     </div>
 
     <!-- BEGIN: Datatable -->
@@ -157,14 +80,10 @@
 
                         <td class="table-report__action w-56">
                             <div class="flex justify-center items-center">
-                                @{
-                                    string fullname = "\"" + item.nom + " " + item.prenom + "\"";
-                                }
-                                <a href="javascript:;" onclick="manage(@item.id,@fullname)" id="managemodal" data-id="@item.id" data-name="@item.nom" data-toggle="modal" data-target="#button-modal-maange" class="dropdown-toggle button inline-block flex items-center mr-3"><i data-feather="check-square" class="w-4 h-4 mr-1"></i> Gérer</a>
 
 
 
-
+                                <a href="@Url.Action("editAgent","Admin",new { id=item.id})" class="flex items-center text-gray-600"><i data-feather="edit" class="w-4 h-4 mr-1"></i>Modifier</a>
 
 
                                 <a class="flex items-center text-theme-6" href="javascript:;" id="deletemodal" data-id="@item.id" data-toggle="modal" data-target="#delete-confirmation-modal"> <i data-feather="trash-2" class="w-4 h-4 mr-1"></i> Supprimer </a>
@@ -189,41 +108,20 @@
             <div class="text-gray-600 mt-2">Voulez-vous vraiment supprimer ce client? Ce processus ne peut pas être annulé.</div>
         </div>
         <div class="px-5 pb-8 text-center">
-            <form action="@Url.Action("Deletec","Admin" )">
+            @using (Html.BeginForm("deleteAgent", "Admin"))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true, "", new { @class = "text-theme-6" })
+
                 <button type="button" data-dismiss="modal" class="button w-24 border text-gray-700 mr-1">Annuler</button>
 
-                <input type="hidden" name="id" value="" id="deleteid" />
+                <input type="hidden" name="id" id="deleteid" />
                 <button type="submit" class="button w-24 bg-theme-6 text-white">Supprimer</button>
-            </form>
-
-        </div>
+            }
+            </div>
     </div>
 </div>
 <!-- END: Delete Confirmation Modal -->
-<!-- begin Manage client modal -->
-
-<div class="modal" id="button-modal-maange">
-    <div class="modal__content relative">
-        <a data-dismiss="modal" href="javascript:;" class="absolute right-0 top-0 mt-3 mr-3"> <i data-feather="x" class="w-8 h-8 text-gray-500"></i> </a>
-        <div class="p-5 text-center">
-
-            <div class="text-2xl mt-5">Gérer fiches client </div>
-            <div class="text-gray-600 mt-2"><span id="clientname"></span> </div>
-
-        </div>
-        <div class="px-5 pb-8 text-center">
-            <a id="contratbtn" href="" class="button w-24 shadow-md mr-1 mb-2 bg-gray-200 text-gray-600">Contrats</a>
-            <a id="reclambtn" href="" class="button w-25 shadow-md mr-1 mb-2 bg-gray-200 text-gray-600">Réclamations</a>
-            <a id="profilebtn" href="" class="button w-24 shadow-md mr-1 mb-2 bg-gray-200 text-gray-600">Profile</a>
-
-        </div>
-    </div>
-</div>
-
-<!--end manage client modalt-->
-
-
-
 
 <script>
     $("#deletemodal").on("click", function () {
@@ -238,27 +136,3 @@
 
 </script>
 
-<script>
-
-
-    function manage(id,name) {
-
-
-        console.log(name);
-        document.getElementById("clientname").textContent = name;
-        document.getElementById("contratbtn").setAttribute("href", "/Admin/clientContrat/" + id);
-        document.getElementById("reclambtn").setAttribute("href", "/Admin/clientReclam/" + id);
-        document.getElementById("profilebtn").setAttribute("href", "/Admin/Editc/" + id);
-
-    }
-</script>
-<script>
-    function activeLink() {
-        var element = document.getElementById("dashlink");
-        element.classList.remove("side-menu--active")
-        var element1 = document.getElementById("clientlink");
-        element1.classList.add("side-menu--active")
-    }
-
-    window.onload = activeLink;
-</script>

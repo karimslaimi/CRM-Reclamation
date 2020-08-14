@@ -328,16 +328,21 @@ namespace PFE_reclamation.Controllers {
             if (responsable.password.Equals(cpass))
             {  int id = Int32.Parse(select);
                if (id!=0)
-                 responsable.departement = db.Departements.Find(id);
+                 responsable.departementId = id;
             
                 if (ModelState.IsValid)
             {
                 Authentication authservice = new Authentication();
                 responsable.password = authservice.HashPassword(responsable.password);
                 db.Responsable_Departements.Add(responsable);
-                db.SaveChanges();
-                return RedirectToAction("responsables");
-            }
+                    try
+                    {
+                        db.SaveChanges();
+                        return RedirectToAction("responsables");
+                    }catch(Exception ee)
+                    { ViewBag.error = "Ce département à déja un responsable"; }
+
+                    }
             else
             {
                 ViewBag.error = "vérifier les données saisi";
@@ -533,14 +538,21 @@ namespace PFE_reclamation.Controllers {
         [HttpGet]
         public ActionResult newAgent()
         {
+            List<Departement> dp = db.Departements.ToList();
+            ViewBag.list = dp;
             return View();
         }
         [HttpPost]
-        public ActionResult newAgent(Agent agent,string cpass)
+        public ActionResult newAgent(Agent agent,string cpass,string select)
         {
+         
 
-            if (agent.password.Equals(cpass)) { 
-            if (ModelState.IsValid)
+            if (agent.password.Equals(cpass)) {
+                int id = Int32.Parse(select);
+                if (id != 0)
+                    agent.departement = db.Departements.Find(id);
+
+                if (ModelState.IsValid)
             {
                 Authentication authservice = new Authentication();
                 agent.password = authservice.HashPassword(agent.password);
@@ -555,6 +567,9 @@ namespace PFE_reclamation.Controllers {
         } else {
                 ViewBag.passerr = "vérifier les mots de passe";
                 }
+
+            List<Departement> dp = db.Departements.ToList();
+            ViewBag.list = dp;
             return View(agent);
         }
 
@@ -568,7 +583,9 @@ namespace PFE_reclamation.Controllers {
         }
 
         // supprimer un agent
-        public ActionResult deleteAgent(int id)
+
+        [ValidateAntiForgeryToken]
+        public ActionResult deleteAgent(string id)
         {
     
             Agent rs = db.Agents.Find(id);
