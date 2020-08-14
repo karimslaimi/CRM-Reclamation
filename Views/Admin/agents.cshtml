@@ -86,7 +86,7 @@
                                 <a href="@Url.Action("editAgent","Admin",new { id=item.id})" class="flex items-center text-gray-600"><i data-feather="edit" class="w-4 h-4 mr-1"></i>Modifier</a>
 
 
-                                <a class="flex items-center text-theme-6" href="javascript:;" id="deletemodal" data-id="@item.id" data-toggle="modal" data-target="#delete-confirmation-modal"> <i data-feather="trash-2" class="w-4 h-4 mr-1"></i> Supprimer </a>
+                                <a class="flex items-center text-theme-6" href="javascript:;" onclick="deleteagent(@item.id)" id="deletemodal" data-id="@item.id" data-toggle="modal" data-target="#delete-confirmation-modal"> <i data-feather="trash-2" class="w-4 h-4 mr-1"></i> Supprimer </a>
                             </div>
                         </td>
                     </tr>
@@ -115,7 +115,7 @@
 
                 <button type="button" data-dismiss="modal" class="button w-24 border text-gray-700 mr-1">Annuler</button>
 
-                <input type="hidden" name="id" id="deleteid" />
+                <input type="hidden" name="id" value="" id="deleteid" />
                 <button type="submit" class="button w-24 bg-theme-6 text-white">Supprimer</button>
             }
             </div>
@@ -124,15 +124,10 @@
 <!-- END: Delete Confirmation Modal -->
 
 <script>
-    $("#deletemodal").on("click", function () {
-        var id = $(this).data('id');
-        console.log(id);
+    function deleteagent(id) {
         document.getElementById("deleteid").value = id;
-
-        // As pointed out in comments,
-        // it is unnecessary to have to manually call the modal.
-        // $('#addBookDialog').modal('show');
-    });
+    }
+       
 
 </script>
 

@@ -420,6 +420,25 @@ namespace PFE_reclamation.Controllers {
             return View(rs);
         }
 
+        public ActionResult passwordchangerd(string pass, string cpass, int id)
+        {
+            if (pass.Equals(cpass) && !string.IsNullOrEmpty(pass) && !string.IsNullOrWhiteSpace(cpass))
+            {
+
+                Responsable_departement _rd = db.Responsable_Departements.Find(id);
+                _rd.password = authservice.HashPassword(pass);
+                db.Entry(_rd).State = EntityState.Modified;
+                db.SaveChanges();
+                TempData["msg"] = "Mot de passe a été modifié";
+            }
+            else
+            {
+                TempData["passerr"] = "Erreur est survenu réessayer";
+            }
+            return RedirectToAction("editResponsableDep", new { id = id });
+        }
+
+
         //------------------------superviseur-----------------------------
 
         // créer un superviseur
@@ -588,7 +607,7 @@ namespace PFE_reclamation.Controllers {
         // supprimer un agent
 
         [ValidateAntiForgeryToken]
-        public ActionResult deleteAgent(string id)
+        public ActionResult deleteAgent(int id)
         {
     
             Agent rs = db.Agents.Find(id);
@@ -637,6 +656,24 @@ namespace PFE_reclamation.Controllers {
                 return RedirectToAction("agents");
             }
             return View(_rs);
+        }
+
+        public ActionResult passwordchangeagent(string pass, string cpass, int id)
+        {
+            if (pass.Equals(cpass) && !string.IsNullOrEmpty(pass) && !string.IsNullOrWhiteSpace(cpass))
+            {
+
+                Agent _agent = db.Agents.Find(id);
+                _agent.password = authservice.HashPassword(pass);
+                db.Entry(_agent).State = EntityState.Modified;
+                db.SaveChanges();
+                TempData["msg"] = "Mot de passe a été modifié";
+            }
+            else
+            {
+                TempData["passerr"] = "Erreur est survenu réessayer";
+            }
+            return RedirectToAction("editAgent", new { id = id });
         }
         //----------------------------rrc----------------------------
 
@@ -733,6 +770,26 @@ namespace PFE_reclamation.Controllers {
             }
             return View(_rs);
         }
+
+        public ActionResult passwordchangerrc(string pass, string cpass, int id)
+        {
+            if (pass.Equals(cpass) && !string.IsNullOrEmpty(pass) && !string.IsNullOrWhiteSpace(cpass))
+            {
+
+                Responsable_relation_client _rrc = db.Responsable_Relation_Clients.Find(id);
+                _rrc.password = authservice.HashPassword(pass);
+                db.Entry(_rrc).State = EntityState.Modified;
+                db.SaveChanges();
+                TempData["msg"] = "Mot de passe a été modifié";
+            }
+            else
+            {
+                TempData["passerr"] = "Erreur est survenu réessayer";
+            }
+            return RedirectToAction("editRRC", new { id = id });
+        }
+
+
 
     }
 }
