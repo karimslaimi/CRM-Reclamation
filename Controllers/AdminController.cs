@@ -211,6 +211,9 @@ namespace PFE_reclamation.Controllers {
             Client _client = db.Clients.Find(id);
             if (_client == null) {
                 return HttpNotFound();
+                } else {
+                db.Clients.Remove(_client);
+                db.SaveChanges();
                 }
             return Redirect("clients");
             }

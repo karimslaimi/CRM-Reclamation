@@ -95,7 +95,7 @@
 
 
 
-                                    <a class="flex items-center text-theme-6" href="javascript:;" id="deletemodal" data-id="@item.id" data-toggle="modal" data-target="#delete-confirmation-modal"> <i data-feather="trash-2" class="w-4 h-4 mr-1"></i> Supprimer </a>
+                                    <a class="flex items-center text-theme-6" href="javascript:;" onclick="deleteclient(@item.id)" id="deletemodal" data-id="@item.id" data-toggle="modal" data-target="#delete-confirmation-modal"> <i data-feather="trash-2" class="w-4 h-4 mr-1"></i> Supprimer </a>
                                 </div>
                             </td>
                         </tr>
@@ -158,16 +158,11 @@
 
 
 <script>
-    $("#deletemodal").on("click", function () {
-        var id = $(this).data('id');
-        console.log(id);
+    
+
+    function deleteclient(id){
         document.getElementById("deleteid").value = id;
-
-        // As pointed out in comments,
-        // it is unnecessary to have to manually call the modal.
-        // $('#addBookDialog').modal('show');
-    });
-
+    }
 </script>
 
 <script>
