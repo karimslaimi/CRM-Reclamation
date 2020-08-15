@@ -105,7 +105,7 @@
 
                                     <div class="font-medium whitespace-no-wrap">
                                         @if (recl.Departement != null) {
-                                            Html.DisplayFor(modelItem => recl.Departement.label);
+                                            @Html.DisplayFor(modelItem => recl.Departement.label);
                                             } else {
                                             @Html.Raw("en cours")
                                             }
@@ -115,7 +115,7 @@
                                     @if (recl.etat == PFE_reclamation.Models.Etat.Nouveau) {
                                         <div class="flex text-theme-6"> <i data-feather="check-square" class="w-4 h-4 mr-2"></i> Nouveau </div>
                                         } else if (recl.etat == PFE_reclamation.Models.Etat.En_cours) {
-                                        <div class="flex  text-theme-9"> <i data-feather="fa fa-spinner" class="w-4 h-4 mr-2"></i> En cours </div>
+                                        <div class="flex  text-theme-9"> <i data-loading-icon="three-dots" class="w-4 h-4 mr-2"></i> En cours </div>
                                         } else {
                                         <div class="flex   text-gray-600"> <i data-feather="check-square" class="w-4 h-4 mr-2"></i> Finis</div>
                                         }
@@ -145,10 +145,11 @@
                                                
                                                
                                                href="javascript:;"> <i data-feather="settings" class="w-4 h-4 mr-1"></i> Modifier </a>
+                                            }
                                             <a class="flex  items-center text-theme-6" href="javascript:;"
                                                id="deletemodal" data-id="@recl.id" data-toggle="modal" data-target="#delete-confirmation-modal"> <i data-feather="trash-2" class="w-4 h-4 mr-1"></i> Supprimer </a>
 
-                                            }
+                                           
                                     </div>
                                 </td>
                             </tr>
@@ -276,7 +277,7 @@
       
         // $("#enum_select").val(2).change();
         //$('#enum_select').text(type).trigger("change");
-        var value = $('#enum_select option').filter(function () { return $(this).html() == type; }).prop('selected', true);;
+        var value = document.getElementById('enum_select option').filter(function () { return $(this).html() == type; }).prop('selected', true);;
 
       
         document.getElementById("recid").value = id;
