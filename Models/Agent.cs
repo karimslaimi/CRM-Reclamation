@@ -10,7 +10,8 @@ namespace PFE_reclamation.Models
 
     [Table("Agent")]
     public class Agent :User
-    {
+    {[ForeignKey("departement")]
+        public int departementId { get; set; }
         public virtual Departement departement { get; set; }
 
         //collection of treated claims

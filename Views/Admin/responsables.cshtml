@@ -38,6 +38,9 @@
                     <th class=" whitespace-no-wrap">
                         Nom d'utilisateur'
                     </th>
+                    <th class=" whitespace-no-wrap">
+                        Département
+                    </th>
                     <th class="text-center whitespace-no-wrap">
                         Actions
                     </th>
@@ -48,47 +51,50 @@
             <tbody>
                 @foreach (var item in Model) {
 
-                    <tr class="intro-x">
+                <tr class="intro-x">
 
-                        <td>
+                    <td>
 
-                            <div class="font-medium whitespace-no-wrap">  @Html.DisplayFor(modelItem => item.nom)</div>
-                        </td>
-                        <td>
+                        <div class="font-medium whitespace-no-wrap">  @Html.DisplayFor(modelItem => item.nom)</div>
+                    </td>
+                    <td>
 
-                            <div class="font-medium whitespace-no-wrap">  @Html.DisplayFor(modelItem => item.prenom)</div>
-                        </td>
-                        <td>
+                        <div class="font-medium whitespace-no-wrap">  @Html.DisplayFor(modelItem => item.prenom)</div>
+                    </td>
+                    <td>
 
-                            <div class="font-medium whitespace-no-wrap">  @Html.DisplayFor(modelItem => item.cin)</div>
-                        </td>
-                        <td>
+                        <div class="font-medium whitespace-no-wrap">  @Html.DisplayFor(modelItem => item.cin)</div>
+                    </td>
+                    <td>
 
-                            <div class="font-medium whitespace-no-wrap">  @Html.DisplayFor(modelItem => item.tel)</div>
-                        </td>
-                        <td>
+                        <div class="font-medium whitespace-no-wrap">  @Html.DisplayFor(modelItem => item.tel)</div>
+                    </td>
+                    <td>
 
-                            <div class="font-medium whitespace-no-wrap">  @Html.DisplayFor(modelItem => item.mail)</div>
-                        </td>
-                        <td>
+                        <div class="font-medium whitespace-no-wrap">  @Html.DisplayFor(modelItem => item.mail)</div>
+                    </td>
+                    <td>
 
-                            <div class="font-medium whitespace-no-wrap">  @Html.DisplayFor(modelItem => item.username)</div>
-                        </td>
+                        <div class="font-medium whitespace-no-wrap">  @Html.DisplayFor(modelItem => item.username)</div>
+                    </td>
+                    <td>
 
-
-
-                        <td class="table-report__action w-56">
-                            <div class="flex justify-center items-center">
-
+                        <div class="font-medium whitespace-no-wrap" style="color:green">  @Html.DisplayFor(modelItem => item.departement.label)</div>
+                    </td>
 
 
-                                <a href="@Url.Action("editResponsableDep","Admin",new { id=item.id})" class="flex items-center text-gray-600"><i data-feather="edit" class="w-4 h-4 mr-1"></i>Modifier</a>
+                    <td class="table-report__action w-56">
+                        <div class="flex justify-center items-center">
 
 
-                                <a class="flex items-center text-theme-6" href="javascript:;" onclick="deleteresponsable(@item.id)" id="deletemodal" data-id="@item.id" data-toggle="modal" data-target="#delete-confirmation-modal"> <i data-feather="trash-2" class="w-4 h-4 mr-1"></i> Supprimer </a>
-                            </div>
-                        </td>
-                    </tr>
+
+                            <a href="@Url.Action("editResponsableDep","Admin",new { id=item.id})" class="flex items-center text-gray-600"><i data-feather="edit" class="w-4 h-4 mr-1"></i>Modifier</a>
+
+
+                            <a class="flex items-center text-theme-6" href="javascript:;" onclick="deleteresponsable(@item.id)" id="deletemodal" data-id="@item.id" data-toggle="modal" data-target="#delete-confirmation-modal"> <i data-feather="trash-2" class="w-4 h-4 mr-1"></i> Supprimer </a>
+                        </div>
+                    </td>
+                </tr>
                     }
             </tbody>
         </table>

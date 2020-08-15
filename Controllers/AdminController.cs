@@ -508,9 +508,9 @@ namespace PFE_reclamation.Controllers {
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Superviseur _rs = db.Superviseurs.Find(id);
+            Superviseur _rs = db.Superviseurs.AsNoTracking().FirstOrDefault(x => x.id == id);
             if (_rs == null)
-            {
+             {
                 return HttpNotFound();
             }
             if (TempData["passerr"] != null) {
@@ -528,7 +528,8 @@ namespace PFE_reclamation.Controllers {
         [ValidateAntiForgeryToken]
         public ActionResult editSuperviseur(Superviseur _rs)
         {
-            _rs.password = db.Superviseurs.Find(_rs.id).password;
+            Superviseur sr = db.Superviseurs.AsNoTracking().FirstOrDefault(x => x.id == _rs.id);
+            _rs.password = sr.password;
 
 
             if (ModelState.IsValid)
@@ -635,7 +636,8 @@ namespace PFE_reclamation.Controllers {
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-           Agent _rs = db.Agents.Find(id);
+
+           Agent _rs = db.Agents.AsNoTracking().FirstOrDefault(x => x.id == id);
             if (_rs == null)
             {
                 return HttpNotFound();
@@ -649,7 +651,9 @@ namespace PFE_reclamation.Controllers {
         [ValidateAntiForgeryToken]
         public ActionResult editAgent(Agent _rs)
         {
-            _rs.password = db.Agents.Find(_rs.id).password;
+            Agent _rd = db.Agents.AsNoTracking().FirstOrDefault(x => x.id == _rs.id);
+
+            _rs.password = _rd.password;
 
 
             if (ModelState.IsValid)
@@ -749,7 +753,8 @@ namespace PFE_reclamation.Controllers {
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Responsable_relation_client _rs = db.Responsable_Relation_Clients.Find(id);
+
+            Responsable_relation_client _rs = db.Responsable_Relation_Clients.AsNoTracking().FirstOrDefault(x => x.id == id);
             if (_rs == null)
             {
                 return HttpNotFound();
@@ -763,13 +768,16 @@ namespace PFE_reclamation.Controllers {
         [ValidateAntiForgeryToken]
         public ActionResult editRRC(Responsable_relation_client _rs)
         {
-            _rs.password = db.Responsable_Relation_Clients.Find(_rs.id).password;
+
+            Responsable_relation_client _rrc = db.Responsable_Relation_Clients.AsNoTracking().FirstOrDefault(x => x.id == _rs.id);
+            _rs.password = _rrc.password;
 
             if (ModelState.IsValid)
             {
                 db.Entry(_rs).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("RRCs");
+
             }
             return View(_rs);
         }
