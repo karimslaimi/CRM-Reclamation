@@ -387,7 +387,7 @@ namespace PFE_reclamation.Controllers {
             {
                 db.Entry(_rs).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("responsables");
+                return RedirectToAction("responsables");                      
             }
             return View(_rs);
         }
