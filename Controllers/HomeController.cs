@@ -66,11 +66,9 @@ namespace PFE_reclamation.Controllers
             ///this action to persist data without haveing to type in form
             //Authentication authservice = new Authentication();
 
-
-
-            //Admin _admin = new Admin { cin = "11445566", mail = "admin@gmail.com", nom = "adminos", prenom = "admin", tel = "51447788", username = "admin", password = authservice.HashPassword("karim123") };
-            //db.Admins.Add(_admin);
-
+            Admin _admin = new Admin { cin = "11445566", mail = "admin@gmail.com", nom = "adminos", prenom = "admin", tel = "51447788", username = "admin", password = authservice.HashPassword("admin123") };
+            db.Admins.Add(_admin);
+            db.SaveChanges();
             ////Responsable_departement _ad = new Responsable_departement();
             ////_ad.mail = "karimrd@gmail.com";
             ////_ad.nom = "slaimi";
