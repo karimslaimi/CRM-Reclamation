@@ -366,7 +366,7 @@ namespace PFE_reclamation.Controllers {
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Responsable_departement _rs = db.Responsable_Departements.Find(id);
+            Responsable_departement _rs = db.Responsable_Departements.AsNoTracking().FirstOrDefault(x=>x.id==id);
             if (_rs == null)
             {
                 return HttpNotFound();
@@ -380,12 +380,15 @@ namespace PFE_reclamation.Controllers {
         [ValidateAntiForgeryToken]
         public ActionResult editResponsableDep(Responsable_departement _rs)
         {
-            _rs.password = db.Responsable_Departements.Find(_rs.id).password;
 
+            Responsable_departement rd=db.Responsable_Departements.AsNoTracking().FirstOrDefault(x=>x.id==_rs.id) ;
+            _rs.password = rd.password;
+            
 
             if (ModelState.IsValid)
             {
                 db.Entry(_rs).State = EntityState.Modified;
+               
                 db.SaveChanges();
                 return RedirectToAction("responsables");
             }
