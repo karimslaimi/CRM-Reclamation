@@ -1,5 +1,6 @@
 ﻿using PFE_reclamation.DAL;
 using PFE_reclamation.Models;
+using PFE_reclamation.Security;
 using PFE_reclamation.Services;
 using System;
 using System.Collections.Generic;
@@ -11,6 +12,7 @@ using System.Web.Mvc;
 
 namespace PFE_reclamation.Controllers
 {
+    [CustomAuthorize("CLIENT")]
     public class ClientController : Controller {
 
         DatabContext db = new DatabContext();

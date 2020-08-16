@@ -7,105 +7,105 @@
 
 
 
-    <div class=" ">
-        <div class="intro-y col-span-12 flex flex-wrap sm:flex-no-wrap items-center mt-2">
-            <a href="@Url.Action("newClient","Admin")" class="button text-white bg-theme-1 shadow-md mr-2">Ajouter un client</a>
+<div class=" ">
+    <div class="intro-y col-span-12 flex flex-wrap sm:flex-no-wrap items-center mt-2">
+        <a href="@Url.Action("newClient","Admin")" class="button text-white bg-theme-1 shadow-md mr-2">Ajouter un client</a>
 
-            <div class="hidden md:block mx-auto text-gray-600"> </div>
-            <div class="w-full sm:w-auto mt-3 sm:mt-0 sm:ml-auto md:ml-0">
-                <div class="w-56 relative text-gray-700 dark:text-gray-300">
-                    <input type="text" class="input w-56 box pr-10 placeholder-theme-13" placeholder="Search...">
-                    <i class="w-4 h-4 absolute my-auto inset-y-0 mr-3 right-0" data-feather="search"></i>
-                </div>
+        <div class="hidden md:block mx-auto text-gray-600"> </div>
+        <div class="w-full sm:w-auto mt-3 sm:mt-0 sm:ml-auto md:ml-0">
+            <div class="w-56 relative text-gray-700 dark:text-gray-300">
+                <input type="text" class="input w-56 box pr-10 placeholder-theme-13" placeholder="Search...">
+                <i class="w-4 h-4 absolute my-auto inset-y-0 mr-3 right-0" data-feather="search"></i>
             </div>
         </div>
-
-        <!-- BEGIN: Datatable -->
-        <div class="intro-y datatable-wrapper box p-5 mt-5">
-            <table class="table table-report table-report--bordered display datatable w-full">
-                <thead>
-                    <tr>
-                        <th class="border-b-2 text-center whitespace-no-wrap sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 80px;" aria-label="Nom: activer pour trier colonne croissanbt">
-                            NOM
-                        </th>
-                        <th class=" whitespace-no-wrap">
-
-                            Prenom
-                        </th>
-                        <th class=" whitespace-no-wrap">
-                            CIN
-                        </th>
-                        <th class=" whitespace-no-wrap">
-                            Num. Tel.
-                        </th>
-                        <th class="whitespace-no-wrap">
-                            Adresse mail
-                        </th>
-                        <th class=" whitespace-no-wrap">
-                            Nom d'utilisateur'
-                        </th>
-                        <th class="text-center whitespace-no-wrap">
-                            Actions
-                        </th>
-                         
-
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var item in Model) {
-
-                        <tr class="intro-x">
-
-                            <td>
-
-                                <div class="font-medium whitespace-no-wrap">  @Html.DisplayFor(modelItem => item.nom)</div>
-                            </td>
-                            <td>
-
-                                <div class="font-medium whitespace-no-wrap">  @Html.DisplayFor(modelItem => item.prenom)</div>
-                            </td>
-                            <td>
-
-                                <div class="font-medium whitespace-no-wrap">  @Html.DisplayFor(modelItem => item.cin)</div>
-                            </td>
-                            <td>
-
-                                <div class="font-medium whitespace-no-wrap">  @Html.DisplayFor(modelItem => item.tel)</div>
-                            </td>
-                            <td>
-
-                                <div class="font-medium whitespace-no-wrap">  @Html.DisplayFor(modelItem => item.mail)</div>
-                            </td>
-                            <td>
-
-                                <div class="font-medium whitespace-no-wrap">  @Html.DisplayFor(modelItem => item.username)</div>
-                            </td>
-
-
-
-                            <td class="table-report__action w-56">
-                                <div class="flex justify-center items-center">
-                                    @{ 
-                                        string fullname = "\""+item.nom + " " + item.prenom+"\"";
-                                    }
-                                    <a href="javascript:;"  onclick="manage(@item.id,@fullname)"   id="managemodal" data-id="@item.id" data-name="@item.nom" data-toggle="modal" data-target="#button-modal-maange" class="dropdown-toggle button inline-block flex items-center mr-3"><i data-feather="check-square" class="w-4 h-4 mr-1"></i> Gérer</a>
-
-
-                                  
-
-
-
-                                    <a class="flex items-center text-theme-6" href="javascript:;" onclick="deleteclient(@item.id)" id="deletemodal" data-id="@item.id" data-toggle="modal" data-target="#delete-confirmation-modal"> <i data-feather="trash-2" class="w-4 h-4 mr-1"></i> Supprimer </a>
-                                </div>
-                            </td>
-                        </tr>
-                        }
-                </tbody>
-            </table>
-        </div>
-
-        <!-- END: Data List -->
     </div>
+
+    <!-- BEGIN: Datatable -->
+    <div class="intro-y datatable-wrapper box p-5 mt-5">
+        <table class="table table-report table-report--bordered display datatable w-full">
+            <thead>
+                <tr>
+                    <th class="border-b-2 text-center whitespace-no-wrap sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 80px;" aria-label="Nom: activer pour trier colonne croissanbt">
+                        NOM
+                    </th>
+                    <th class=" whitespace-no-wrap">
+
+                        Prenom
+                    </th>
+                    <th class=" whitespace-no-wrap">
+                        CIN
+                    </th>
+                    <th class=" whitespace-no-wrap">
+                        Num. Tel.
+                    </th>
+                    <th class="whitespace-no-wrap">
+                        Adresse mail
+                    </th>
+                    <th class=" whitespace-no-wrap">
+                        Nom d'utilisateur'
+                    </th>
+                    <th class="text-center whitespace-no-wrap">
+                        Actions
+                    </th>
+
+
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model) {
+
+                    <tr class="intro-x">
+
+                        <td>
+
+                            <div class="font-medium whitespace-no-wrap">  @Html.DisplayFor(modelItem => item.nom)</div>
+                        </td>
+                        <td>
+
+                            <div class="font-medium whitespace-no-wrap">  @Html.DisplayFor(modelItem => item.prenom)</div>
+                        </td>
+                        <td>
+
+                            <div class="font-medium whitespace-no-wrap">  @Html.DisplayFor(modelItem => item.cin)</div>
+                        </td>
+                        <td>
+
+                            <div class="font-medium whitespace-no-wrap">  @Html.DisplayFor(modelItem => item.tel)</div>
+                        </td>
+                        <td>
+
+                            <div class="font-medium whitespace-no-wrap">  @Html.DisplayFor(modelItem => item.mail)</div>
+                        </td>
+                        <td>
+
+                            <div class="font-medium whitespace-no-wrap">  @Html.DisplayFor(modelItem => item.username)</div>
+                        </td>
+
+
+
+                        <td class="table-report__action w-56">
+                            <div class="flex justify-center items-center">
+                                @{
+                                    string fullname = "\"" + item.nom + " " + item.prenom + "\"";
+                                }
+                                <a href="javascript:;" onclick="manage(@item.id,@fullname)" id="managemodal" data-id="@item.id" data-name="@item.nom" data-toggle="modal" data-target="#button-modal-maange" class="dropdown-toggle button inline-block flex items-center mr-3"><i data-feather="check-square" class="w-4 h-4 mr-1"></i> Gérer</a>
+
+
+
+
+
+
+                                <a class="flex items-center text-theme-6" href="javascript:;" onclick="deleteclient(@item.id)" id="deletemodal" data-id="@item.id" data-toggle="modal" data-target="#delete-confirmation-modal"> <i data-feather="trash-2" class="w-4 h-4 mr-1"></i> Supprimer </a>
+                            </div>
+                        </td>
+                    </tr>
+                    }
+            </tbody>
+        </table>
+    </div>
+
+    <!-- END: Data List -->
+</div>
 
 
 <!-- BEGIN: Delete Confirmation Modal -->
@@ -128,10 +128,6 @@
     </div>
 </div>
 <!-- END: Delete Confirmation Modal -->
-
-
-
-
 <!-- begin Manage client modal -->
 
 <div class="modal" id="button-modal-maange">
@@ -144,10 +140,10 @@
 
         </div>
         <div class="px-5 pb-8 text-center">
-            <a id="contratbtn" href=""   class="button w-24 shadow-md mr-1 mb-2 bg-gray-200 text-gray-600">Contrats</a>
+            <a id="contratbtn" href="" class="button w-24 shadow-md mr-1 mb-2 bg-gray-200 text-gray-600">Contrats</a>
             <a id="reclambtn" href="" class="button w-25 shadow-md mr-1 mb-2 bg-gray-200 text-gray-600">Réclamations</a>
-            <a id="profilebtn" href=""   class="button w-24 shadow-md mr-1 mb-2 bg-gray-200 text-gray-600">Profile</a>
-            
+            <a id="profilebtn" href="" class="button w-24 shadow-md mr-1 mb-2 bg-gray-200 text-gray-600">Profile</a>
+
         </div>
     </div>
 </div>
@@ -158,18 +154,18 @@
 
 
 <script>
-    
 
-    function deleteclient(id){
+
+    function deleteclient(id) {
         document.getElementById("deleteid").value = id;
     }
 </script>
 
 <script>
-   
 
-    function manage(id,name) {
-      
+
+    function manage(id, name) {
+
 
         console.log(name);
         document.getElementById("clientname").textContent = name;
@@ -179,13 +175,18 @@
 
     }
 </script>
-<script>
-    function activeLink() {
-        var element = document.getElementById("dashlink");
-        element.classList.remove("side-menu--active")
-        var element1 = document.getElementById("clientlink");
-        element1.classList.add("side-menu--active")
-    }
 
-    window.onload = activeLink;
+ 
+<script>
+   
+    window.onload = function () {
+
+        var dashlink = this.document.getElementById("dashlink");
+        var clientlink = this.document.getElementById("clientlink");
+      
+        dashlink.classList.remove("side-menu--active");
+        clientlink.classList.add("side-menu--active");
+
+       
+    };
 </script>

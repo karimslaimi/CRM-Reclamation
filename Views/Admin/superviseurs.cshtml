@@ -81,7 +81,7 @@
                         <td class="table-report__action w-56">
                             <div class="flex justify-center items-center">
                                
-                                <a href="@Url.Action("editSuperviseur","Admin",new { id = item.id })"  class="  button inline-block flex items-center mr-3"><i data-feather="edit" class="w-4 h-4 mr-1"></i> Modifier</a>
+                                <a href="@Url.Action("editSuperviseur","Admin",new { id = item.id })"  class="  button inline-block flex items-center mr-3 text-gray-600"><i data-feather="edit" class="w-4 h-4 mr-1"></i> Modifier</a>
 
 
 
@@ -127,4 +127,19 @@
         document.getElementById("deleteid").value = id;
     }
 
+</script>
+
+
+<script>
+
+    window.onload = function () {
+
+        var dashlink = this.document.getElementById("dashlink");
+        var superv = this.document.getElementById("superv");
+
+        dashlink.classList.remove("side-menu--active");
+        superv.classList.add("side-menu--active");
+
+
+    };
 </script>

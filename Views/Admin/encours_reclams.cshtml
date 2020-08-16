@@ -110,7 +110,7 @@
                                     @if (recl.etat == PFE_reclamation.Models.Etat.Nouveau) {
                                         <div class="flex text-theme-6"> <i data-feather="check-square" class="w-4 h-4 mr-2"></i> Nouveau </div>
                                         } else if (recl.etat == PFE_reclamation.Models.Etat.En_cours) {
-                                        <div class="flex  text-theme-9"> <i data-feather="check-square" class="w-4 h-4 mr-2"></i> En cours </div>
+                                        <div class="flex  text-theme-9"> <i data-loading-icon="spinning-circles" class="w-4 h-4 mr-2"></i> En cours </div>
                                         } else {
                                         <div class="flex   text-gray-600"> <i data-feather="check-square" class="w-4 h-4 mr-2"></i> Finis</div>
                                         }
@@ -138,7 +138,7 @@
 
 
 
-                                            <a class="flex button  items-center button--sm text-white bg-theme-1" href="javascript:;" onclick="Afficher(@recl.id,@titre,@descr,@type,@etat,@cin,@name,@date)"
+                                            <a class="flex items-center text-gray-600" href="javascript:;" onclick="Afficher(@recl.id,@titre,@descr,@type,@etat,@cin,@name,@date)"
                                                data-toggle="modal" data-target="#Recl-confirmation-modal"> <i data-feather="check-square" class="w-4 h-4 mr-1"></i> Afficher </a>
 
                                         }
@@ -228,4 +228,20 @@
 
 
     }
+</script>
+
+
+
+<script>
+
+    window.onload = function () {
+
+        var dashlink = this.document.getElementById("dashlink");
+        var reclamlink = this.document.getElementById("reclamlink");
+
+        dashlink.classList.remove("side-menu--active");
+        reclamlink.classList.add("side-menu--active");
+
+
+    };
 </script>
