@@ -147,7 +147,9 @@ namespace PFE_reclamation.Controllers
         public ActionResult deletereclam(int id) {
             
             Reclamation _reclam=db.Reclamations.Find(id);
-            if (_reclam != null) {
+            //check if the id isn't null and chech is he is the owner of the reclam
+            if (_reclam != null && _reclam.Client.id==int.Parse(ClaimsPrincipal.Current.Claims.FirstOrDefault(x=>x.Type=="id").Value)) {
+
 
             db.Reclamations.Remove(_reclam);
                 db.SaveChanges();
@@ -156,9 +158,14 @@ namespace PFE_reclamation.Controllers
             }
 
         public ActionResult EditR(int recid,string titre, string descr, int Type) {
-            // i will finish it later
+            
 
             Reclamation oldreclam = db.Reclamations.Find(recid);
+
+            //check if his the owner of the claim
+            if(oldreclam.Client.id == int.Parse(ClaimsPrincipal.Current.Claims.FirstOrDefault(x => x.Type == "id").Value)) {
+
+               
             if (!oldreclam.titre.Equals(titre) && !string.IsNullOrEmpty(titre) && !string.IsNullOrWhiteSpace(titre)) {
                 oldreclam.titre = titre;
                 }
@@ -171,7 +178,7 @@ namespace PFE_reclamation.Controllers
             db.Entry(oldreclam).State = EntityState.Modified;
             db.SaveChanges();
              
-
+             }
 
 
 
@@ -183,6 +190,15 @@ namespace PFE_reclamation.Controllers
             int idc = int.Parse(ClaimsPrincipal.Current.Claims.FirstOrDefault(x => x.Type == "id").Value);
               return View(db.Reclamations.Where(x => x.etat == Etat.Finis && x.Client.id == idc).ToList());
             
+            }
+
+
+        public ActionResult myContracts() {
+
+            int id = int.Parse(ClaimsPrincipal.Current.Claims.FirstOrDefault(x => x.Type == "id").Value);
+            List<Contrat> _contrat = db.Contrats.Where(x => x.Client.id == id).ToList();
+            return View(_contrat);
+
             }
 
 

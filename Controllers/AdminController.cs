@@ -30,8 +30,13 @@ namespace PFE_reclamation.Controllers {
 
         public ActionResult Index() {
 
+            List<Reclamation> _reclams = db.Reclamations.ToList();
 
 
+            ViewBag.traitereclam = _reclams.Where(x => x.etat == Etat.Finis).Count();
+            ViewBag.encourreclam = _reclams.Where(x => x.etat == Etat.En_cours).Count();
+            ViewBag.nbreclam = _reclams.Count();
+            ViewBag.clnb = db.Clients.Count();
 
             return View();
             }

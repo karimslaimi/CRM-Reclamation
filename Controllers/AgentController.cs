@@ -21,6 +21,9 @@ namespace PFE_reclamation.Controllers {
         // GET: Agent
         public ActionResult Index()
         {
+
+
+
             return View();
         }
 

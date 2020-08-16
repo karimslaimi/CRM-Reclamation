@@ -430,6 +430,7 @@
     <Content Include="Views\Admin\responsables.cshtml" />
     <Content Include="Views\Admin\traite_reclams.cshtml" />
     <Content Include="Views\Admin\encours_reclams.cshtml" />
+    <Content Include="Views\Client\myContracts.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

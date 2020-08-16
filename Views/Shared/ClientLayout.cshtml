@@ -503,7 +503,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="javascript:;" class="side-menu clientlink" id="clientlink">
+                    <a href="javascript:;" class="side-menu clientlink" id="reclamlink">
                         <div class="side-menu__icon"> <i data-feather="alert-triangle"></i> </div>
                         <div class="side-menu__title"> Reclamations <i data-feather="chevron-down" class="side-menu__sub-icon"></i> </div>
                     </a>
@@ -532,7 +532,13 @@
 
 
                 <li>
-                    <a href="side-menu-chat.html" class="side-menu">
+                    <a href="@Url.Action("myContracts","Client")" class="side-menu" id="contratlink">
+                        <div class="side-menu__icon"> <i data-feather="clipboard"></i> </div>
+                        <div class="side-menu__title"> Mes Contrats </div>
+                    </a>
+                </li>   
+                <li>
+                    <a href="side-menu-chat.html" class="side-menu" id="chatlink">
                         <div class="side-menu__icon"> <i data-feather="message-square"></i> </div>
                         <div class="side-menu__title"> Chat </div>
                     </a>
@@ -540,7 +546,7 @@
 
                 <li class="side-nav__devider my-6"></li>
                 <li>
-                    <a href="@Url.Action("profile","Client")" class="side-menu">
+                    <a href="@Url.Action("profile","Client")" class="side-menu" id="profilelink">
                         <div class="side-menu__icon"> <i data-feather="user"></i> </div>
                         <div class="side-menu__title"> Profile </div>
                     </a>
