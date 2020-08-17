@@ -12,6 +12,10 @@ using System.Net;
 using System.Security.Claims;
 using System.Web;
 using System.Web.Mvc;
+using iTextSharp.text;
+using iTextSharp.text.pdf;
+using iTextSharp.tool.xml;
+using System.IO;
 
 namespace PFE_reclamation.Controllers {
     [CustomAuthorize("ADMIN")]
@@ -810,6 +814,20 @@ namespace PFE_reclamation.Controllers {
         }
 
 
+        public ActionResult testPDF()
+        {
+
+            // Render any HTML fragment or document to HTML
+            var Renderer = new IronPdf.HtmlToPdf();
+            var PDF = Renderer.RenderHtmlAsPdf("<h1>Hello IronPdf</h1>");
+            var OutputPath = "D://HtmlToPDF.pdf";
+            PDF.SaveAs(OutputPath);
+            // This neat trick opens our PDF file so we can see the result in our default PDF viewer
+            System.Diagnostics.Process.Start(OutputPath);
+
+
+            return null;
+        }
 
     }
 }
