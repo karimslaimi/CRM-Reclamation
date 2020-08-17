@@ -1,10 +1,12 @@
-﻿using PFE_reclamation.DAL;
+﻿
+using PFE_reclamation.DAL;
 using PFE_reclamation.Models;
 using PFE_reclamation.Security;
 using PFE_reclamation.Services;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Security.Claims;
 using System.Web;
@@ -173,6 +175,7 @@ namespace PFE_reclamation.Controllers
 
             }
 
+     
 
 
     }
