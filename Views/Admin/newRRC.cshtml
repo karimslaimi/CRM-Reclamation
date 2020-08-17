@@ -102,12 +102,15 @@
 </div>
 
 <script>
-    function activeLink() {
-        var element = document.getElementById("dashlink");
-        element.classList.remove("side-menu--active")
-        var element1 = document.getElementById("clientlink");
-        element1.classList.add("side-menu--active")
-    }
 
-    window.onload = activeLink;
+    window.onload = function () {
+
+        var dashlink = this.document.getElementById("dashlink");
+        var rrclink = this.document.getElementById("rrclink");
+
+        dashlink.classList.remove("side-menu--active");
+        rrclink.classList.add("side-menu--active");
+
+
+    };
 </script>

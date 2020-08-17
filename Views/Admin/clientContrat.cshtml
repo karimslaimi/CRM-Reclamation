@@ -16,11 +16,11 @@
 
     <div class="intro-y flex flex-col sm:flex-row items-center mt-8">
         <h2 class="text-lg font-medium mr-auto">
-            Contrats
+            Les contrats de M/Mme @ViewBag.clientname
         </h2>
         <div class="w-full sm:w-auto flex mt-4 sm:mt-0">
             <a href="javascript:;" data-toggle="modal" data-target="#contrat-modal" class="button inline-block bg-theme-1 text-white">Ajouter un contrat</a>
-            
+
 
         </div>
     </div>
@@ -46,57 +46,52 @@
                         Description
                     </th>
 
-                    <th class="text-center whitespace-no-wrap">
-                        Actions
-                    </th>
+
 
                 </tr>
             </thead>
             <tbody>
 
                 @foreach (var cont in Model) {
-                <tr class="intro-x">
-                    <td>
+                    <tr class="intro-x">
+                        <td>
 
-                        <div class="font-medium whitespace-no-wrap">  @Html.DisplayFor(modelItem => cont.id)</div>
-                    </td>
-                    <td>
+                            <div class="font-medium whitespace-no-wrap">  @Html.DisplayFor(modelItem => cont.id)</div>
+                        </td>
+                        <td>
 
-                        <div class="font-medium whitespace-no-wrap">  @Html.DisplayFor(modelItem => cont.titre)</div>
-                    </td>
-                    <td>
+                            <div class="font-medium whitespace-no-wrap">  @Html.DisplayFor(modelItem => cont.titre)</div>
+                        </td>
+                        <td>
 
-                        <div class="font-medium whitespace-no-wrap">
+                            <div class="font-medium whitespace-no-wrap">
 
-                            @{
-                                var d1 = cont.deb_contrat.ToString("dd/MM/yyyy", french);
+                                @{
+                                    var d1 = cont.deb_contrat.ToString("dd/MM/yyyy", french);
 
-                            }
-                            @d1
+                                }
+                                @d1
 
-                        </div>
-                    </td>
-                    <td>
+                            </div>
+                        </td>
+                        <td>
 
-                        <div class="font-medium whitespace-no-wrap">
-
-
-                            @{
+                            <div class="font-medium whitespace-no-wrap">
 
 
-                                var d2 = cont.fin_contrat.ToString("dd/MM/yyyy", french);
-                                @d2 }
-                        </div>
-                    </td>
-                    <td>
+                                @{
 
-                        <div class="font-medium whitespace-no-wrap">  @Html.DisplayFor(modelItem => cont.description)</div>
-                    </td>
-                    <td>
 
-                        <div class="font-medium whitespace-no-wrap"> Action </div>
-                    </td>
-                </tr>
+                                    var d2 = cont.fin_contrat.ToString("dd/MM/yyyy", french);
+                                    @d2 }
+                            </div>
+                        </td>
+                        <td>
+
+                            <div class="font-medium whitespace-no-wrap">  @Html.DisplayFor(modelItem => cont.description)</div>
+                        </td>
+
+                    </tr>
 
                     }
             </tbody>
@@ -106,6 +101,10 @@
     <!-- END: Data List -->
 
 </div>
+
+
+
+
 <div class="modal" id="contrat-modal">
     <div class="modal__content">
         <div class="flex items-center px-5 py-5 sm:py-3 border-b border-gray-200 dark:border-dark-5">
@@ -167,7 +166,7 @@
                             <span class=" text-theme-6 ">
                                 @ViewBag.error
                             </span>
-                            } 
+                            }
                     </div>
                 </div>
 
@@ -185,6 +184,20 @@
     </div>
 </div>
 
- 
 
+
+
+<script>
+
+    window.onload = function () {
+
+        var dashlink = this.document.getElementById("dashlink");
+        var clientlink = this.document.getElementById("clientlink");
+
+        dashlink.classList.remove("side-menu--active");
+        clientlink.classList.add("side-menu--active");
+
+
+    };
+</script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>

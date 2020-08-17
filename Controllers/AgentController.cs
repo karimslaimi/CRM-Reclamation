@@ -1,5 +1,6 @@
 ﻿using PFE_reclamation.DAL;
 using PFE_reclamation.Models;
+using PFE_reclamation.Security;
 using PFE_reclamation.Services;
 using System;
 using System.Collections.Generic;
@@ -9,8 +10,8 @@ using System.Security.Claims;
 using System.Web;
 using System.Web.Mvc;
 
-namespace PFE_reclamation.Controllers
-{
+namespace PFE_reclamation.Controllers {
+    [CustomAuthorize("AGENT")]
     public class AgentController : Controller
     {
         DatabContext db = new DatabContext();
@@ -20,6 +21,9 @@ namespace PFE_reclamation.Controllers
         // GET: Agent
         public ActionResult Index()
         {
+
+
+
             return View();
         }
 

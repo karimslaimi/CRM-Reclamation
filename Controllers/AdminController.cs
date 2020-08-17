@@ -30,8 +30,13 @@ namespace PFE_reclamation.Controllers {
 
         public ActionResult Index() {
 
+            List<Reclamation> _reclams = db.Reclamations.ToList();
 
 
+            ViewBag.traitereclam = _reclams.Where(x => x.etat == Etat.Finis).Count();
+            ViewBag.encourreclam = _reclams.Where(x => x.etat == Etat.En_cours).Count();
+            ViewBag.nbreclam = _reclams.Count();
+            ViewBag.clnb = db.Clients.Count();
 
             return View();
             }
@@ -175,7 +180,7 @@ namespace PFE_reclamation.Controllers {
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Editc(Client _client) {
-            _client.password = db.Clients.Find(_client.id).password;
+            _client.password = db.Clients.AsNoTracking().FirstOrDefault(x =>x.id==_client.id).password;
 
 
             if (ModelState.IsValid) {
@@ -254,6 +259,8 @@ namespace PFE_reclamation.Controllers {
                 }
             List<Contrat> contrats = db.Contrats.Where(x => x.Client.id == id).ToList();
             ViewBag.clientid = id;
+            Client _client = db.Clients.FirstOrDefault(x => x.id == id);
+            ViewBag.clientname = _client.nom + " " + _client.prenom;
             return View(contrats);
 
 
@@ -300,7 +307,8 @@ namespace PFE_reclamation.Controllers {
             }
 
 
-        //aadd another method for treated reclams and another for ongoing reclams
+   
+
 
 
 
@@ -366,7 +374,7 @@ namespace PFE_reclamation.Controllers {
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Responsable_departement _rs = db.Responsable_Departements.AsNoTracking().FirstOrDefault(x=>x.id==id);
+            Responsable_departement _rs = db.Responsable_Departements.FirstOrDefault(x=>x.id==id);
             if (_rs == null)
             {
                 return HttpNotFound();
@@ -409,6 +417,7 @@ namespace PFE_reclamation.Controllers {
         {
           
             Responsable_departement rs = db.Responsable_Departements.Find(id);
+
             db.Responsable_Departements.Remove(rs);
             db.SaveChanges();
             return RedirectToAction("responsables");
@@ -508,7 +517,7 @@ namespace PFE_reclamation.Controllers {
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Superviseur _rs = db.Superviseurs.AsNoTracking().FirstOrDefault(x => x.id == id);
+            Superviseur _rs = db.Superviseurs.FirstOrDefault(x => x.id == id);
             if (_rs == null)
              {
                 return HttpNotFound();
@@ -637,7 +646,7 @@ namespace PFE_reclamation.Controllers {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-           Agent _rs = db.Agents.AsNoTracking().FirstOrDefault(x => x.id == id);
+           Agent _rs = db.Agents.FirstOrDefault(x => x.id == id);
             if (_rs == null)
             {
                 return HttpNotFound();
@@ -754,7 +763,7 @@ namespace PFE_reclamation.Controllers {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            Responsable_relation_client _rs = db.Responsable_Relation_Clients.AsNoTracking().FirstOrDefault(x => x.id == id);
+            Responsable_relation_client _rs = db.Responsable_Relation_Clients.FirstOrDefault(x => x.id == id);
             if (_rs == null)
             {
                 return HttpNotFound();

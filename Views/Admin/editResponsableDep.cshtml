@@ -95,7 +95,7 @@
                              
                             @{ string dt = Model.date_aff.Date.ToString("dd/MM/yyyy");}
                             <div class="mt-3">
-                                <label>Date Création</label>
+                                <label>Date d'affectation</label>
                                 <input class="input w-full border mt-2" value="@dt" disabled="disabled" />
                             </div>
                         </div>
@@ -199,3 +199,19 @@
 </div>
 
 
+
+
+
+<script>
+
+    window.onload = function () {
+
+        var dashlink = this.document.getElementById("dashlink");
+        var respolink = this.document.getElementById("respolink");
+
+        dashlink.classList.remove("side-menu--active");
+        respolink.classList.add("side-menu--active");
+
+
+    };
+</script>

@@ -1,0 +1,136 @@
+﻿@model IEnumerable<PFE_reclamation.Models.Contrat>
+
+@{
+    ViewBag.Title = "myContracts";
+    Layout = "~/Views/Shared/ClientLayout.cshtml";
+}
+
+
+@using System.Globalization;
+@{
+    CultureInfo french = new CultureInfo("fr-FR"); }
+
+
+
+<div class="grid grid-cols-12 gap-6 mt-5">
+
+    <div class="intro-y col-span-12 lg:col-span-12">
+        <!-- BEGIN: Form Layout -->
+        <div class="intro-y box lg:mt-5">
+            <div class="flex items-center p-5 border-b border-gray-200 dark:border-dark-5">
+                <h2 class="font-medium text-base mr-auto">
+                    Contrats
+                </h2>
+            </div>
+            <!-- BEGIN: Datatable -->
+            <div class="intro-y datatable-wrapper box p-5 mt-5">
+                <table class="table table-report table-report--bordered display datatable w-full">
+                    <thead>
+                        <tr>
+                            <th class="border-b-2 text-center whitespace-no-wrap sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 80px;" aria-label="Nom: activer pour trier colonne croissanbt">
+                                Numéro
+                            </th>
+                            <th class=" whitespace-no-wrap">
+                                Titre
+                            </th>
+                            <th class=" whitespace-no-wrap">
+
+                                Date début
+                            </th>
+                            <th class=" whitespace-no-wrap">
+                                Date fin
+                            </th>
+
+
+                            <th class=" whitespace-no-wrap">
+                                Description
+                            </th>
+
+
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        @foreach (var recl in Model) {
+
+                            <tr class="intro-x">
+
+                                <td>
+
+                                    <div class="font-medium whitespace-no-wrap">  @Html.DisplayFor(modelItem => recl.id)</div>
+                                </td>
+                                <td>
+
+                                    <div class="font-medium whitespace-no-wrap">  @Html.DisplayFor(modelItem => recl.titre)</div>
+                                </td>
+
+
+                                <td>
+
+                                    <div class="font-medium whitespace-no-wrap">
+                                        @{
+                                            var d2 = recl.deb_contrat.ToString("dd/MM/yyyy", french);
+
+                                            @d2;
+                                        }
+
+                                    </div>
+                                </td>
+                                <td>
+
+                                    <div class="font-medium whitespace-no-wrap">
+                                        @if (recl.fin_contrat != null) {
+
+
+                                            var d1 = recl.fin_contrat.ToString("dd/MM/yyyy", french);
+
+                                            @d1
+                                            } else {
+
+                                            @Html.Raw("----")
+
+                                            }
+
+
+
+
+
+                                    </div>
+                                </td>
+                                <td>
+
+                                    <div class="font-medium whitespace-no-wrap">  @Html.DisplayFor(modelItem => recl.description)</div>
+                                </td>
+
+
+
+
+
+                            </tr>
+                            }
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- END: Data List -->
+        </div>
+        <!-- END: Form Layout -->
+    </div>
+
+</div>
+
+
+ 
+<script>
+
+    window.onload = function () {
+
+        var dashlink = this.document.getElementById("dashlink");
+        var contratlink = this.document.getElementById("contratlink");
+
+        dashlink.classList.remove("side-menu--active");
+        contratlink.classList.add("side-menu--active");
+
+
+    };
+</script>

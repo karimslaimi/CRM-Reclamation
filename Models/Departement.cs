@@ -16,5 +16,6 @@ namespace PFE_reclamation.Models {
 
 
         public virtual ICollection<Reclamation> Reclamations { get; set; }
+        public virtual ICollection<Agent> Agents { get; set; }
         }
     }
