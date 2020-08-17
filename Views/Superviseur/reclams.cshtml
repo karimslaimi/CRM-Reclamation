@@ -23,7 +23,7 @@
                 <table class="table table-report table-report--bordered display datatable w-full">
                     <thead>
                         <tr>
-                            <th class="border-b-2 text-center whitespace-no-wrap sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 80px;" aria-label="Nom: activer pour trier colonne croissanbt">
+                            <th class="border-b-2 text-center whitespace-no-wrap sorting_desc" aria-sort="descending">
                                 Numéro
                             </th>
                             <th class=" whitespace-no-wrap">
@@ -44,7 +44,7 @@
                             </th>
 
                             <th class=" whitespace-no-wrap">
-                                Client
+                                Actions
                             </th>
 
                         </tr>
@@ -101,7 +101,7 @@
                                         @if (recl.Departement != null) {
                                             @Html.DisplayFor(modelItem => recl.Departement.label);
                                             } else {
-                                            @Html.Raw("en cours")
+                                            @Html.Raw("non attribué")
                                             }
                                     </div>
                                 </td>
@@ -109,7 +109,7 @@
                                     @if (recl.etat == PFE_reclamation.Models.Etat.Nouveau) {
                                         <div class="flex text-theme-6"> <i data-feather="check-square" class="w-4 h-4 mr-2"></i> Nouveau </div>
                                         } else if (recl.etat == PFE_reclamation.Models.Etat.En_cours) {
-                                        <div class="flex  text-theme-9"> <i data-feather="check-square" class="w-4 h-4 mr-2"></i> En cours </div>
+                                        <div class="flex  text-theme-9"> <i data-loading-icon="spinning-circles" class="w-4 h-4 mr-2"></i> En cours </div>
                                         } else {
                                         <div class="flex   text-gray-600"> <i data-feather="check-square" class="w-4 h-4 mr-2"></i> Finis</div>
                                         }
@@ -125,10 +125,29 @@
                                 <td class="table-report__action w-56">
                                     <div class="flex justify-start ">
                                         @{
-                                            var fullName = recl.Client.nom + " " + recl.Client.prenom;
-                                            @Html.DisplayFor(m => fullName)
-                                        }
 
+                                            string dep = "\"Non attribué\"";
+                                            string titre = "\"" + recl.titre + "\"";
+                                            string descr = "\"" + recl.description + "\"";
+                                            string type = "\"" + recl.type + "\"";
+                                            string etat = "\"" + recl.etat + "\"";
+                                            string cin = "\"" + recl.Client.cin + "\"";
+                                            string name = "\"" + recl.Client.nom + " " + recl.Client.prenom + "\"";
+                                            string date = "\"" + recl.debut_reclam.ToString("dd/MM/yyyy", french) + "\"";
+                                            if (recl.Departement != null) {
+                                                 dep = "\"" + recl.Departement.label + "\"";
+                                                } 
+
+
+
+                                            <a class="flex  items-center text-gray-600" href="javascript:;" onclick='Afficher(@recl.id,@titre,@descr,@type,@etat,@cin,@name,@date,@dep)'
+                                               data-toggle="modal" data-target="#Recl-confirmation-modal"> <i data-feather="check-square" class="w-4 h-4 mr-1"></i> Afficher </a>
+
+                                        }
+                                        @if (recl.etat == PFE_reclamation.Models.Etat.Nouveau) {
+                                            <a class="flex items-center text-theme-6 ml-2" href="javascript:;" onclick="deletefn(@recl.id)" id="deletemodal" data-toggle="modal" data-target="#delete-confirmation-modal"> <i data-feather="trash-2" class="w-4 h-4 mr-1"></i> Supprimer </a>
+
+                                            }
                                     </div>
                                 </td>
                             </tr>
@@ -155,7 +174,9 @@
                     <div class="w-full flex flex-col lg:flex-row items-center">
 
                         <div class="lg:ml-4 text-center lg:text-left mt-3 lg:mt-0">
+
                             <span id="clname" class="font-medium"> </span>
+                            <span id="recetat" class="absolute right-0 mr-4 "></span>
                             <div class="text-gray-600 text-xs">
                                 <span id="clcin"></span>
                                 <span id="recdate" class="absolute right-0 mr-4 "></span>
@@ -167,7 +188,7 @@
                 </div>
                 <div class="text-center lg:text-left p-5">
                     <div class="flex items-center justify-center lg:justify-start text-gray-600 mt-1">
-                        <span id="recetat" class="mt-2"></span>
+                        <span id="recdep" class="mt-2"></span>
                         <span id="rectype" class="absolute right-0 mr-4 mt-2"></span>
                     </div>
                     <div class="flex items-center justify-center lg:justify-start text-gray-600 mt-5">
@@ -181,10 +202,27 @@
                 <div class="text-center lg:text-right p-5 border-t border-gray-200 dark:border-dark-5">
                     @using (Html.BeginForm("valider_reclam", "Superviseur")) {
                         <input type="hidden" name="id" id="modclid" value="" />
-                        <button type="submit" class="button button--sm text-white bg-theme-1 mr-2">Vérifier</button>
-                        }
+                        <div id="selectdep" class="mb-2">
 
-                    <button data-dismiss="modal" class="button button--sm text-gray-700 border border-gray-300 dark:border-dark-5 dark:text-gray-300">Annuler</button>
+                            <select name="iddep" data-hide-search="true" class="select2 w-full mb-2 mt-2" >
+
+                                <option value="-1">selectionner un département</option>
+                                @foreach (var dep in ViewBag.deps) {
+                                    <option value="@dep.id">@dep.label</option>
+
+                                    }
+
+                            </select>
+                        </div>
+
+                        <div class="mt-2">
+                            <button type="submit" class="button button--sm text-white bg-theme-1 mr-2" id="verifybtn">Valider</button>
+
+
+                            <button data-dismiss="modal" class="button button--sm text-gray-700 border border-gray-300 dark:border-dark-5 dark:text-gray-300">Annuler</button>
+                        </div>
+                  
+                        }
                 </div>
             </div>
         </div>
@@ -192,13 +230,49 @@
 </div>
 
 
+<!-- BEGIN: Delete Confirmation Modal -->
+<div class="modal" id="delete-confirmation-modal">
+    <div class="modal__content">
+        <div class="p-5 text-center">
+            <i data-feather="x-circle" class="w-16 h-16 text-theme-6 mx-auto mt-3"></i>
+            <div class="text-3xl mt-5">Êtes-vous sûr?</div>
+            <div class="text-gray-600 mt-2">Voulez-vous vraiment supprimer ce client? Ce processus ne peut pas être annulé.</div>
+        </div>
+        <div class="px-5 pb-8 text-center">
+            <form action="@Url.Action("deleteReclam" )">
+                <button type="button" data-dismiss="modal" class="button w-24 border text-gray-700 mr-1">Annuler</button>
+
+                <input type="hidden" name="id" value="" id="deleteid" />
+                <button type="submit" class="button w-24 bg-theme-6 text-white">Supprimer</button>
+            </form>
+
+        </div>
+    </div>
+</div>
+<!-- END: Delete Confirmation Modal -->
+
+
+
+<script>
+
+    function deletefn(id) {
+
+
+
+        document.getElementById("deleteid").value = id;
+
+
+    }
+
+</script>
+
 <script>
 
 
-    function Afficher(id, titre, descr, type,etat,cin,name,date) {
+    function Afficher(id, titre, descr, type, etat, cin, name, date,dep) {
 
 
-        console.log(date);
+        
 
         document.getElementById("modclid").value = id;
         document.getElementById("clname").textContent = name;
@@ -210,9 +284,39 @@
 
         document.getElementById("rectype").textContent = type;
         document.getElementById("recdescr").textContent = descr;
+        document.getElementById("recdep").textContent = dep;
 
+
+
+        if (etat == "Nouveau") {
+            document.getElementById("verifybtn").style.visibility = 'visible';
+        } else {
+            document.getElementById("verifybtn").style.visibility = 'hidden';
+        }
+        if (dep != "Non attribué") {
+
+
+            document.getElementById("selectdep").style.display = 'none';
+        } else {
+            document.getElementById("selectdep").style.display = 'inline';
+        }
 
 
 
     }
+</script>
+
+
+<script>
+
+    window.onload = function () {
+
+        var dashlink = this.document.getElementById("dashlink");
+        var reclamlink = this.document.getElementById("reclamlink");
+
+        dashlink.classList.remove("side-menu--active");
+        reclamlink.classList.add("side-menu--active");
+
+
+    };
 </script>
