@@ -816,16 +816,19 @@ namespace PFE_reclamation.Controllers {
 
         public ActionResult testPDF()
         {
-
-            // Render any HTML fragment or document to HTML
-            var Renderer = new IronPdf.HtmlToPdf();
-            var PDF = Renderer.RenderHtmlAsPdf("<h1>Hello IronPdf</h1>");
-            var OutputPath = "D://HtmlToPDF.pdf";
-            PDF.SaveAs(OutputPath);
-            // This neat trick opens our PDF file so we can see the result in our default PDF viewer
-            System.Diagnostics.Process.Start(OutputPath);
-
-
+            //Initialize HTML to PDF converter 
+            HtmlToPdfConverter htmlConverter = new HtmlToPdfConverter(HtmlRenderingEngine.WebKit);
+            WebKitConverterSettings settings = new WebKitConverterSettings();
+            //Set WebKit path
+            settings.WebKitPath = Server.MapPath("~/QtBinaries");
+            //Assign WebKit settings to HTML converter
+            htmlConverter.ConverterSettings = settings;
+            //Get the current URL
+            string url = HttpContext.Current.Request.Url.AbsoluteUri;
+            //Convert URL to PDF
+            PdfDocument document = htmlConverter.Convert(url);
+            //Save the document
+            document.Save("Output.pdf", HttpContext.Current.Response, HttpReadType.Save);
             return null;
         }
 
