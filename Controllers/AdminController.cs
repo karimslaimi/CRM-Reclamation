@@ -10,12 +10,10 @@ using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Security.Claims;
-using System.Web;
 using System.Web.Mvc;
-using iTextSharp.text;
-using iTextSharp.text.pdf;
-using iTextSharp.tool.xml;
 using System.IO;
+using Syncfusion.HtmlConverter;
+using Syncfusion.Pdf;
 
 namespace PFE_reclamation.Controllers {
     [CustomAuthorize("ADMIN")]
@@ -823,12 +821,13 @@ namespace PFE_reclamation.Controllers {
             settings.WebKitPath = Server.MapPath("~/QtBinaries");
             //Assign WebKit settings to HTML converter
             htmlConverter.ConverterSettings = settings;
+            
             //Get the current URL
-            string url = HttpContext.Current.Request.Url.AbsoluteUri;
+            string url = HttpContext.Request.Url.AbsoluteUri;
             //Convert URL to PDF
             PdfDocument document = htmlConverter.Convert(url);
             //Save the document
-            document.Save("Output.pdf", HttpContext.Current.Response, HttpReadType.Save);
+            document.Save("Output.pdf");
             return null;
         }
 
