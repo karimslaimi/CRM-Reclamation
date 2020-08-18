@@ -13,7 +13,7 @@ using System.Security.Claims;
 using System.Web.Mvc;
 using System.IO;
 using Syncfusion.HtmlConverter;
-using Syncfusion.Pdf;
+using SelectPdf;
 
 namespace PFE_reclamation.Controllers {
     [CustomAuthorize("ADMIN")]
@@ -814,21 +814,42 @@ namespace PFE_reclamation.Controllers {
 
         public ActionResult testPDF()
         {
-            //Initialize HTML to PDF converter 
-            HtmlToPdfConverter htmlConverter = new HtmlToPdfConverter(HtmlRenderingEngine.WebKit);
-            WebKitConverterSettings settings = new WebKitConverterSettings();
-            //Set WebKit path
-            settings.WebKitPath = Server.MapPath("~/QtBinaries");
-            //Assign WebKit settings to HTML converter
-            htmlConverter.ConverterSettings = settings;
-            
             //Get the current URL
-            string url = HttpContext.Request.Url.AbsoluteUri;
-            //Convert URL to PDF
-            PdfDocument document = htmlConverter.Convert(url);
-            //Save the document
-            document.Save("Output.pdf");
-            return null;
+            string url = "https://localhost:44385/admin/responsables";
+            //HttpContext.Request.Url.AbsoluteUri;
+
+            PdfPageSize pageSize = (PdfPageSize)Enum.Parse(typeof(PdfPageSize),"1", true);
+
+
+            int webPageWidth = 1024;
+          
+            int webPageHeight = 700;
+           
+            // instantiate a html to pdf converter object
+            HtmlToPdf converter = new HtmlToPdf();
+
+            // set authentication options
+            converter.Options.Authentication.Username = "admin";
+            converter.Options.Authentication.Password = "admin123";
+
+            // set converter options
+            converter.Options.PdfPageSize = pageSize;
+            converter.Options.WebPageWidth = webPageWidth;
+            converter.Options.WebPageHeight = webPageHeight;
+
+            // create a new pdf document converting an url
+            SelectPdf.PdfDocument doc = converter.ConvertUrl(url);
+
+            // save pdf document
+            byte[] pdf = doc.Save();
+
+            // close pdf document
+            doc.Close();
+
+            // return resulted pdf document
+            FileResult fileResult = new FileContentResult(pdf, "application/pdf");
+            fileResult.FileDownloadName = "Document.pdf";
+            return fileResult;
         }
 
     }

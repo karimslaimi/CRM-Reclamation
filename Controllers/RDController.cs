@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Security.Claims;
 using System.Web;
 using System.Web.Mvc;
@@ -123,8 +124,10 @@ namespace PFE_reclamation.Controllers
         // afficher la liste des agents
         public ActionResult agents()
         {
-         
-            List<Agent> rs = db.Agents.ToList();
+            string userid = ClaimsPrincipal.Current.Claims.FirstOrDefault(x => x.Type == "id").Value;
+            int id = int.Parse(userid); 
+         Responsable_departement _rs  = db.Responsable_Departements.Find(id);
+            List<Agent> rs = db.Agents.Where(x => x.departementId == _rs.departementId).ToList();
 
             return View(rs);
         }
@@ -146,6 +149,42 @@ namespace PFE_reclamation.Controllers
             Agent rs = db.Agents.Find(id);
 
             return View(rs);
+        }
+
+        [HttpGet]
+        public ActionResult editAgent(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            Agent _rs = db.Agents.FirstOrDefault(x => x.id == id);
+            if (_rs == null)
+            {
+                return HttpNotFound();
+            }
+            return View(_rs);
+        }
+
+        // POST: Users/Edit/5
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult editAgent(Agent _rs)
+        {
+            Agent _rd = db.Agents.AsNoTracking().FirstOrDefault(x => x.id == _rs.id);
+
+            _rs.password = _rd.password;
+
+
+            if (ModelState.IsValid)
+            {
+                db.Entry(_rs).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("agents");
+            }
+            return View(_rs);
         }
 
 

@@ -140,6 +140,9 @@
     <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
       <HintPath>packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
     </Reference>
+    <Reference Include="Select.HtmlToPdf, Version=20.1.0.0, Culture=neutral, PublicKeyToken=e0ae9f6e27a97018, processorArchitecture=MSIL">
+      <HintPath>packages\Select.HtmlToPdf.20.1.0\lib\net40\Select.HtmlToPdf.dll</HintPath>
+    </Reference>
     <Reference Include="Syncfusion.Compression.Base, Version=18.2460.0.44, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
       <HintPath>packages\Syncfusion.HtmlToPdfConverter.QtWebKit.AspNet.18.2.0.44\lib\net46\Syncfusion.Compression.Base.dll</HintPath>
     </Reference>
@@ -457,6 +460,7 @@
     <Content Include="Views\Agent\reclams.cshtml" />
     <Content Include="Views\Agent\messages.cshtml" />
     <Content Include="Views\Agent\reclams_traite.cshtml" />
+    <Content Include="Views\RD\editAgent.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
