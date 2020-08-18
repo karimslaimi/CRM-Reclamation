@@ -5,72 +5,259 @@
     Layout = "~/Views/Shared/AgentLayout.cshtml";
 }
 
-<h2>reclams</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Departement.label)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Traite.detaille)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.titre)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.debut_reclam)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.fin_reclam)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.etat)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.type)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.description)
-        </th>
-        <th></th>
-    </tr>
+@using System.Globalization;
+@{
+    CultureInfo french = new CultureInfo("fr-FR"); }
+<div class="grid grid-cols-12 gap-6 mt-5">
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Departement.label)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Traite.detaille)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.titre)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.debut_reclam)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.fin_reclam)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.etat)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.type)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.description)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.id })
-        </td>
-    </tr>
-}
+    <div class="intro-y col-span-12 lg:col-span-12">
+        <!-- BEGIN: Form Layout -->
+        <div class="intro-y box lg:mt-5">
+            <div class="flex items-center p-5 border-b border-gray-200 dark:border-dark-5">
+                <h2 class="font-medium text-base mr-auto">
+                    Reclamations
+                </h2>
+            </div>
+            <!-- BEGIN: Datatable -->
+            <div class="intro-y datatable-wrapper box p-5 mt-5">
+                <table class="table table-report table-report--bordered display datatable w-full">
+                    <thead>
+                        <tr>
+                            <th class="border-b-2 text-center whitespace-no-wrap sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 80px;" aria-label="Nom: activer pour trier colonne croissanbt">
+                                Numéro
+                            </th>
+                            <th class=" whitespace-no-wrap">
 
-</table>
+                                Date création
+                            </th>
+                            <th class=" whitespace-no-wrap">
+                                Date de réglement
+                            </th>
+                            <th class=" whitespace-no-wrap">
+                                Type
+                            </th>
+
+                            <th class=" whitespace-no-wrap">
+                                Etat
+                            </th>
+                            <th class="whitespace-no-wrap">
+                                Client
+                            </th>
+
+                            <th class=" whitespace-no-wrap">
+                                Actions
+                            </th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        @foreach (var recl in Model) {
+
+                            <tr class="intro-x">
+
+                                <td>
+
+                                    <div class="font-medium whitespace-no-wrap">  @Html.DisplayFor(modelItem => recl.id)</div>
+                                </td>
+                                <td>
+
+                                    <div class="font-medium whitespace-no-wrap">
+                                        @{
+                                            var d2 = recl.debut_reclam.ToString("dd/MM/yyyy", french);
+
+                                            @d2;
+                                        }
+
+                                    </div>
+                                </td>
+                                <td>
+
+                                    <div class="font-medium whitespace-no-wrap">
+                                        @if (recl.fin_reclam != null) {
+
+
+                                            var d1 = recl.fin_reclam.Value.ToString("dd/MM/yyyy", french);
+
+                                            @d1
+                                            } else {
+
+                                            @Html.Raw("----")
+
+                                            }
+
+
+
+
+
+                                    </div>
+                                </td>
+                                <td>
+
+                                    <div class="font-medium whitespace-no-wrap">  @Html.DisplayFor(modelItem => recl.type)</div>
+                                </td>
+
+                                <td>
+                                    @if (recl.etat == PFE_reclamation.Models.Etat.Nouveau) {
+                                        <div class="flex text-theme-6"> <i data-feather="check-square" class="w-4 h-4 mr-2"></i> Nouveau </div>
+                                        } else if (recl.etat == PFE_reclamation.Models.Etat.En_cours) {
+                                        <div class="flex  text-theme-9"> <i data-loading-icon="spinning-circles" class="w-4 h-4 mr-2"></i> En cours </div>
+                                        } else {
+                                        <div class="flex text-gray-600"> <i data-feather="check-square" class="w-4 h-4 mr-2"></i> Finis</div>
+                                        }
+
+
+
+
+                                </td>
+
+                                <td>
+
+                                    <div class="font-medium whitespace-no-wrap">
+                                        @{
+                                            var fullName = recl.Client.nom + " " + recl.Client.prenom;
+                                            @Html.DisplayFor(m => fullName)
+                                        }
+
+
+                                    </div>
+                                </td>
+
+
+                                <td class="table-report__action w-56">
+                                    <div class="flex justify-start ">
+                                        @if (recl.etat == PFE_reclamation.Models.Etat.En_cours) {
+
+
+                                            string titre = "\"" + recl.titre + "\"";
+                                            string descr = "\"" + recl.description + "\"";
+                                            string type = "\"" + recl.type + "\"";
+                                            string etat = "\"" + recl.etat + "\"";
+                                            string cin = "\"" + recl.Client.cin + "\"";
+                                            string name = "\"" + recl.Client.nom + " " + recl.Client.prenom + "\"";
+                                            string date = "\"" + recl.debut_reclam.ToString("dd/MM/yyyy", french) + "\"";
+                                           
+
+
+
+                                            <a class="flex  items-center text-gray-600" href="javascript:;" onclick="Afficher(@recl.id,@titre,@descr,@type,@etat,@cin,@name,@date)"
+                                               data-toggle="modal" data-target="#Recl-confirmation-modal"> <i data-feather="check-square" class="w-4 h-4 mr-1"></i> Afficher </a>
+
+                                            }
+                                    </div>
+                                </td>
+                            </tr>
+                            }
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- END: Data List -->
+        </div>
+        <!-- END: Form Layout -->
+    </div>
+
+</div>
+
+
+
+<div class="modal" id="Recl-confirmation-modal">
+    <div class="modal__content">
+
+        <div class="intro-y col-span-12 md:col-span-6 lg:col-span-4">
+            <div class="box">
+                <div class="flex items-start px-5 pt-5">
+                    <div class="w-full flex flex-col lg:flex-row items-center">
+
+                        <div class="lg:ml-4 text-center lg:text-left mt-3 lg:mt-0">
+                            <span id="clname" class="font-medium"> </span>
+                            <div class="text-gray-600 text-xs">
+                                <span id="clcin"></span>
+                                <span id="recdate" class="absolute right-0 mr-4 "></span>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+                <div class="text-center lg:text-left p-5">
+                    <div class="flex items-center justify-center lg:justify-start text-gray-600 mt-1">
+                        <span id="recetat" class="mt-2"></span>
+                        <span id="rectype" class="absolute right-0 mr-4 mt-2"></span>
+                    </div>
+                    <div class="flex items-center justify-center lg:justify-start text-gray-600 mt-5">
+                        <span id="rectitle" class="mt-2"></span>
+
+                    </div>
+
+
+                    <div class="mt-4 text-gray-600"><span id="recdescr"></span> </div>
+                </div>
+                <div class="text-center lg:text-right p-5 border-t border-gray-200 dark:border-dark-5">
+                   
+                    @using (Html.BeginForm("traiter", "Agent")) {
+                        <input type="hidden" name="idrec" id="modclid" value="" />
+                    
+                        <label class="flex flex-col sm:flex-row">Détaille</label>
+                        <textarea name="detaille" class="input w-full border mt-2"></textarea>
+
+                        <button type="submit" class="button button--sm text-white bg-theme-1 mr-2 mt-2" id="traitebtn">Traiter</button>
+
+
+
+                        <button type="reset" data-dismiss="modal" class="button button--sm text-gray-700 border mt-2 border-gray-300 dark:border-dark-5 dark:text-gray-300">Annuler</button>
+                        }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+
+
+    function Afficher(id, titre, descr, type, etat, cin, name, date,agename) {
+
+
+
+        document.getElementById("modclid").value = id;
+        document.getElementById("clname").textContent = name;
+        document.getElementById("clcin").textContent = cin;
+
+        document.getElementById("rectitle").textContent = titre;
+        document.getElementById("recdate").textContent = date;
+        document.getElementById("recetat").textContent = etat;
+
+        document.getElementById("rectype").textContent = type;
+        document.getElementById("recdescr").textContent = descr;
+
+        if (etat == "Finis") {
+            document.getElementById("traitebtn").style.display = "none";
+
+
+        }
+
+
+
+
+
+    }
+</script>
+
+
+
+<script>
+
+    window.onload = function () {
+
+        var dashlink = this.document.getElementById("dashlink");
+        var reclamlink = this.document.getElementById("reclamlink");
+
+        dashlink.classList.remove("side-menu--active");
+        reclamlink.classList.add("side-menu--active");
+
+
+    };
+</script>

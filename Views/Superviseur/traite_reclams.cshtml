@@ -45,7 +45,7 @@
                             </th>
                             <th class=" whitespace-no-wrap">
                                 Client
-                            </th> 
+                            </th>
                             <th class=" whitespace-no-wrap">
                                 Action
                             </th>
@@ -56,116 +56,116 @@
 
                         @foreach (var recl in Model) {
 
-                        <tr class="intro-x">
+                            <tr class="intro-x">
 
-                            <td>
+                                <td>
 
-                                <div class="font-medium whitespace-no-wrap">  @Html.DisplayFor(modelItem => recl.id)</div>
-                            </td>
-                            <td>
+                                    <div class="font-medium whitespace-no-wrap">  @Html.DisplayFor(modelItem => recl.id)</div>
+                                </td>
+                                <td>
 
-                                <div class="font-medium whitespace-no-wrap">
-                                    @{
-                                        var d2 = recl.debut_reclam.ToString("dd/MM/yyyy", french);
+                                    <div class="font-medium whitespace-no-wrap">
+                                        @{
+                                            var d2 = recl.debut_reclam.ToString("dd/MM/yyyy", french);
 
-                                        @d2;
-                                    }
-
-                                </div>
-                            </td>
-                            <td>
-
-                                <div class="font-medium whitespace-no-wrap">
-                                    @if (recl.fin_reclam != null) {
-
-
-                                        var d1 = recl.fin_reclam.Value.ToString("dd/MM/yyyy", french);
-
-                                        @d1
-                                        } else {
-
-                                        @Html.Raw("----")
-
+                                            @d2;
                                         }
 
+                                    </div>
+                                </td>
+                                <td>
+
+                                    <div class="font-medium whitespace-no-wrap">
+                                        @if (recl.fin_reclam != null) {
 
 
+                                            var d1 = recl.fin_reclam.Value.ToString("dd/MM/yyyy", french);
 
+                                            @d1
+                                            } else {
 
-                                </div>
-                            </td>
-                            <td>
+                                            @Html.Raw("----")
 
-                                <div class="font-medium whitespace-no-wrap">  @Html.DisplayFor(modelItem => recl.type)</div>
-                            </td>
-                            <td>
-
-                                <div class="font-medium whitespace-no-wrap">
-                                    @if (recl.Departement != null) {
-                                        @Html.DisplayFor(modelItem => recl.Departement.label);
-                                        } else {
-                                        @Html.Raw("en cours")
-                                        }
-                                </div>
-                            </td>
-                            <td>
-                                @if (recl.etat == PFE_reclamation.Models.Etat.Nouveau) {
-                                    <div class="flex text-theme-6"> <i data-feather="check-square" class="w-4 h-4 mr-2"></i> Nouveau </div>
-                                    } else if (recl.etat == PFE_reclamation.Models.Etat.En_cours) {
-                                    <div class="flex  text-theme-9"> <i data-feather="check-square" class="w-4 h-4 mr-2"></i> En cours </div>
-                                    } else {
-                                    <div class="flex   text-gray-600"> <i data-feather="check-square" class="w-4 h-4 mr-2"></i> Finis</div>
-                                    }
-
-
-
-
-                            </td>
-
-
-
-
-                            <td class="table-report__action w-56">
-                                <div class="flex justify-start ">
-                                    @{
-                                        var fullName = recl.Client.nom + " " + recl.Client.prenom;
-                                        @Html.DisplayFor(m => fullName)
-                                    }
-
-                                </div>
-                            </td>
-
-
-                            <td class="table-report__action w-56">
-                                <div class="flex justify-start ">
-                                    @{
-
-                                        string dep = "\"Non attribué\"";
-                                        string titre = "\"" + recl.titre + "\"";
-                                        string descr = "\"" + recl.description + "\"";
-                                        string type = "\"" + recl.type + "\"";
-                                        string etat = "\"" + recl.etat + "\"";
-                                        string cin = "\"" + recl.Client.cin + "\"";
-                                        string name = "\"" + recl.Client.nom + " " + recl.Client.prenom + "\"";
-                                        string date = "\"" + recl.debut_reclam.ToString("dd/MM/yyyy", french) + "\"";
-                                        if (recl.Departement != null) {
-                                            dep = "\"" + recl.Departement.label + "\"";
                                             }
 
-                                        string agename = "\"" + recl.Traite.agent.nom+" "+recl.Traite.agent.prenom + "\"";
-                                        string datefixed = "\"" + recl.fin_reclam.Value.ToString("dd/MM/yyyy", french) + "\"";
-                                        string traite = "\"" + recl.Traite.detaille + "\"";
 
 
 
-                                        <a class="flex  items-center text-gray-600" href="javascript:;" onclick='Afficher(@recl.id,@titre,@descr,@type,@etat,@cin,@name,@date,@dep,@agename,@datefixed,@traite)'
-                                           data-toggle="modal" data-target="#Recl-confirmation-modal"> <i data-feather="check-square" class="w-4 h-4 mr-1"></i> Afficher </a>
 
-                                    }
-                                 
-                                </div>
-                            </td>
-                        </tr>
+                                    </div>
+                                </td>
+                                <td>
+
+                                    <div class="font-medium whitespace-no-wrap">  @Html.DisplayFor(modelItem => recl.type)</div>
+                                </td>
+                                <td>
+
+                                    <div class="font-medium whitespace-no-wrap">
+                                        @if (recl.Departement != null) {
+                                            @Html.DisplayFor(modelItem => recl.Departement.label);
+                                            } else {
+                                            @Html.Raw("en cours")
+                                            }
+                                    </div>
+                                </td>
+                                <td>
+                                    @if (recl.etat == PFE_reclamation.Models.Etat.Nouveau) {
+                                        <div class="flex text-theme-6"> <i data-feather="check-square" class="w-4 h-4 mr-2"></i> Nouveau </div>
+                                        } else if (recl.etat == PFE_reclamation.Models.Etat.En_cours) {
+                                        <div class="flex  text-theme-9"> <i data-feather="check-square" class="w-4 h-4 mr-2"></i> En cours </div>
+                                        } else {
+                                        <div class="flex   text-gray-600"> <i data-feather="check-square" class="w-4 h-4 mr-2"></i> Finis</div>
+                                        }
+
+
+
+
+                                </td>
+
+
+
+
+                                <td class="table-report__action w-56">
+                                    <div class="flex justify-start ">
+                                        @{
+                                            var fullName = recl.Client.nom + " " + recl.Client.prenom;
+                                            @Html.DisplayFor(m => fullName)
+                                        }
+
+                                    </div>
+                                </td>
+
+
+                                <td class="table-report__action w-56">
+                                    <div class="flex justify-start ">
+                                        @{
+
+                                            string dep = "\"Non attribué\"";
+                                            string titre = "\"" + recl.titre + "\"";
+                                            string descr = "\"" + recl.description + "\"";
+                                            string type = "\"" + recl.type + "\"";
+                                            string etat = "\"" + recl.etat + "\"";
+                                            string cin = "\"" + recl.Client.cin + "\"";
+                                            string name = "\"" + recl.Client.nom + " " + recl.Client.prenom + "\"";
+                                            string date = "\"" + recl.debut_reclam.ToString("dd/MM/yyyy", french) + "\"";
+                                            if (recl.Departement != null) {
+                                                dep = "\"" + recl.Departement.label + "\"";
+                                                }
+
+                                            string agename = "\"" + recl.Traite.agent.nom + " " + recl.Traite.agent.prenom + "\"";
+                                            string datefixed = "\"" + recl.fin_reclam.Value.ToString("dd/MM/yyyy", french) + "\"";
+                                            string traite = "\"" + recl.Traite.detaille + "\"";
+
+
+
+                                            <a class="flex  items-center text-gray-600" href="javascript:;" onclick='Afficher(@recl.id,@titre,@descr,@type,@etat,@cin,@name,@date,@dep,@agename,@datefixed,@traite)'
+                                               data-toggle="modal" data-target="#Recl-confirmation-modal"> <i data-feather="check-square" class="w-4 h-4 mr-1"></i> Afficher </a>
+
+                                        }
+
+                                    </div>
+                                </td>
+                            </tr>
                             }
                     </tbody>
                 </table>
@@ -190,6 +190,7 @@
 
                         <div class="lg:ml-4 text-center lg:text-left mt-3 lg:mt-0">
                             <span id="clname" class="font-medium"> </span>
+                            <span id="recdep" class="absolute right-0 mr-4 "></span>
                             <div class="text-gray-600 text-xs">
                                 <span id="clcin"></span>
                                 <span id="recdate" class="absolute right-0 mr-4 "></span>
@@ -213,8 +214,7 @@
                     <div class="mt-4 text-gray-600"><span id="recdescr"></span> </div>
                 </div>
 
-
-                <div class="text-center lg:text-right p-5 border-t border-gray-200 dark:border-dark-5">
+                <div class="text-center lg:text-right border-t border-gray-200 dark:border-dark-5">
                     <div class="text-center lg:text-left p-5">
                         <div class="flex items-center justify-center lg:justify-start text-gray-600 mt-1">
                             <span id="agename" class="mt-2"></span>
@@ -229,11 +229,11 @@
 
                 </div>
 
-
                 <div class="text-center lg:text-right p-5 border-t border-gray-200 dark:border-dark-5">
 
 
-                    <button data-dismiss="modal" class="button button--sm text-gray-700 border border-gray-300 dark:border-dark-5 dark:text-gray-300">Annuler</button>
+
+                    <a data-dismiss="modal" href="javascript:;" class="button button--sm text-gray-700 border border-gray-300 dark:border-dark-5 dark:text-gray-300">Fermer</a>
                 </div>
             </div>
         </div>
@@ -241,16 +241,14 @@
 </div>
 
 
-
 <script>
 
 
-    function Afficher(id, titre, descr, type, etat, cin, name, date, dep,agename,datefixed,traite) {
+    function Afficher(id, titre, descr, type, etat, cin, name, date, dep, agename, datefixed, traite) {
 
 
 
 
-        document.getElementById("modclid").value = id;
         document.getElementById("clname").textContent = name;
         document.getElementById("clcin").textContent = cin;
 
@@ -267,14 +265,13 @@
         document.getElementById("traitedescr").textContent = traite;
 
 
- 
-       
+
+
 
 
 
     }
 </script>
-
 
 
 <script>
