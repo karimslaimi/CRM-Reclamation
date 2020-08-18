@@ -111,10 +111,13 @@ namespace PFE_reclamation.Controllers {
             //get the traite object that where created by the Respo Dep find by reclam id 
 
             Traite _traite = db.Traites.Where(x=>x.Reclamation.id==idrec).FirstOrDefault();
-          
+
+            
             //set the date and the details
             _traite.date = DateTime.Now;
             _traite.detaille = detaille;
+            
+
             //update
             db.Entry(_traite).State = EntityState.Modified;
             db.SaveChanges();
@@ -127,8 +130,6 @@ namespace PFE_reclamation.Controllers {
             int id = int.Parse(ClaimsPrincipal.Current.Claims.FirstOrDefault(x => x.Type == "id").Value);
             List<Reclamation> _reclams = db.Reclamations.Where(x => x.Traite.agent.id == id && x.etat==Etat.En_cours).ToList();
             return View(_reclams);
-
-
 
             }
 

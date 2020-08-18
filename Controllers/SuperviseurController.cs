@@ -144,7 +144,7 @@ namespace PFE_reclamation.Controllers
         public ActionResult reclams() {
 
             List<Reclamation> _reclams = db.Reclamations.ToList();
-
+            ViewBag.deps = db.Departements;
             return View(_reclams);
 
 
@@ -160,7 +160,7 @@ namespace PFE_reclamation.Controllers
 
         public ActionResult traite_reclams() {
             List<Reclamation> _reclams = db.Reclamations.Where(x => x.etat==Etat.Finis).ToList();
-          
+            
             return View(_reclams);
             }
 
@@ -181,8 +181,21 @@ namespace PFE_reclamation.Controllers
 
 
             }
+        public ActionResult deleteReclam(int? id) {
+            if (id == null) {
+                return RedirectToAction("reclams");
+                } else {
+                Reclamation _reclam = db.Reclamations.Find(id);
+                if (_reclam.etat == Etat.Nouveau) {
+                    db.Reclamations.Remove(db.Reclamations.Find(id));
+                    db.SaveChanges();
+                    }
+
+                return RedirectToAction("reclams");
+                }
+            }
 
 
 
-    }
+        }
 }

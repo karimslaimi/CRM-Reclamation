@@ -452,6 +452,11 @@
     <Content Include="Views\Admin\traite_reclams.cshtml" />
     <Content Include="Views\Admin\encours_reclams.cshtml" />
     <Content Include="Views\Client\myContracts.cshtml" />
+    <Content Include="Views\RD\profile.cshtml" />
+    <Content Include="Views\Agent\profile.cshtml" />
+    <Content Include="Views\Agent\reclams.cshtml" />
+    <Content Include="Views\Agent\messages.cshtml" />
+    <Content Include="Views\Agent\reclams_traite.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

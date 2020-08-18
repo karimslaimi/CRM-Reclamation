@@ -2,7 +2,7 @@
 
 @{
     ViewBag.Title = "newAgent";
-    Layout = "~/Views/Shared/RDayout.cshtml";
+    Layout = "~/Views/Shared/RDLayout.cshtml";
 }
 
 <h2>newAgent</h2>
@@ -90,3 +90,21 @@
 <div>
     @Html.ActionLink("Back to List", "Index")
 </div>
+
+
+
+
+
+<script>
+
+    window.onload = function () {
+
+        var dashlink = this.document.getElementById("dashlink");
+        var agentlink = this.document.getElementById("agentlink");
+
+        dashlink.classList.remove("side-menu--active");
+        agentlink.classList.add("side-menu--active");
+
+
+    };
+</script>

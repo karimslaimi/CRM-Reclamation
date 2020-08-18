@@ -11,21 +11,18 @@ using System.Security.Claims;
 using System.Web;
 using System.Web.Mvc;
 
-namespace PFE_reclamation.Controllers
-{
+namespace PFE_reclamation.Controllers {
     [CustomAuthorize("RRC")]
-    public class RRCController : Controller
-    {
+    public class RRCController : Controller {
         //in this controller i don't really know what to do i have to check if the views are ok and test the methods
         //add verify method and reclam check method
-        
+
         DatabContext db = new DatabContext();
         Authentication authservice = new Authentication();
         // GET: RRC
-        public ActionResult Index()
-        {
+        public ActionResult Index() {
             return View();
-        }
+            }
 
 
 
@@ -187,7 +184,7 @@ namespace PFE_reclamation.Controllers
 
 
 
-            return RedirectToAction("Editc",new { id=id});
+            return RedirectToAction("Editc", new { id = id });
             }
 
 
@@ -250,13 +247,13 @@ namespace PFE_reclamation.Controllers
 
         public ActionResult reclams() {
             IEnumerable<Reclamation> _reclamas = db.Reclamations.ToList();
-            return View(_reclamas );
+            return View(_reclamas);
 
 
             }
 
         public ActionResult treatedreclams() {
-            List<Reclamation> _reclamas = db.Reclamations.Where(x=>x.etat==Etat.Finis).OrderBy(x => x.etat).ToList();
+            List<Reclamation> _reclamas = db.Reclamations.Where(x => x.etat == Etat.Finis).OrderBy(x => x.etat).ToList();
             return View(_reclamas);
 
 
@@ -268,16 +265,32 @@ namespace PFE_reclamation.Controllers
 
                 Reclamation _reclam = db.Reclamations.Find(id);
                 if (_reclam.etat == Etat.Nouveau) {
-                        _reclam.etat = Etat.En_cours;
+                    _reclam.etat = Etat.En_cours;
                     db.Entry(_reclam).State = EntityState.Modified;
                     db.SaveChanges();
                     }
 
-                
+
 
                 }
             return Redirect("reclams");
             }
+
+
+        public ActionResult deleteReclam(int? id) {
+            if (id == null) {
+                return RedirectToAction("reclams");
+                } else {
+                Reclamation _reclam = db.Reclamations.Find(id);
+                if (_reclam.etat == Etat.Nouveau) {
+                    db.Reclamations.Remove(db.Reclamations.Find(id));
+                    db.SaveChanges();
+                    }
+
+                return RedirectToAction("reclams");
+                }
+            }
+
 
         }
 

@@ -100,7 +100,7 @@
 
                                     <div class="font-medium whitespace-no-wrap">
                                         @if (recl.Departement != null) {
-                                            Html.DisplayFor(modelItem => recl.Departement.label);
+                                            @Html.DisplayFor(modelItem => recl.Departement.label);
                                             } else {
                                             @Html.Raw("en cours")
                                             }
@@ -127,7 +127,7 @@
                                     <div class="flex justify-start">
                                         @{
 
-
+                                            string dep = "\"Non attribué\"";
                                             string titre = "\"" + recl.titre + "\"";
                                             string descr = "\"" + recl.description + "\"";
                                             string type = "\"" + recl.type + "\"";
@@ -135,10 +135,17 @@
                                             string cin = "\"" + recl.Client.cin + "\"";
                                             string name = "\"" + recl.Client.nom + " " + recl.Client.prenom + "\"";
                                             string date = "\"" + recl.debut_reclam.ToString("dd/MM/yyyy", french) + "\"";
+                                            if (recl.Departement != null) {
+                                                dep = "\"" + recl.Departement.label + "\"";
+                                                }
+
+                                            string agename = "\"" + recl.Traite.agent.nom + " " + recl.Traite.agent.prenom + "\"";
+                                            string datefixed = "\"" + recl.fin_reclam.Value.ToString("dd/MM/yyyy", french) + "\"";
+                                            string traite = "\"" + recl.Traite.detaille + "\"";
 
 
 
-                                            <a class="flex items-center text-gray-600" href="javascript:;" onclick="Afficher(@recl.id,@titre,@descr,@type,@etat,@cin,@name,@date)"
+                                            <a class="flex  items-center text-gray-600" href="javascript:;" onclick='Afficher(@recl.id,@titre,@descr,@type,@etat,@cin,@name,@date,@dep,@agename,@datefixed,@traite)'
                                                data-toggle="modal" data-target="#Recl-confirmation-modal"> <i data-feather="check-square" class="w-4 h-4 mr-1"></i> Afficher </a>
 
                                         }
@@ -169,6 +176,7 @@
 
                         <div class="lg:ml-4 text-center lg:text-left mt-3 lg:mt-0">
                             <span id="clname" class="font-medium"> </span>
+                            <span id="recdep" class="absolute right-0 mr-4 "></span>
                             <div class="text-gray-600 text-xs">
                                 <span id="clcin"></span>
                                 <span id="recdate" class="absolute right-0 mr-4 "></span>
@@ -191,6 +199,22 @@
 
                     <div class="mt-4 text-gray-600"><span id="recdescr"></span> </div>
                 </div>
+
+                <div class="text-center lg:text-right border-t border-gray-200 dark:border-dark-5">
+                    <div class="text-center lg:text-left p-5">
+                        <div class="flex items-center justify-center lg:justify-start text-gray-600 mt-1">
+                            <span id="agename" class="mt-2"></span>
+                            <span id="datefixed" class="absolute right-0 mr-4 mt-2"></span>
+                        </div>
+                        <div class="mt-4 text-gray-600"><span id="traitedescr"></span> </div>
+
+
+
+                    </div>
+
+
+                </div>
+
                 <div class="text-center lg:text-right p-5 border-t border-gray-200 dark:border-dark-5">
 
 
@@ -206,12 +230,11 @@
 <script>
 
 
-    function Afficher(id, titre, descr, type, etat, cin, name, date) {
+    function Afficher(id, titre, descr, type, etat, cin, name, date, dep, agename, datefixed, traite) {
 
 
 
-
-        document.getElementById("modclid").value = id;
+         
         document.getElementById("clname").textContent = name;
         document.getElementById("clcin").textContent = cin;
 
@@ -221,6 +244,13 @@
 
         document.getElementById("rectype").textContent = type;
         document.getElementById("recdescr").textContent = descr;
+        document.getElementById("recdep").textContent = dep;
+
+        document.getElementById("agename").textContent = agename;
+        document.getElementById("datefixed").textContent = datefixed;
+        document.getElementById("traitedescr").textContent = traite;
+
+
 
 
 

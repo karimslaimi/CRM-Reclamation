@@ -46,9 +46,7 @@
                         Description
                     </th>
 
-                    <th class="text-center whitespace-no-wrap">
-                        Actions
-                    </th>
+                
 
                 </tr>
             </thead>
@@ -92,10 +90,7 @@
 
                             <div class="font-medium whitespace-no-wrap">  @Html.DisplayFor(modelItem => cont.description)</div>
                         </td>
-                        <td>
-
-                            <div class="font-medium whitespace-no-wrap"> Action </div>
-                        </td>
+                       
                     </tr>
 
                     }
@@ -187,3 +182,16 @@
 
 
 
+<script>
+
+    window.onload = function () {
+
+        var dashlink = this.document.getElementById("dashlink");
+        var clientlink = this.document.getElementById("clientlink");
+
+        dashlink.classList.remove("side-menu--active");
+        clientlink.classList.add("side-menu--active");
+
+
+    };
+</script>

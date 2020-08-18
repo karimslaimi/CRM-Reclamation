@@ -5,96 +5,102 @@
     Layout = "~/Views/Shared/SuperviseurLayout.cshtml";
 }
 
-<div class=" ">
-    <div class="intro-y col-span-12 flex flex-wrap sm:flex-no-wrap items-center mt-2">
-        <a href="@Url.Action("Create","Superviseur")" class="button text-white bg-theme-1 shadow-md mr-2">Ajouter un Responsable</a>
-
-        <div class="hidden md:block mx-auto text-gray-600"> </div>
-
-    </div>
-
-    <!-- BEGIN: Datatable -->
-    <div class="intro-y datatable-wrapper box p-5 mt-5">
-        <table class="table table-report table-report--bordered display datatable w-full">
-            <thead>
-                <tr>
-                    <th class="border-b-2 text-center whitespace-no-wrap sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 80px;" aria-label="Nom: activer pour trier colonne croissanbt">
-                        NOM
-                    </th>
-                    <th class=" whitespace-no-wrap">
-
-                        Prenom
-                    </th>
-                    <th class=" whitespace-no-wrap">
-                        CIN
-                    </th>
-                    <th class=" whitespace-no-wrap">
-                        Num. Tel.
-                    </th>
-                    <th class="whitespace-no-wrap">
-                        Adresse mail
-                    </th>
-                    <th class=" whitespace-no-wrap">
-                        Nom d'utilisateur'
-                    </th>
-                    <th class="text-center whitespace-no-wrap">
-                        Actions
-                    </th>
+    <div class=" ">
+      
+        <div class="intro-y flex flex-col sm:flex-row items-center mt-8">
+            <h2 class="text-lg font-medium mr-auto">
+                Responsables
+            </h2>
+            <div class="w-full sm:w-auto flex mt-4 sm:mt-0">
+                <a href="@Url.Action("Create","Superviseur")" class="button inline-block bg-theme-1 text-white">Ajouter un Responsable</a>
 
 
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model) {
-
-                    <tr class="intro-x">
-
-                        <td>
-
-                            <div class="font-medium whitespace-no-wrap">  @Html.DisplayFor(modelItem => item.nom)</div>
-                        </td>
-                        <td>
-
-                            <div class="font-medium whitespace-no-wrap">  @Html.DisplayFor(modelItem => item.prenom)</div>
-                        </td>
-                        <td>
-
-                            <div class="font-medium whitespace-no-wrap">  @Html.DisplayFor(modelItem => item.cin)</div>
-                        </td>
-                        <td>
-
-                            <div class="font-medium whitespace-no-wrap">  @Html.DisplayFor(modelItem => item.tel)</div>
-                        </td>
-                        <td>
-
-                            <div class="font-medium whitespace-no-wrap">  @Html.DisplayFor(modelItem => item.mail)</div>
-                        </td>
-                        <td>
-
-                            <div class="font-medium whitespace-no-wrap">  @Html.DisplayFor(modelItem => item.username)</div>
-                        </td>
+            </div>
+        </div>
 
 
+        <!-- BEGIN: Datatable -->
+        <div class="intro-y datatable-wrapper box p-5 mt-5">
+            <table class="table table-report table-report--bordered display datatable w-full">
+                <thead>
+                    <tr>
+                        <th class="border-b-2 text-center whitespace-no-wrap sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 80px;" aria-label="Nom: activer pour trier colonne croissanbt">
+                            NOM
+                        </th>
+                        <th class=" whitespace-no-wrap">
 
-                        <td class="table-report__action w-56">
-                            <div class="flex justify-center items-center">
-                               
-                                
+                            Prenom
+                        </th>
+                        <th class=" whitespace-no-wrap">
+                            CIN
+                        </th>
+                        <th class=" whitespace-no-wrap">
+                            Num. Tel.
+                        </th>
+                        <th class="whitespace-no-wrap">
+                            Adresse mail
+                        </th>
+                        <th class=" whitespace-no-wrap">
+                            Nom d'utilisateur'
+                        </th>
+                        <th class="text-center whitespace-no-wrap">
+                            Actions
+                        </th>
 
 
-
-
-                                <a class="flex items-center text-theme-6" href="javascript:;" id="deletemodal" data-id="@item.id" data-toggle="modal" data-target="#delete-confirmation-modal"> <i data-feather="trash-2" class="w-4 h-4 mr-1"></i> Supprimer </a>
-                            </div>
-                        </td>
                     </tr>
-                    }
-            </tbody>
-        </table>
-    </div>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model) {
 
-    <!-- END: Data List -->
-</div>
+                        <tr class="intro-x">
+
+                            <td>
+
+                                <div class="font-medium whitespace-no-wrap">  @Html.DisplayFor(modelItem => item.nom)</div>
+                            </td>
+                            <td>
+
+                                <div class="font-medium whitespace-no-wrap">  @Html.DisplayFor(modelItem => item.prenom)</div>
+                            </td>
+                            <td>
+
+                                <div class="font-medium whitespace-no-wrap">  @Html.DisplayFor(modelItem => item.cin)</div>
+                            </td>
+                            <td>
+
+                                <div class="font-medium whitespace-no-wrap">  @Html.DisplayFor(modelItem => item.tel)</div>
+                            </td>
+                            <td>
+
+                                <div class="font-medium whitespace-no-wrap">  @Html.DisplayFor(modelItem => item.mail)</div>
+                            </td>
+                            <td>
+
+                                <div class="font-medium whitespace-no-wrap">  @Html.DisplayFor(modelItem => item.username)</div>
+                            </td>
+
+
+
+                            <td class="table-report__action w-56">
+                                <div class="flex justify-center items-center">
+
+
+
+
+
+
+                                    <a class="flex items-center text-theme-6" href="javascript:;" id="deletemodal" data-id="@item.id" data-toggle="modal" data-target="#delete-confirmation-modal"> <i data-feather="trash-2" class="w-4 h-4 mr-1"></i> Supprimer </a>
+                                </div>
+                            </td>
+                        </tr>
+                        }
+                </tbody>
+            </table>
+        </div>
+
+        <!-- END: Data List -->
+    </div>
 
 
 <!-- BEGIN: Delete Confirmation Modal -->
@@ -132,3 +138,16 @@
 </script>
 
  
+<script>
+
+    window.onload = function () {
+
+        var dashlink = this.document.getElementById("dashlink");
+        var respolink = this.document.getElementById("respolink");
+
+        dashlink.classList.remove("side-menu--active");
+        respolink.classList.add("side-menu--active");
+
+
+    };
+</script>

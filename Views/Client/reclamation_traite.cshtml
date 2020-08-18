@@ -167,6 +167,7 @@
 </div>
 
 
+
 <div class="modal" id="Recl-confirmation-modal">
     <div class="modal__content">
 
@@ -177,6 +178,7 @@
 
                         <div class="lg:ml-4 text-center lg:text-left mt-3 lg:mt-0">
                             <span id="clname" class="font-medium"> </span>
+                            <span id="recdep" class="absolute right-0 mr-4 "></span>
                             <div class="text-gray-600 text-xs">
                                 <span id="clcin"></span>
                                 <span id="recdate" class="absolute right-0 mr-4 "></span>
@@ -199,20 +201,39 @@
 
                     <div class="mt-4 text-gray-600"><span id="recdescr"></span> </div>
                 </div>
-                <div class="text-center lg:text-right p-5 border-t border-gray-200 dark:border-dark-5">
-                 
 
-                    <button data-dismiss="modal" class="button button--sm text-gray-700 border border-gray-300 dark:border-dark-5 dark:text-gray-300">Fermer</button>
+                <div class="text-center lg:text-right border-t border-gray-200 dark:border-dark-5">
+                    <div class="text-center lg:text-left p-5">
+                        <div class="flex items-center justify-center lg:justify-start text-gray-600 mt-1">
+                            <span id="agename" class="mt-2"></span>
+                            <span id="datefixed" class="absolute right-0 mr-4 mt-2"></span>
+                        </div>
+                        <div class="mt-4 text-gray-600"><span id="traitedescr"></span> </div>
+
+
+
+                    </div>
+
+
+                </div>
+
+                <div class="text-center lg:text-right p-5 border-t border-gray-200 dark:border-dark-5">
+
+
+
+                    <a data-dismiss="modal" href="javascript:;" class="button button--sm text-gray-700 border border-gray-300 dark:border-dark-5 dark:text-gray-300">Fermer</a>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
+
 <script>
 
 
-    function Afficher(id, titre, descr, type, etat, cin, name, date) {
+    function Afficher(id, titre, descr, type, etat, cin, name, date, dep, agename, datefixed, traite) {
+
 
 
 
@@ -225,13 +246,21 @@
 
         document.getElementById("rectype").textContent = type;
         document.getElementById("recdescr").textContent = descr;
+        document.getElementById("recdep").textContent = dep;
 
-        console.log("js is ok")
+        document.getElementById("agename").textContent = agename;
+        document.getElementById("datefixed").textContent = datefixed;
+        document.getElementById("traitedescr").textContent = traite;
+
+
+
+
 
 
 
     }
 </script>
+
 
 <script>
 

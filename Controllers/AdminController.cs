@@ -300,7 +300,7 @@ namespace PFE_reclamation.Controllers {
             }
 
         public ActionResult traite_reclams() {
-            IList<Reclamation> _reclams = db.Reclamations.Where(x => x.etat == Etat.Finis).ToList();
+            IList<Reclamation> _reclams = db.Reclamations.Include(x=>x.Traite.agent).Where(x => x.etat == Etat.Finis).ToList();
             return View(_reclams);
             } 
         public ActionResult encours_reclams() {

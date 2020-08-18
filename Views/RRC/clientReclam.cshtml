@@ -68,7 +68,7 @@ this for list claims and contracts
                                     <div class="font-medium whitespace-no-wrap">
                                         @{
                                             var d2 = recl.debut_reclam.ToString("dd/MM/yyyy", french);
-                                            Html.DisplayFor(modelItem => d2);
+                                            @d2
                                         }
 
                                     </div>
@@ -99,7 +99,7 @@ this for list claims and contracts
 
                                     <div class="font-medium whitespace-no-wrap">
                                         @if (recl.Departement != null) {
-                                           @Html.DisplayFor(modelItem => recl.Departement.label);
+                                            @Html.DisplayFor(modelItem => recl.Departement.label);
                                             } else {
                                             @Html.Raw("non attribué")
                                             }
@@ -109,7 +109,7 @@ this for list claims and contracts
                                     @if (recl.etat == PFE_reclamation.Models.Etat.Nouveau) {
                                         <div class="flex items-center justify-center text-theme-6"> <i data-feather="check-square" class="w-4 h-4 mr-2"></i> Nouveau </div>
                                         } else if (recl.etat == PFE_reclamation.Models.Etat.En_cours) {
-                                        <div class="flex items-center justify-center text-theme-9"> <i data-loading-feather="three-dots" class="w-4 h-4 mr-2"></i> En cours </div>
+                                        <div class="flex items-center justify-center text-theme-9"> <i data-loading-icon="spinning-circles" class="w-4 h-4 mr-2"></i> En cours </div>
                                         } else {
                                         <div class="flex items-center justify-center text-gray-600 text-theme-6"> <i data-feather="check-square" class="w-4 h-4 mr-2"></i> Finis</div>
                                         }
@@ -137,10 +137,14 @@ this for list claims and contracts
 
 
 
-                                            <a class="flex button  items-center mr-1" href="javascript:;" onclick="Afficher(@recl.id,@titre,@descr,@type,@etat,@cin,@name,@date)"
+                                            <a class="flex  items-center text-gray-600" href="javascript:;" onclick="Afficher(@recl.id,@titre,@descr,@type,@etat,@cin,@name,@date)"
                                                data-toggle="modal" data-target="#Recl-confirmation-modal"> <i data-feather="check-square" class="w-4 h-4 mr-1"></i> Afficher </a>
 
-                                        } <a class="flex items-center text-theme-6" href="javascript:;" id="deletemodal" data-id="@recl.id" data-toggle="modal" data-target="#delete-confirmation-modal"> <i data-feather="trash-2" class="w-4 h-4 mr-1"></i> Supprimer </a>
+                                        }
+                                        @if (recl.etat == PFE_reclamation.Models.Etat.Nouveau) {
+                                            <a class="flex items-center text-theme-6 ml-2" href="javascript:;" onclick="deletefn(@recl.id)" id="deletemodal" data-toggle="modal" data-target="#delete-confirmation-modal"> <i data-feather="trash-2" class="w-4 h-4 mr-1"></i> Supprimer </a>
+
+                                            }
                                     </div>
                                 </td>
                             </tr>
@@ -207,6 +211,41 @@ this for list claims and contracts
 </div>
 
 
+<!-- BEGIN: Delete Confirmation Modal -->
+<div class="modal" id="delete-confirmation-modal">
+    <div class="modal__content">
+        <div class="p-5 text-center">
+            <i data-feather="x-circle" class="w-16 h-16 text-theme-6 mx-auto mt-3"></i>
+            <div class="text-3xl mt-5">Êtes-vous sûr?</div>
+            <div class="text-gray-600 mt-2">Voulez-vous vraiment supprimer ce client? Ce processus ne peut pas être annulé.</div>
+        </div>
+        <div class="px-5 pb-8 text-center">
+            <form action="@Url.Action("deleteReclam","RRC" )">
+                <button type="button" data-dismiss="modal" class="button w-24 border text-gray-700 mr-1">Annuler</button>
+
+                <input type="hidden" name="id" value="" id="deleteid" />
+                <button type="submit" class="button w-24 bg-theme-6 text-white">Supprimer</button>
+            </form>
+
+        </div>
+    </div>
+</div>
+<!-- END: Delete Confirmation Modal -->
+
+
+
+<script>
+
+    function deletefn(id) {
+
+
+
+        document.getElementById("deleteid").value = id;
+
+
+    }
+
+</script>
 <script>
 
 
@@ -226,12 +265,29 @@ this for list claims and contracts
         document.getElementById("rectype").textContent = type;
         document.getElementById("recdescr").textContent = descr;
 
-        if (etat != "Nouveau") {
-            document.getElementById("verifybtn").style.display = "none";
+        if (etat == "Nouveau") {
+            document.getElementById("verifybtn").style.visibility = 'visible';
+        } else {
+            document.getElementById("verifybtn").style.visibility = 'hidden';
         }
 
 
 
 
     }
+</script>
+
+
+<script>
+
+    window.onload = function () {
+
+        var dashlink = this.document.getElementById("dashlink");
+        var clientlink = this.document.getElementById("clientlink");
+
+        dashlink.classList.remove("side-menu--active");
+        clientlink.classList.add("side-menu--active");
+
+
+    };
 </script>

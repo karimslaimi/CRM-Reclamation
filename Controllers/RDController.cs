@@ -110,7 +110,8 @@ namespace PFE_reclamation.Controllers
             if (ModelState.IsValid)
             {
                 int idresp = int.Parse(ClaimsPrincipal.Current.Claims.FirstOrDefault(x => x.Type == "id").Value);
-               // agent.departement=db.Departements.Where(x=>x.)
+                Responsable_departement _rd = db.Responsable_Departements.Find(idresp);
+                agent.departement = db.Departements.Where(x => x.id == _rd.departementId).FirstOrDefault();
                 agent.password = authservice.HashPassword(agent.password);
                 db.Agents.Add(agent);
                 db.SaveChanges();
@@ -153,7 +154,9 @@ namespace PFE_reclamation.Controllers
 
             int id = int.Parse(ClaimsPrincipal.Current.Claims.FirstOrDefault(x => x.Type == "id").Value);
             Responsable_departement _rd = db.Responsable_Departements.Include(x=>x.departement).Where(x=>x.id==id).FirstOrDefault();
+
             List<Reclamation> _reclams = db.Reclamations.Where(x => x.Departement.id == _rd.departement.id).ToList();
+
             List<Agent> _agents = db.Agents.Where(x => x.departement.id == _rd.departement.id).ToList();
             ViewBag.agents = _agents;
             return View(_reclams);
@@ -168,6 +171,7 @@ namespace PFE_reclamation.Controllers
             _traite.agent = _agent;
             _traite.Reclamation = _reclam;
             _traite.detaille = "";
+            _traite.date = DateTime.Now;
             db.Traites.Add(_traite);
             db.SaveChanges();
             return Redirect("reclams");
