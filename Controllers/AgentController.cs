@@ -128,8 +128,6 @@ namespace PFE_reclamation.Controllers {
             List<Reclamation> _reclams = db.Reclamations.Where(x => x.Traite.agent.id == id && x.etat==Etat.En_cours).ToList();
             return View(_reclams);
 
-
-
             }
 
         public ActionResult reclams_traite() {

@@ -137,10 +137,14 @@
                                             string cin = "\"" + recl.Client.cin + "\"";
                                             string name = "\"" + recl.Client.nom + " " + recl.Client.prenom + "\"";
                                             string date = "\"" + recl.debut_reclam.ToString("dd/MM/yyyy", french) + "\"";
+                                            string agename = "";
+                                            if (recl.Traite != null) {
+                                                agename = "\"" + recl.Traite.agent.nom + " " + recl.Traite.agent.prenom + "\"";
+                                                }
 
 
 
-                                            <a class="flex  items-center text-gray-600" href="javascript:;" onclick="Afficher(@recl.id,@titre,@descr,@type,@etat,@cin,@name,@date)"
+                                            <a class="flex  items-center text-gray-600" href="javascript:;" onclick="Afficher(@recl.id,@titre,@descr,@type,@etat,@cin,@name,@date,@agename)"
                                                data-toggle="modal" data-target="#Recl-confirmation-modal"> <i data-feather="check-square" class="w-4 h-4 mr-1"></i> Afficher </a>
 
                                             }
@@ -194,22 +198,30 @@
                     <div class="mt-4 text-gray-600"><span id="recdescr"></span> </div>
                 </div>
                 <div class="text-center lg:text-right p-5 border-t border-gray-200 dark:border-dark-5">
-                    @using (Html.BeginForm("valider_reclam", "Superviseur")) {
-                        <input type="hidden" name="idr" id="modclid" value="" />
-                        <select name="iddep" data-hide-search="true" class="select2 w-full mb-2 mt-2">
-
-                            <option value="-1">selectionner un département</option>
-                            @foreach (var dep in ViewBag.deps) {
-                                <option value="@dep.id">@dep.label</option>
-
-                                }
-
-                        </select>
-
-                        <button type="submit" class="button button--sm text-white bg-theme-1 mr-2 mt-2">Vérifier</button>
+                    <div id="agent"></div>
+                    @using (Html.BeginForm("affecte_reclam", "RD")) {
+                        <input type="hidden" name="idrec" id="modclid" value="" />
+                        <div id="selectlist">
 
 
-                        <button data-dismiss="modal" class="button button--sm text-gray-700 border mt-2 border-gray-300 dark:border-dark-5 dark:text-gray-300">Annuler</button>
+                            <select name="idage" data-hide-search="true" class="select2 w-full mb-2 mt-2">
+
+                                <option value="-1">selectionner un Agent</option>
+                                @foreach (var agent in ViewBag.agents) {
+
+                                    string fullname = agent.nom + " " + agent.prenom;
+
+                                    <option value="@agent.id">@fullname</option>
+
+                                    }
+
+                            </select>
+                        </div>
+                        <button type="submit" class="button button--sm text-white bg-theme-1 mr-2 mt-2" id="affectbtn">Affecter</button>
+
+
+
+                        <button type="reset" data-dismiss="modal" class="button button--sm text-gray-700 border mt-2 border-gray-300 dark:border-dark-5 dark:text-gray-300">Annuler</button>
                         }
                 </div>
             </div>
@@ -221,10 +233,9 @@
 <script>
 
 
-    function Afficher(id, titre, descr, type, etat, cin, name, date) {
+    function Afficher(id, titre, descr, type, etat, cin, name, date,agename) {
 
-
-        console.log(date);
+         
 
         document.getElementById("modclid").value = id;
         document.getElementById("clname").textContent = name;
@@ -237,8 +248,45 @@
         document.getElementById("rectype").textContent = type;
         document.getElementById("recdescr").textContent = descr;
 
+        if (agename != undefined) {
+            document.getElementById("affectbtn").style.display = "none";
+           
+            document.getElementById("selectlist").style.display = "none";
+            var container = document.getElementById("agent");
+            container.innerHTML = "";
+            var input = document.createElement("input");
+            input.type = "text";
+            input.name = "agentname";
+            input.disabled = true;
+            input.value = agename;
+            input.classList.add("input", "w-full", "border", "mt-2");
+            container.appendChild(input);
+
+            
+
+
+
+        }
+
+        
 
 
 
     }
+</script>
+
+
+
+<script>
+
+    window.onload = function () {
+
+        var dashlink = this.document.getElementById("dashlink");
+        var reclamlink = this.document.getElementById("reclamlink");
+
+        dashlink.classList.remove("side-menu--active");
+        reclamlink.classList.add("side-menu--active");
+
+
+    };
 </script>
