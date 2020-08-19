@@ -253,8 +253,8 @@ namespace PFE_reclamation.Controllers {
             }
 
         public ActionResult treatedreclams() {
-            List<Reclamation> _reclamas = db.Reclamations.Where(x => x.etat == Etat.Finis).OrderBy(x => x.etat).ToList();
-            return View(_reclamas);
+            IList<Reclamation> _reclams = db.Reclamations.Include(x => x.Traite.agent).Where(x => x.etat == Etat.Finis).ToList();
+            return View(_reclams);
 
 
             }

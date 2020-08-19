@@ -151,7 +151,7 @@ namespace PFE_reclamation.Controllers
             }
         public ActionResult encours_reclams() {
 
-            List<Reclamation> _reclams = db.Reclamations.Where(x=>x.Departement==null).ToList();
+            List<Reclamation> _reclams = db.Reclamations.Where(x=>x.Departement==null && x.etat==Etat.En_cours).ToList();
             ViewBag.deps = db.Departements.ToList();
             return View(_reclams);
 
@@ -159,8 +159,8 @@ namespace PFE_reclamation.Controllers
             }
 
         public ActionResult traite_reclams() {
-            List<Reclamation> _reclams = db.Reclamations.Where(x => x.etat==Etat.Finis).ToList();
-            
+            List<Reclamation> _reclams = db.Reclamations.Include(x => x.Traite.agent).Where(x => x.etat == Etat.Finis).ToList();
+
             return View(_reclams);
             }
 

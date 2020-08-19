@@ -132,9 +132,9 @@
 
                                 <td class="table-report__action w-56">
                                     <div class="flex justify-center items-center">
-                                        @if (recl.etat == PFE_reclamation.Models.Etat.Nouveau) {
+                                        @{
 
-
+                                            string dep = "\"Non attribué\"";
                                             string titre = "\"" + recl.titre + "\"";
                                             string descr = "\"" + recl.description + "\"";
                                             string type = "\"" + recl.type + "\"";
@@ -142,15 +142,20 @@
                                             string cin = "\"" + recl.Client.cin + "\"";
                                             string name = "\"" + recl.Client.nom + " " + recl.Client.prenom + "\"";
                                             string date = "\"" + recl.debut_reclam.ToString("dd/MM/yyyy", french) + "\"";
+                                            if (recl.Departement != null) {
+                                                dep = "\"" + recl.Departement.label + "\"";
+                                                }
+
+                                            string agename = "\"" + recl.Traite.agent.nom + " " + recl.Traite.agent.prenom + "\"";
+                                            string datefixed = "\"" + recl.fin_reclam.Value.ToString("dd/MM/yyyy", french) + "\"";
+                                            string traite = "\"" + recl.Traite.detaille + "\"";
 
 
 
-                                            <a class="flex  items-center text-theme-9" href="javascript:;" onclick="Afficher(@recl.id,@titre,@descr,@type,@etat,@cin,@name,@date)"
+                                            <a class="flex  items-center text-gray-600" href="javascript:;" onclick='Afficher(@recl.id,@titre,@descr,@type,@etat,@cin,@name,@date,@dep,@agename,@datefixed,@traite)'
                                                data-toggle="modal" data-target="#Recl-confirmation-modal"> <i data-feather="check-square" class="w-4 h-4 mr-1"></i> Afficher </a>
 
-                                            } else {
-                                            <button class="flex  items-center text-gray-600" diabled>Vérifié</button>
-                                            }
+                                        }
                                     </div>
                                 </td>
                             </tr>
@@ -165,7 +170,6 @@
     </div>
 
 </div>
-
 
 
 <div class="modal" id="Recl-confirmation-modal">

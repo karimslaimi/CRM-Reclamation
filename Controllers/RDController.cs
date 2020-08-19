@@ -217,9 +217,16 @@ namespace PFE_reclamation.Controllers
 
 
             }
+        public ActionResult treatedreclams() {
+            int idr = int.Parse(ClaimsPrincipal.Current.Claims.FirstOrDefault(x => x.Type == "id").Value);
+            Responsable_departement _rd = db.Responsable_Departements.FirstOrDefault(x => x.id == idr);
+            List<Reclamation> _reclams = db.Reclamations.Include(x => x.Traite.agent).Where(x => x.etat == Etat.Finis && x.DepartementId==_rd.departementId).ToList();
 
-     
+            return View(_reclams);
+            }
 
 
+
+
+        }
     }
-}
