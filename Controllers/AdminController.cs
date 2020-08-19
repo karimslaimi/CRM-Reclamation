@@ -14,6 +14,7 @@ using System.Web.Mvc;
 using System.IO;
 using Syncfusion.HtmlConverter;
 using SelectPdf;
+using System.Web.Security;
 
 namespace PFE_reclamation.Controllers {
     [CustomAuthorize("ADMIN")]
@@ -828,9 +829,7 @@ namespace PFE_reclamation.Controllers {
             // instantiate a html to pdf converter object
             HtmlToPdf converter = new HtmlToPdf();
 
-            // set authentication options
-            converter.Options.Authentication.Username = "admin";
-            converter.Options.Authentication.Password = "admin123";
+         
 
             // set converter options
             converter.Options.PdfPageSize = pageSize;
