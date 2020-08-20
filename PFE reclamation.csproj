@@ -461,6 +461,8 @@
     <Content Include="Views\Agent\messages.cshtml" />
     <Content Include="Views\Agent\reclams_traite.cshtml" />
     <Content Include="Views\RD\editAgent.cshtml" />
+    <Content Include="Views\Home\generatePDF.cshtml" />
+    <Content Include="Views\Shared\PDFLayout.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

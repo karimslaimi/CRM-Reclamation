@@ -2,6 +2,7 @@
 using PFE_reclamation.Models;
 using PFE_reclamation.Security;
 using PFE_reclamation.Services;
+using SelectPdf;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -110,7 +111,55 @@ namespace PFE_reclamation.Controllers
             return Redirect("index");
 
         }
+        [HttpGet]
+        public ActionResult generatePDF()
+        {
 
+            List<Reclamation> _rc = db.Reclamations.ToList(); 
+
+            return View(_rc.First());
+        }
+
+        public ActionResult pdfConvert()
+        {
+
+            //Get the current URL 
+            string url = "https://localhost:44385/Home/generatePDF";
+            //HttpContext.Request.Url.AbsoluteUri;
+
+            PdfPageSize pageSize = (PdfPageSize)Enum.Parse(typeof(PdfPageSize), "1", true);
+
+
+            int webPageWidth = 1024;
+
+            int webPageHeight = 800;
+
+            // instantiate a html to pdf converter object
+            HtmlToPdf converter = new HtmlToPdf();
+
+            // get base url (to resolve relative links to external resources)
+            string baseUrl = url;
+
+
+            // set converter options
+            converter.Options.PdfPageSize = pageSize;
+            converter.Options.WebPageWidth = webPageWidth;
+            converter.Options.WebPageHeight = webPageHeight;
+
+            // create a new pdf document converting an url
+            SelectPdf.PdfDocument doc = converter.ConvertUrl(baseUrl);
+
+            // save pdf document
+            byte[] pdf = doc.Save();
+
+            // close pdf document
+            doc.Close();
+            // return resulted pdf document
+            FileResult fileResult = new FileContentResult(pdf, "application/pdf");
+            fileResult.FileDownloadName = "Document.pdf";
+            return fileResult;
+
+        }
 
     }
 }
