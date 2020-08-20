@@ -463,6 +463,8 @@
     <Content Include="Views\RD\editAgent.cshtml" />
     <Content Include="Views\Home\generatePDF.cshtml" />
     <Content Include="Views\Shared\PDFLayout.cshtml" />
+    <Content Include="Views\RD\treatedreclams.cshtml" />
+    <Content Include="Views\Client\messages.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

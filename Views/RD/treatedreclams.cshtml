@@ -1,8 +1,8 @@
 ﻿@model IEnumerable<PFE_reclamation.Models.Reclamation>
 
 @{
-    ViewBag.Title = "myreclams";
-    Layout = "~/Views/Shared/ClientLayout.cshtml";
+    ViewBag.Title = "treatedreclams";
+    Layout = "~/Views/Shared/RDLayout.cshtml";
 }
 
 
@@ -32,10 +32,6 @@
                             </th>
                             <th class=" whitespace-no-wrap">
 
-                                Titre
-                            </th>
-                            <th class=" whitespace-no-wrap">
-
                                 Date création
                             </th>
                             <th class=" whitespace-no-wrap">
@@ -50,7 +46,9 @@
                             <th class=" whitespace-no-wrap">
                                 Etat
                             </th>
-
+                            <th class=" whitespace-no-wrap">
+                                Description
+                            </th>
                             <th class=" whitespace-no-wrap">
                                 Actions
                             </th>
@@ -66,10 +64,6 @@
                                 <td>
 
                                     <div class="font-medium whitespace-no-wrap">  @Html.DisplayFor(modelItem => recl.id)</div>
-                                </td>
-                                <td>
-
-                                    <div class="font-medium whitespace-no-wrap">  @Html.DisplayFor(modelItem => recl.titre)</div>
                                 </td>
                                 <td>
 
@@ -111,7 +105,7 @@
 
                                     <div class="font-medium whitespace-no-wrap">
                                         @if (recl.Departement != null) {
-                                            @Html.DisplayFor(modelItem => recl.Departement.label);
+                                            Html.DisplayFor(modelItem => recl.Departement.label);
                                             } else {
                                             @Html.Raw("en cours")
                                             }
@@ -121,55 +115,51 @@
                                     @if (recl.etat == PFE_reclamation.Models.Etat.Nouveau) {
                                         <div class="flex text-theme-6"> <i data-feather="check-square" class="w-4 h-4 mr-2"></i> Nouveau </div>
                                         } else if (recl.etat == PFE_reclamation.Models.Etat.En_cours) {
-                                        <div class="flex  text-theme-9"> <i data-loading-icon="three-dots" class="w-4 h-4 mr-2"></i> En cours </div>
+                                        <div class="flex  text-theme-9"> <i data-feather="fa fa-spinner" class="w-4 h-4 mr-2"></i> En cours </div>
                                         } else {
-                                        <div class="flex text-gray-600"> <i data-feather="check-square" class="w-4 h-4 mr-2"></i> Finis</div>
+                                        <div class="flex   text-gray-600"> <i data-feather="check-square" class="w-4 h-4 mr-2"></i> Finis</div>
                                         }
 
 
 
 
                                 </td>
+                                <td>
+                                    <div class="font-medium whitespace-no-wrap">   @Html.DisplayFor(modelItem => recl.description)</div>
+                                </td>
 
 
 
-
-                                <td class="table-report__action ">
+                                <td class="table-report__action w-56">
                                     <div class="flex justify-center items-center">
                                         @{
 
-
+                                            string dep = "\"Non attribué\"";
                                             string titre = "\"" + recl.titre + "\"";
                                             string descr = "\"" + recl.description + "\"";
-                                            int type1 = (int)recl.type; string type = "\"" + recl.type + "\"";
+                                            string type = "\"" + recl.type + "\"";
                                             string etat = "\"" + recl.etat + "\"";
                                             string cin = "\"" + recl.Client.cin + "\"";
                                             string name = "\"" + recl.Client.nom + " " + recl.Client.prenom + "\"";
                                             string date = "\"" + recl.debut_reclam.ToString("dd/MM/yyyy", french) + "\"";
+                                            if (recl.Departement != null) {
+                                                dep = "\"" + recl.Departement.label + "\"";
+                                                }
+
+                                            string agename = "\"" + recl.Traite.agent.nom + " " + recl.Traite.agent.prenom + "\"";
+                                            string datefixed = "\"" + recl.fin_reclam.Value.ToString("dd/MM/yyyy", french) + "\"";
+                                            string traite = "\"" + recl.Traite.detaille + "\"";
 
 
 
-                                            <a class="flex items-center text-gray-600 mr-2" href="javascript:;" onclick="Afficher(@recl.id,@titre,@descr,@type,@etat,@cin,@name,@date)"
+                                            <a class="flex  items-center text-gray-600" href="javascript:;" onclick='Afficher(@recl.id,@titre,@descr,@type,@etat,@cin,@name,@date,@dep,@agename,@datefixed,@traite)'
                                                data-toggle="modal" data-target="#Recl-confirmation-modal"> <i data-feather="check-square" class="w-4 h-4 mr-1"></i> Afficher </a>
 
                                         }
-                                        @if (recl.etat == PFE_reclamation.Models.Etat.Nouveau) {
-
-
-
-
-                                            <a class="flex items-center mr-3" onclick="edit(@recl.id,@titre,@descr,@type1)"
-                                               data-toggle="modal" data-target="#reclam-modal" id="editreclam"
-                                               href="javascript:;"> <i data-feather="settings" class="w-4 h-4 mr-1"></i> Modifier </a>
-                                           
-                                        <a class="flex  items-center text-theme-6" href="javascript:;"
-                                           id="deletemodal" data-id="@recl.id" data-toggle="modal" data-target="#delete-confirmation-modal"> <i data-feather="trash-2" class="w-4 h-4 mr-1"></i> Supprimer </a>
-                                            }
-
                                     </div>
                                 </td>
                             </tr>
-                                                }
+                            }
                     </tbody>
                 </table>
             </div>
@@ -182,119 +172,6 @@
 </div>
 
 
-
-
-<div class="modal" id="reclam-modal">
-    <div class="modal__content">
-        <div class="flex items-center px-5 py-5 sm:py-3 border-b border-gray-200 dark:border-dark-5">
-            <h2 class="font-medium text-base mr-auto"> AJouter un contrat</h2>
-
-        </div>
-        <!-- BEGIN: Form Layout -->
-        <form action="@Url.Action("EditR","Client")">
-            <div class="intro-y box lg:mt-5">
-
-
-                <div class="p-5">
-                    <div class="grid grid-cols-12 gap-5">
-                        <div class="col-span-12 xl:col-span-6">
-                            <input type="hidden" value="" name="recid" id="recid" />
-                            <div class="mt-3">
-                                <label>Titre</label>
-
-                                <input type="text" name="titre" class="input w-full border mt-2" placeholder="Titre" value="" id="modaltitle" />
-                            </div>
-                            <div class="mt-3">
-
-
-                                <div class="col-span-12 sm:col-span-6">
-                                    <label>Type</label>
-
-                                    @{
-                                        var enums = new SelectList(Enum.GetValues(typeof(PFE_reclamation.Models.Types)).Cast<PFE_reclamation.Models.Types>().Select(v => new SelectListItem {
-                                            Text = v.ToString(),
-                                            Value = ((int)v).ToString()
-                                            }).ToList(), "Value", "Text");
-                                    }
-                                    <select name="Type" class="select2 w-full" data-hide-search = "true" id = "enum_select">
-
-                                        <option value="">Sélectionner un type</option>
-                                        @foreach (var x in enums) {
-                                            <option value="@x.Value">@x.Text</option>
-                                            }
-
-                                    </select>
-                                   
-                                </div>
-                            </div>
-
-                        </div>
-                        <div class="col-span-12 xl:col-span-6">
-
-                            <div class="mt-3">
-                                <label>Détaille contrat</label>
-
-                                <textarea style="height:115px" placeholder="Description" class="w-full border mt-2" name="descr" id="modaldescr"></textarea>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-                    <div class="flex justify-end mt-4">
-                        @if (ViewBag.msg != null) {
-
-                            <span class="text-theme-9">
-                                @ViewBag.msg
-                            </span>
-                            }
-                        @if (ViewBag.error != null) {
-
-                            <span class=" text-theme-6 ">
-                                @ViewBag.error
-                            </span>
-                            }
-                    </div>
-                </div>
-
-
-
-
-
-            </div>
-            <!-- END: Form Layout -->
-            <div class="px-5 py-3 text-right border-t border-gray-200 dark:border-dark-5">
-                <button type="button" data-dismiss="modal" class="button w-20 border text-gray-700 dark:border-dark-5 dark:text-gray-300 mr-1">Annuler</button>
-                <button type="submit" class="button w-25 bg-theme-1 text-white">Enregistrer</button>
-            </div>
-        </form>
-    </div>
-</div>
-
-
-
-<!-- BEGIN: Delete Confirmation Modal -->
-<div class="modal" id="delete-confirmation-modal">
-    <div class="modal__content">
-        <div class="p-5 text-center">
-            <i data-feather="x-circle" class="w-16 h-16 text-theme-6 mx-auto mt-3"></i>
-            <div class="text-3xl mt-5">Êtes-vous sûr?</div>
-            <div class="text-gray-600 mt-2">Voulez-vous vraiment supprimer ce client? Ce processus ne peut pas être annulé.</div>
-        </div>
-        <div class="px-5 pb-8 text-center">
-            <form action="@Url.Action("deletereclam","Client" )">
-                <button type="button" data-dismiss="modal" class="button w-24 border text-gray-700 mr-1">Annuler</button>
-
-                <input type="hidden" name="id" value="" id="deleteid" />
-                <button type="submit" class="button w-24 bg-theme-6 text-white">Supprimer</button>
-            </form>
-
-        </div>
-    </div>
-</div>
-<!-- END: Delete Confirmation Modal -->
-
-
 <div class="modal" id="Recl-confirmation-modal">
     <div class="modal__content">
 
@@ -305,6 +182,7 @@
 
                         <div class="lg:ml-4 text-center lg:text-left mt-3 lg:mt-0">
                             <span id="clname" class="font-medium"> </span>
+                            <span id="recdep" class="absolute right-0 mr-4 "></span>
                             <div class="text-gray-600 text-xs">
                                 <span id="clcin"></span>
                                 <span id="recdate" class="absolute right-0 mr-4 "></span>
@@ -326,13 +204,29 @@
 
 
                     <div class="mt-4 text-gray-600"><span id="recdescr"></span> </div>
-                </div> 
-                    <div class="text-center lg:text-right p-5 border-t border-gray-200 dark:border-dark-5">
+                </div>
 
-                      
+                <div class="text-center lg:text-right border-t border-gray-200 dark:border-dark-5">
+                    <div class="text-center lg:text-left p-5">
+                        <div class="flex items-center justify-center lg:justify-start text-gray-600 mt-1">
+                            <span id="agename" class="mt-2"></span>
+                            <span id="datefixed" class="absolute right-0 mr-4 mt-2"></span>
+                        </div>
+                        <div class="mt-4 text-gray-600"><span id="traitedescr"></span> </div>
 
-                        <a data-dismiss="modal" href="javascript:;" class="button button--sm text-gray-700 border border-gray-300 dark:border-dark-5 dark:text-gray-300">Fermer</a>
+
+
                     </div>
+
+
+                </div>
+
+                <div class="text-center lg:text-right p-5 border-t border-gray-200 dark:border-dark-5">
+
+
+
+                    <a data-dismiss="modal" href="javascript:;" class="button button--sm text-gray-700 border border-gray-300 dark:border-dark-5 dark:text-gray-300">Fermer</a>
+                </div>
             </div>
         </div>
     </div>
@@ -342,8 +236,7 @@
 <script>
 
 
-    function Afficher(id, titre, descr, type, etat, cin, name, date) {
-
+    function Afficher(id, titre, descr, type, etat, cin, name, date, dep, agename, datefixed, traite) {
 
 
 
@@ -357,53 +250,21 @@
 
         document.getElementById("rectype").textContent = type;
         document.getElementById("recdescr").textContent = descr;
+        document.getElementById("recdep").textContent = dep;
 
-        if (etat != "Nouveau") {
-            document.getElementById("verifybtn").style.display = "none";
-        }
-
-
-
-
-    }
-</script>
+        document.getElementById("agename").textContent = agename;
+        document.getElementById("datefixed").textContent = datefixed;
+        document.getElementById("traitedescr").textContent = traite;
 
 
 
-<script>
-
-
-    function edit(id, titre, descr, type) {
-
-
-        // $("#enum_select").val(2).change();
-        //$('#enum_select').text(type).trigger("change");
-
-    /*  for (var x = 0; x < dropdownlistbox.length - 1; x++) {
-            console.log(dropdownlistbox.options[x].text)
-            if (type == dropdownlistbox.options[x].text)
-
-
-                dropdownlistbox.selectedIndex = x;
-        }
-
-   */
-
-         document.getElementById("enum_select").value = type;
-
-  
-
-
-
-        document.getElementById("recid").value = id;
-        document.getElementById("modaltitle").value = titre;
-        document.getElementById("modaldescr").value = descr
 
 
 
 
     }
 </script>
+
 
 <script>
 

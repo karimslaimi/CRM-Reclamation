@@ -8,6 +8,7 @@
 @using System.Globalization;
 @{
     CultureInfo french = new CultureInfo("fr-FR"); }
+
 <div class="grid grid-cols-12 gap-6 mt-5">
 
     <div class="intro-y col-span-12 lg:col-span-12">
@@ -36,18 +37,17 @@
                             <th class=" whitespace-no-wrap">
                                 Type
                             </th>
-
-                            <th class=" whitespace-no-wrap">
-                                Etat
-                            </th>
                             <th class="whitespace-no-wrap">
                                 Departement
                             </th>
                             <th class=" whitespace-no-wrap">
-                                Client
+                                Etat
                             </th>
                             <th class=" whitespace-no-wrap">
-                                Action
+                                Description
+                            </th>
+                            <th class=" whitespace-no-wrap">
+                                Actions
                             </th>
 
                         </tr>
@@ -102,7 +102,7 @@
 
                                     <div class="font-medium whitespace-no-wrap">
                                         @if (recl.Departement != null) {
-                                            @Html.DisplayFor(modelItem => recl.Departement.label);
+                                            Html.DisplayFor(modelItem => recl.Departement.label);
                                             } else {
                                             @Html.Raw("en cours")
                                             }
@@ -112,7 +112,7 @@
                                     @if (recl.etat == PFE_reclamation.Models.Etat.Nouveau) {
                                         <div class="flex text-theme-6"> <i data-feather="check-square" class="w-4 h-4 mr-2"></i> Nouveau </div>
                                         } else if (recl.etat == PFE_reclamation.Models.Etat.En_cours) {
-                                        <div class="flex  text-theme-9"> <i data-feather="check-square" class="w-4 h-4 mr-2"></i> En cours </div>
+                                        <div class="flex  text-theme-9"> <i data-feather="fa fa-spinner" class="w-4 h-4 mr-2"></i> En cours </div>
                                         } else {
                                         <div class="flex   text-gray-600"> <i data-feather="check-square" class="w-4 h-4 mr-2"></i> Finis</div>
                                         }
@@ -121,23 +121,14 @@
 
 
                                 </td>
-
-
-
-
-                                <td class="table-report__action w-56">
-                                    <div class="flex justify-start ">
-                                        @{
-                                            var fullName = recl.Client.nom + " " + recl.Client.prenom;
-                                            @Html.DisplayFor(m => fullName)
-                                        }
-
-                                    </div>
+                                <td>
+                                    <div class="font-medium whitespace-no-wrap">   @Html.DisplayFor(modelItem => recl.description)</div>
                                 </td>
 
 
+
                                 <td class="table-report__action w-56">
-                                    <div class="flex justify-start ">
+                                    <div class="flex justify-center items-center">
                                         @{
 
                                             string dep = "\"Non attribué\"";
@@ -162,7 +153,6 @@
                                                data-toggle="modal" data-target="#Recl-confirmation-modal"> <i data-feather="check-square" class="w-4 h-4 mr-1"></i> Afficher </a>
 
                                         }
-
                                     </div>
                                 </td>
                             </tr>
@@ -177,7 +167,6 @@
     </div>
 
 </div>
-
 
 
 <div class="modal" id="Recl-confirmation-modal">

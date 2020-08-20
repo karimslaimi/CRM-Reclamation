@@ -188,7 +188,8 @@ namespace PFE_reclamation.Controllers
 
          public ActionResult reclamation_traite() {
             int idc = int.Parse(ClaimsPrincipal.Current.Claims.FirstOrDefault(x => x.Type == "id").Value);
-              return View(db.Reclamations.Where(x => x.etat == Etat.Finis && x.Client.id == idc).ToList());
+            List<Reclamation> _reclams = db.Reclamations.Include(x => x.Traite.agent).Where(x => x.etat == Etat.Finis && x.Client.id==idc ).ToList();
+              return View(_reclams );
             
             }
 
@@ -200,6 +201,36 @@ namespace PFE_reclamation.Controllers
             return View(_contrat);
 
             }
+
+
+
+        public ActionResult messages(int? id) {
+
+            ViewBag.rrc = db.Responsable_Relation_Clients.ToList();
+            if (id != null) {
+                int myid = int.Parse(ClaimsPrincipal.Current.Claims.FirstOrDefault(c => c.Type == "id").Value);
+                ViewBag.msgs = db.Messages.Include(i=>i.sentBy).Include(c=>c.sentTo).Where(x => (x.sentBy.id == id && x.sentTo.id == myid) || (x.sentTo.id == id && x.sentBy.id==myid)).ToList();
+                ViewBag.rrcid = id;
+                }
+
+            return View();
+
+            }
+
+        public ActionResult sendmsg(int to ,string msg) {
+            if (!string.IsNullOrEmpty(msg)) {
+                Message _msg = new Message();
+                _msg.content = msg;
+                int sentbyid = int.Parse(ClaimsPrincipal.Current.Claims.FirstOrDefault(c => c.Type == "id").Value);
+                _msg.sentBy=db.Users.FirstOrDefault(x => x.id ==sentbyid );
+                _msg.sentTo = db.Users.FirstOrDefault(x => x.id == to);
+                _msg.date = DateTime.Now;
+                db.Messages.Add(_msg);
+                db.SaveChanges();
+                }
+            return RedirectToAction("messages", new { id = to });
+            }
+
 
 
         }

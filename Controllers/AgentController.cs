@@ -136,7 +136,7 @@ namespace PFE_reclamation.Controllers {
         public ActionResult reclams_traite() {
             //his treated claims
             int id = int.Parse(ClaimsPrincipal.Current.Claims.FirstOrDefault(x => x.Type == "id").Value);
-            List<Reclamation> _reclams = db.Reclamations.Where(x => x.Traite.agent.id == id && x.etat == Etat.Finis).ToList();
+            List<Reclamation> _reclams = db.Reclamations.Include(x => x.Traite.agent).Where(x => x.etat == Etat.Finis && x.Traite.agent.id==id).ToList();
             return View(_reclams);
            
             
