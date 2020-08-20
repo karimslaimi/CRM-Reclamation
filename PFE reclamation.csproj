@@ -465,6 +465,7 @@
     <Content Include="Views\Shared\PDFLayout.cshtml" />
     <Content Include="Views\RD\treatedreclams.cshtml" />
     <Content Include="Views\Client\messages.cshtml" />
+    <Content Include="Views\Home\ListeRecAdmPDF.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

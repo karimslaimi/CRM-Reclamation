@@ -111,20 +111,11 @@ namespace PFE_reclamation.Controllers
             return Redirect("index");
 
         }
-        [HttpGet]
-        public ActionResult generatePDF()
-        {
-
-            List<Reclamation> _rc = db.Reclamations.ToList(); 
-
-            return View(_rc.First());
-        }
-
-        public ActionResult pdfConvert()
+        public ActionResult generatePDF(int id)
         {
 
             //Get the current URL 
-            string url = "https://localhost:44385/Home/generatePDF";
+            string url = "https://localhost:44385/Home/generatePDF/";
             //HttpContext.Request.Url.AbsoluteUri;
 
             PdfPageSize pageSize = (PdfPageSize)Enum.Parse(typeof(PdfPageSize), "1", true);
@@ -146,6 +137,63 @@ namespace PFE_reclamation.Controllers
             converter.Options.WebPageWidth = webPageWidth;
             converter.Options.WebPageHeight = webPageHeight;
 
+            // set the HTTP POST parameters
+            converter.Options.HttpPostParameters.Add("recId", id + "");
+
+            // create a new pdf document converting an url
+            SelectPdf.PdfDocument doc = converter.ConvertUrl(baseUrl);
+
+            // save pdf document
+            byte[] pdf = doc.Save();
+
+            // close pdf document
+            doc.Close();
+            // return resulted pdf document
+            FileResult fileResult = new FileContentResult(pdf, "application/pdf");
+            fileResult.FileDownloadName = "Reclamation#"+id+".pdf";
+            return fileResult;
+
+        }
+
+
+        [HttpPost]
+        public ActionResult generatePDF()
+        {
+            int id=Int32.Parse(Request["recId"]);
+            Reclamation rec = db.Reclamations.Find(id);
+
+            return View(rec);
+        }
+      
+        
+        public ActionResult ListeRecAdmPDF(int id)
+        {
+            //Get the current URL 
+            string url = "https://localhost:44385/Home/ListeRecAdmPDF/";
+            //HttpContext.Request.Url.AbsoluteUri;
+
+            PdfPageSize pageSize = (PdfPageSize)Enum.Parse(typeof(PdfPageSize), "1", true);
+
+
+            int webPageWidth = 1024;
+
+            int webPageHeight = 800;
+
+            // instantiate a html to pdf converter object
+            HtmlToPdf converter = new HtmlToPdf();
+
+            // get base url (to resolve relative links to external resources)
+            string baseUrl = url;
+
+
+            // set converter options
+            converter.Options.PdfPageSize = pageSize;
+            converter.Options.WebPageWidth = webPageWidth;
+            converter.Options.WebPageHeight = webPageHeight;
+
+            // set the HTTP POST parameters
+            converter.Options.HttpPostParameters.Add("choice", id + "");
+
             // create a new pdf document converting an url
             SelectPdf.PdfDocument doc = converter.ConvertUrl(baseUrl);
 
@@ -160,6 +208,19 @@ namespace PFE_reclamation.Controllers
             return fileResult;
 
         }
+[HttpPost]
+      public ActionResult ListeRecAdmPDF()
+        {
+
+            int choice = Int32.Parse(Request["choice"]);
+            List<Reclamation> lr = new List<Reclamation>();
+            if (choice == 0) // tous les reclamations
+                lr = db.Reclamations.ToList();
+            if (choice == 1) // reclamations traités seulement  
+                lr = db.Reclamations.Where(x => x.etat == Etat.Finis).ToList();
+
+            return View(lr);                   
+         }
 
     }
 }
