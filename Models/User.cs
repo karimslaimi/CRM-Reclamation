@@ -20,5 +20,11 @@ namespace PFE_reclamation.Models
         public string mail { get; set; }
         public string username { get; set; }
         public string password { get; set; }
+
+        [InverseProperty(nameof(Message.sentBy))]
+        public virtual ICollection<Message> sentmessages { get; set; }
+
+        [InverseProperty(nameof(Message.sentTo))]
+        public virtual ICollection<Message> receivedmessages { get; set; }
     }
 }

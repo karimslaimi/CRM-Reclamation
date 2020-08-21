@@ -205,12 +205,18 @@ namespace PFE_reclamation.Controllers
 
 
         public ActionResult messages(int? id) {
-
-            ViewBag.rrc = db.Responsable_Relation_Clients.ToList();
+    int myid = int.Parse(ClaimsPrincipal.Current.Claims.FirstOrDefault(c => c.Type == "id").Value);
+            ViewBag.rrc = db.Responsable_Relation_Clients.Include(x => x.receivedmessages).Include("receivedmessages.sentBy").Include("receivedmessages.sentTo").Include(s => s.sentmessages).Include("sentmessages.sentTo").Include("sentmessages.sentBy").ToList();
             if (id != null) {
-                int myid = int.Parse(ClaimsPrincipal.Current.Claims.FirstOrDefault(c => c.Type == "id").Value);
-                ViewBag.msgs = db.Messages.Include(i=>i.sentBy).Include(c=>c.sentTo).Where(x => (x.sentBy.id == id && x.sentTo.id == myid) || (x.sentTo.id == id && x.sentBy.id==myid)).ToList();
+                Responsable_relation_client _rrc = db.Responsable_Relation_Clients.Find(id);
+                if (_rrc != null) {
+  ViewBag.msgs = db.Messages.Include(i=>i.sentBy).Include(c=>c.sentTo).
+                    Where(x => (x.sentBy.id == id && x.sentTo.id == myid) || (x.sentTo.id == id && x.sentBy.id==myid)).ToList();
+             
+                ViewBag.rrcname = _rrc.nom + " " + _rrc.prenom;
                 ViewBag.rrcid = id;
+                    }
+              
                 }
 
             return View();

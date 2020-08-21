@@ -1,7 +1,7 @@
 ﻿
 @{
     ViewBag.Title = "messages";
-    Layout = "~/Views/Shared/AgentLayout.cshtml";
+    Layout = "~/Views/Shared/RDLayout.cshtml";
 }
 
 
@@ -11,8 +11,6 @@
 @using System.Globalization;
 @{
     CultureInfo french = new CultureInfo("fr-FR"); }
-
-
 
 
 
@@ -36,7 +34,7 @@
             <div class="tab-content__pane active" id="chats">
 
                 <div class="chat__chat-list overflow-y-auto scrollbar-hidden pr-1 pt-1 mt-4">
-                    @foreach (var rd in ViewBag.rd ) {
+                    @foreach (var agent in ViewBag.agents) {
                         <div class="intro-x cursor-pointer box relative flex items-center p-5 mt-5">
                             <div class="w-12 h-12 flex-none image-fit mr-1">
                                 <img alt="Midone Tailwind HTML Admin Template" class="rounded-full" src="~/Content/images/profile-2.jpg">
@@ -47,17 +45,17 @@
 
 
                                 @{
-                                    PFE_reclamation.Models.Responsable_departement _rd = (PFE_reclamation.Models.Responsable_departement)rd;
+                                    PFE_reclamation.Models.Agent _agent = (PFE_reclamation.Models.Agent)agent;
 
-                                    string fullname = _rd.nom + " " + _rd.prenom;
+                                    string fullname = _agent.nom + " " + _agent.prenom;
                                     string datemsg = "";
                                     PFE_reclamation.Models.Message lastmsg = new PFE_reclamation.Models.Message();
                                     PFE_reclamation.Models.Message lastmsg2 = new PFE_reclamation.Models.Message();
-                                    if (_rd.receivedmessages != null) {
-                                        lastmsg = _rd.receivedmessages.Where(x => x.sentTo.id == _rd.id && x.sentBy.id == userid).LastOrDefault();
+                                    if (_agent.receivedmessages != null) {
+                                        lastmsg = _agent.receivedmessages.Where(x => x.sentTo.id == _agent.id && x.sentBy.id == userid).LastOrDefault();
                                         }
-                                    if (_rd.sentmessages != null) {
-                                        lastmsg2 = _rd.sentmessages.Where(x => x.sentBy.id == _rd.id && x.sentTo.id == userid).LastOrDefault();
+                                    if (_agent.sentmessages != null) {
+                                        lastmsg2 = _agent.sentmessages.Where(x => x.sentBy.id == _agent.id && x.sentTo.id == userid).LastOrDefault();
                                         }
 
 
@@ -88,7 +86,7 @@
 
 
                                 <div class="flex  items-center">
-                                    <a href="@Url.Action("messages", "Agent", new { id = _rd.id })" class="font-medium mr-10"> @fullname</a>
+                                    <a href="@Url.Action("messages", "RD", new { id = _agent.id })" class="font-medium mr-10"> @fullname</a>
 
                                     <div class="text-xs text-gray-500 ml-32  ">@datemsg</div>
                                 </div>
@@ -141,7 +139,7 @@
 
 
                             <div class="ml-3 mr-auto">
-                                <div class="font-medium text-base">@ViewBag.rdname</div>
+                                <div class="font-medium text-base">@ViewBag.agename</div>
 
                             </div>
                         </div>
@@ -211,7 +209,7 @@
                     </div>
 
 
-                    @using (Html.BeginForm("sendmsg", "Agent")) {
+                    @using (Html.BeginForm("sendmsg", "RD")) {
 
 
 
@@ -220,7 +218,7 @@
 
                         <div class="pt-4 pb-10 sm:py-4 flex items-center border-t border-gray-200 dark:border-dark-5">
                             <textarea name="msg" class="chat__box__input input dark:bg-dark-3 w-full h-16 resize-none border-transparent px-5 py-3 focus:shadow-none" rows="1" placeholder="Type your message..."></textarea>
-                            <input type="hidden" name="to" value="@ViewBag.rdid" />
+                            <input type="hidden" name="to" value="@ViewBag.ageid" />
 
                             <button type="submit" href="javascript:;" class="w-8 h-8 sm:w-10 sm:h-10 block bg-theme-1 text-white rounded-full flex-none flex items-center justify-center mr-5"> <i data-feather="send" class="w-4 h-4"></i> </button>
                         </div>

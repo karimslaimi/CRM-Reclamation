@@ -14,14 +14,12 @@ namespace PFE_reclamation.DAL
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
 
-            //modelBuilder.Entity<Departement>()
-            // .HasOptional(s => s.responsable) // Mark Address property optional in Student entity
-            // .WithRequired(ad => ad.departement);
+          
+                
 
 
 
-
-        }
+            }
 
 
 

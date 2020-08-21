@@ -281,6 +281,10 @@
     <Compile Include="Migrations\202008152330551_dep-agents.designer.cs">
       <DependentUpon>202008152330551_dep-agents.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202008210141393_msgmig.cs" />
+    <Compile Include="Migrations\202008210141393_msgmig.designer.cs">
+      <DependentUpon>202008210141393_msgmig.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Admin.cs" />
     <Compile Include="Models\Agent.cs" />
@@ -466,6 +470,8 @@
     <Content Include="Views\RD\treatedreclams.cshtml" />
     <Content Include="Views\Client\messages.cshtml" />
     <Content Include="Views\Home\ListeRecAdmPDF.cshtml" />
+    <Content Include="Views\RRC\messages.cshtml" />
+    <Content Include="Views\RD\messages.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -501,6 +507,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202008152330551_dep-agents.resx">
       <DependentUpon>202008152330551_dep-agents.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202008210141393_msgmig.resx">
+      <DependentUpon>202008210141393_msgmig.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

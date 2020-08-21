@@ -226,6 +226,44 @@ namespace PFE_reclamation.Controllers
             }
 
 
+        public ActionResult messages(int? id) {
+            int myid = int.Parse(ClaimsPrincipal.Current.Claims.FirstOrDefault(c => c.Type == "id").Value);
+            Departement dep = db.Responsable_Departements.Find(myid).departement;
+            ViewBag.agents = db.Agents.Include(x => x.receivedmessages).Include("receivedmessages.sentBy").Include("receivedmessages.sentTo").Include(s => s.sentmessages).Include("sentmessages.sentTo").Include("sentmessages.sentBy").Where(d => d.departementId == dep.id).ToList();
+
+            if (id != null) {
+                Agent _agent = db.Agents.Find(id);
+                if (_agent != null) {
+                    ViewBag.msgs = db.Messages.Include(i => i.sentBy).Include(c => c.sentTo).
+                    Where(x => (x.sentBy.id == id && x.sentTo.id == myid) || (x.sentTo.id == id && x.sentBy.id == myid)).ToList();
+
+
+
+                    ViewBag.agename = _agent.nom + " " + _agent.prenom;
+                    ViewBag.ageid = id;
+                    }
+                }
+
+            return View();
+
+            }
+
+        public ActionResult sendmsg(int to, string msg) {
+            if (!string.IsNullOrEmpty(msg)) {
+                Message _msg = new Message();
+                _msg.content = msg;
+                int sentbyid = int.Parse(ClaimsPrincipal.Current.Claims.FirstOrDefault(c => c.Type == "id").Value);
+                _msg.sentBy = db.Users.FirstOrDefault(x => x.id == sentbyid);
+                _msg.sentTo = db.Users.FirstOrDefault(x => x.id == to);
+                _msg.date = DateTime.Now;
+                db.Messages.Add(_msg);
+                db.SaveChanges();
+                }
+            return RedirectToAction("messages", new { id = to });
+            }
+
+
+
 
 
         }

@@ -143,36 +143,42 @@ namespace PFE_reclamation.Controllers {
             }
 
 
-        public ActionResult messages() {
-            // to contact his respo dep
+        public ActionResult messages(int? id) {
+         int myid = int.Parse(ClaimsPrincipal.Current.Claims.FirstOrDefault(c => c.Type == "id").Value);
+            Departement dep = db.Agents.Find(myid).departement;
+            ViewBag.rd = db.Responsable_Departements.Include(x => x.receivedmessages).Include("receivedmessages.sentBy").Include("receivedmessages.sentTo").Include(s => s.sentmessages).Include("sentmessages.sentTo").Include("sentmessages.sentBy").Where(d=>d.departementId==dep.id).ToList();
+         
+            if (id != null) {
+                 Responsable_departement _rd = db.Responsable_Departements.Find(id);
+               if (_rd != null) {
+                    ViewBag.msgs = db.Messages.Include(i => i.sentBy).Include(c => c.sentTo).
+                    Where(x => (x.sentBy.id == id && x.sentTo.id == myid) || (x.sentTo.id == id && x.sentBy.id == myid)).ToList();
+              
+                
 
-            int ida = int.Parse(ClaimsPrincipal.Current.Claims.FirstOrDefault(x => x.Type == "id").Value);
-            Agent agent = db.Agents.Where(x => x.id == ida).FirstOrDefault();
+                ViewBag.rdname = _rd.nom + " " + _rd.prenom;
+                ViewBag.rdid = id;
+                    }
+                }
 
-            Responsable_departement _rd = db.Responsable_Departements.Where(x => x.departement.id == agent.departement.id).FirstOrDefault();
-
-            List<Message> _messages = db.Messages.Where(x => x.sentTo.id == _rd.id && x.sentBy.id == ida).OrderBy(x=>x.date).ToList();
-            return View(_messages);
-
-
-            }
-
-        public ActionResult sendmessage(string content) {
-            int ida = int.Parse(ClaimsPrincipal.Current.Claims.FirstOrDefault(x => x.Type == "id").Value);
-            Agent agent = db.Agents.Where(x => x.id == ida).FirstOrDefault();
-            Responsable_departement _rd = db.Responsable_Departements.Where(x => x.departement.id == agent.departement.id).FirstOrDefault();
-            Message _message = new Message();
-            _message.content = content;
-            _message.date = DateTime.Now;
-            _message.sentBy = agent;
-            _message.sentTo = _rd;
-            db.Messages.Add(_message);
-            db.SaveChanges();
-            return Redirect("messages");
-            
-
+            return View();
 
             }
+
+        public ActionResult sendmsg(int to, string msg) {
+            if (!string.IsNullOrEmpty(msg)) {
+                Message _msg = new Message();
+                _msg.content = msg;
+                int sentbyid = int.Parse(ClaimsPrincipal.Current.Claims.FirstOrDefault(c => c.Type == "id").Value);
+                _msg.sentBy = db.Users.FirstOrDefault(x => x.id == sentbyid);
+                _msg.sentTo = db.Users.FirstOrDefault(x => x.id == to);
+                _msg.date = DateTime.Now;
+                db.Messages.Add(_msg);
+                db.SaveChanges();
+                }
+            return RedirectToAction("messages", new { id = to });
+            }
+
 
 
 

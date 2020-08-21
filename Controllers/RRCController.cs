@@ -292,6 +292,43 @@ namespace PFE_reclamation.Controllers {
             }
 
 
+        public ActionResult messages(int? id) {
+            int myid = int.Parse(ClaimsPrincipal.Current.Claims.FirstOrDefault(c => c.Type == "id").Value);
+
+            ViewBag.clients = db.Clients.Include(x => x.receivedmessages).Include("receivedmessages.sentBy").Include("receivedmessages.sentTo").Include(s => s.sentmessages).Include("sentmessages.sentTo").Include("sentmessages.sentBy").ToList();
+            if (id != null) {
+  Client _client = db.Clients.Find(id);
+                if (_client != null) {
+ ViewBag.msgs = db.Messages.Include(i => i.sentBy).Include(c => c.sentTo).
+                    Where(x => (x.sentBy.id == id && x.sentTo.id == myid) || (x.sentTo.id == id && x.sentBy.id == myid)).ToList();
+              
+                ViewBag.clname = _client.nom + " " + _client.prenom;
+                ViewBag.clid = id;
+                    }
+               
+                }
+
+            return View();
+
+            }
+
+        public ActionResult sendmsg(int to, string msg) {
+            if (!string.IsNullOrEmpty(msg)) {
+                Message _msg = new Message();
+                _msg.content = msg;
+                int sentbyid = int.Parse(ClaimsPrincipal.Current.Claims.FirstOrDefault(c => c.Type == "id").Value);
+                _msg.sentBy = db.Users.FirstOrDefault(x => x.id == sentbyid);
+                _msg.sentTo = db.Users.FirstOrDefault(x => x.id == to);
+                _msg.date = DateTime.Now;
+                db.Messages.Add(_msg);
+                db.SaveChanges();
+                }
+            return RedirectToAction("messages", new { id = to });
+            }
+
+
+
+
         }
 
 

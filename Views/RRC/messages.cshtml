@@ -1,9 +1,8 @@
 ﻿
 @{
     ViewBag.Title = "messages";
-    Layout = "~/Views/Shared/AgentLayout.cshtml";
+    Layout = "~/Views/Shared/RRCLayout.cshtml";
 }
-
 
 @{
     int userid = int.Parse(System.Security.Claims.ClaimsPrincipal.Current.Claims.FirstOrDefault(c => c.Type == "id").Value);
@@ -36,7 +35,7 @@
             <div class="tab-content__pane active" id="chats">
 
                 <div class="chat__chat-list overflow-y-auto scrollbar-hidden pr-1 pt-1 mt-4">
-                    @foreach (var rd in ViewBag.rd ) {
+                    @foreach (var client in ViewBag.clients) {
                         <div class="intro-x cursor-pointer box relative flex items-center p-5 mt-5">
                             <div class="w-12 h-12 flex-none image-fit mr-1">
                                 <img alt="Midone Tailwind HTML Admin Template" class="rounded-full" src="~/Content/images/profile-2.jpg">
@@ -47,17 +46,17 @@
 
 
                                 @{
-                                    PFE_reclamation.Models.Responsable_departement _rd = (PFE_reclamation.Models.Responsable_departement)rd;
+                                    PFE_reclamation.Models.Client _client = (PFE_reclamation.Models.Client)client;
 
-                                    string fullname = _rd.nom + " " + _rd.prenom;
+                                    string fullname = _client.nom + " " + _client.prenom;
                                     string datemsg = "";
                                     PFE_reclamation.Models.Message lastmsg = new PFE_reclamation.Models.Message();
                                     PFE_reclamation.Models.Message lastmsg2 = new PFE_reclamation.Models.Message();
-                                    if (_rd.receivedmessages != null) {
-                                        lastmsg = _rd.receivedmessages.Where(x => x.sentTo.id == _rd.id && x.sentBy.id == userid).LastOrDefault();
+                                    if (_client.receivedmessages != null) {
+                                        lastmsg = _client.receivedmessages.Where(x => x.sentTo.id == _client.id && x.sentBy.id == userid).LastOrDefault();
                                         }
-                                    if (_rd.sentmessages != null) {
-                                        lastmsg2 = _rd.sentmessages.Where(x => x.sentBy.id == _rd.id && x.sentTo.id == userid).LastOrDefault();
+                                    if (_client.sentmessages != null) {
+                                        lastmsg2 = _client.sentmessages.Where(x => x.sentBy.id == _client.id && x.sentTo.id == userid).LastOrDefault();
                                         }
 
 
@@ -88,7 +87,7 @@
 
 
                                 <div class="flex  items-center">
-                                    <a href="@Url.Action("messages", "Agent", new { id = _rd.id })" class="font-medium mr-10"> @fullname</a>
+                                    <a href="@Url.Action("messages", "RRC", new { id = _client.id })" class="font-medium mr-10"> @fullname</a>
 
                                     <div class="text-xs text-gray-500 ml-32  ">@datemsg</div>
                                 </div>
@@ -122,7 +121,7 @@
     @if (ViewBag.msgs != null) {
         <!-- BEGIN: Chat Content -->
 
-        DateTime date = DateTime.Now.AddYears(-10);
+        DateTime date=DateTime.Now.AddYears(-10);
 
 
 
@@ -141,7 +140,7 @@
 
 
                             <div class="ml-3 mr-auto">
-                                <div class="font-medium text-base">@ViewBag.rdname</div>
+                                <div class="font-medium text-base">@ViewBag.clname</div>
 
                             </div>
                         </div>
@@ -154,7 +153,7 @@
 
 
                         @foreach (PFE_reclamation.Models.Message msg in ViewBag.msgs) {
-                            if (msg != null && msg.date > date.AddDays(3)) {
+                            if (msg != null && msg.date>date.AddDays(3)) {
                                 date = msg.date;
 
                                 <div class="text-gray-500 dark:text-gray-600 text-xs text-center mb-10 mt-5">@date.ToString("dddd, dd MMMM yyyy HH:mm:ss", french)</div>
@@ -211,7 +210,7 @@
                     </div>
 
 
-                    @using (Html.BeginForm("sendmsg", "Agent")) {
+                    @using (Html.BeginForm("sendmsg", "RRC")) {
 
 
 
@@ -220,7 +219,7 @@
 
                         <div class="pt-4 pb-10 sm:py-4 flex items-center border-t border-gray-200 dark:border-dark-5">
                             <textarea name="msg" class="chat__box__input input dark:bg-dark-3 w-full h-16 resize-none border-transparent px-5 py-3 focus:shadow-none" rows="1" placeholder="Type your message..."></textarea>
-                            <input type="hidden" name="to" value="@ViewBag.rdid" />
+                            <input type="hidden" name="to" value="@ViewBag.clid" />
 
                             <button type="submit" href="javascript:;" class="w-8 h-8 sm:w-10 sm:h-10 block bg-theme-1 text-white rounded-full flex-none flex items-center justify-center mr-5"> <i data-feather="send" class="w-4 h-4"></i> </button>
                         </div>
