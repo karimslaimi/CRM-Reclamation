@@ -175,9 +175,7 @@ namespace PFE_reclamation.Controllers
             PdfPageSize pageSize = (PdfPageSize)Enum.Parse(typeof(PdfPageSize), "1", true);
 
 
-            int webPageWidth = 1024;
-
-            int webPageHeight = 800;
+           
 
             // instantiate a html to pdf converter object
             HtmlToPdf converter = new HtmlToPdf();
@@ -188,8 +186,6 @@ namespace PFE_reclamation.Controllers
 
             // set converter options
             converter.Options.PdfPageSize = pageSize;
-            converter.Options.WebPageWidth = webPageWidth;
-            converter.Options.WebPageHeight = webPageHeight;
 
             // set the HTTP POST parameters
             converter.Options.HttpPostParameters.Add("choice", id + "");
@@ -205,8 +201,8 @@ namespace PFE_reclamation.Controllers
             // return resulted pdf document
             FileResult fileResult = new FileContentResult(pdf, "application/pdf");
             fileResult.FileDownloadName = "Document.pdf";
-            return fileResult;
-
+              return fileResult;
+            return View();
         }
 [HttpPost]
       public ActionResult ListeRecAdmPDF()

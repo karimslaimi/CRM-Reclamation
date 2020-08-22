@@ -140,12 +140,15 @@
 
                                             <a class="flex items-center text-gray-600" href="javascript:;" onclick="Afficher(@recl.id,@titre,@descr,@type,@etat,@cin,@name,@date)"
                                                data-toggle="modal" data-target="#Recl-confirmation-modal"> <i data-feather="check-square" class="w-4 h-4 mr-1"></i> Afficher </a>
-
                                         }
+
                                     </div>
                                 </td>
+                                <td>
+                                    <a href="@Url.Action("generatePDF","Home",new { id =recl.id})" class="button text-white bg-theme-1 shadow-md mr-2">PDF</a>
+                                </td>
                             </tr>
-                            }
+                                            }
                     </tbody>
                 </table>
             </div>
