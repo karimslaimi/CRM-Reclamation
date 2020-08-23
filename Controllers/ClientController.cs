@@ -10,8 +10,7 @@ using System.Security.Claims;
 using System.Web;
 using System.Web.Mvc;
 
-namespace PFE_reclamation.Controllers
-{
+namespace PFE_reclamation.Controllers {
     [CustomAuthorize("CLIENT")]
     public class ClientController : Controller {
 
@@ -123,7 +122,7 @@ namespace PFE_reclamation.Controllers
         [HttpGet]
         public ActionResult addreclam() {
             Reclamation _reclam = new Reclamation();
-          
+
             return View(_reclam);
             }
         [HttpPost]
@@ -133,52 +132,54 @@ namespace PFE_reclamation.Controllers
                 Client cl = db.Clients.Find(id);
                 _reclam.Client = cl;
                 _reclam.debut_reclam = DateTime.Now;
-               _reclam.etat = Etat.Nouveau;
+                _reclam.etat = Etat.Nouveau;
                 db.Reclamations.Add(_reclam);
                 db.SaveChanges();
+                } else {
+                return View(_reclam);
                 }
             return Redirect("myreclams");
 
 
             }
- 
+
 
 
         public ActionResult deletereclam(int id) {
-            
-            Reclamation _reclam=db.Reclamations.Find(id);
+
+            Reclamation _reclam = db.Reclamations.Find(id);
             //check if the id isn't null and chech is he is the owner of the reclam
-            if (_reclam != null && _reclam.Client.id==int.Parse(ClaimsPrincipal.Current.Claims.FirstOrDefault(x=>x.Type=="id").Value)) {
+            if (_reclam != null && _reclam.Client.id == int.Parse(ClaimsPrincipal.Current.Claims.FirstOrDefault(x => x.Type == "id").Value)) {
 
 
-            db.Reclamations.Remove(_reclam);
+                db.Reclamations.Remove(_reclam);
                 db.SaveChanges();
                 }
             return Redirect("myreclams");
             }
 
-        public ActionResult EditR(int recid,string titre, string descr, int Type) {
-            
+        public ActionResult EditR(int recid, string titre, string descr, int Type) {
+
 
             Reclamation oldreclam = db.Reclamations.Find(recid);
 
             //check if his the owner of the claim
-            if(oldreclam.Client.id == int.Parse(ClaimsPrincipal.Current.Claims.FirstOrDefault(x => x.Type == "id").Value)) {
+            if (oldreclam.Client.id == int.Parse(ClaimsPrincipal.Current.Claims.FirstOrDefault(x => x.Type == "id").Value)) {
 
-               
-            if (!oldreclam.titre.Equals(titre) && !string.IsNullOrEmpty(titre) && !string.IsNullOrWhiteSpace(titre)) {
-                oldreclam.titre = titre;
+
+                if (!oldreclam.titre.Equals(titre) && !string.IsNullOrEmpty(titre) && !string.IsNullOrWhiteSpace(titre)) {
+                    oldreclam.titre = titre;
+                    }
+                if (!oldreclam.description.Equals(descr) && !string.IsNullOrEmpty(descr) && !string.IsNullOrWhiteSpace(descr)) {
+                    oldreclam.description = descr;
+                    }
+                if (oldreclam.type != (Types)Type) {
+                    oldreclam.type = (Types)Type;
+                    }
+                db.Entry(oldreclam).State = EntityState.Modified;
+                db.SaveChanges();
+
                 }
-            if (!oldreclam.description.Equals(descr) && !string.IsNullOrEmpty(descr) && !string.IsNullOrWhiteSpace(descr)) {
-                oldreclam.description = descr;
-                }
-            if (oldreclam.type!=(Types)Type) {
-                oldreclam.type = (Types)Type;
-                }
-            db.Entry(oldreclam).State = EntityState.Modified;
-            db.SaveChanges();
-             
-             }
 
 
 
@@ -186,11 +187,11 @@ namespace PFE_reclamation.Controllers
 
             }
 
-         public ActionResult reclamation_traite() {
+        public ActionResult reclamation_traite() {
             int idc = int.Parse(ClaimsPrincipal.Current.Claims.FirstOrDefault(x => x.Type == "id").Value);
-            List<Reclamation> _reclams = db.Reclamations.Include(x => x.Traite.agent).Where(x => x.etat == Etat.Finis && x.Client.id==idc ).ToList();
-              return View(_reclams );
-            
+            List<Reclamation> _reclams = db.Reclamations.Include(x => x.Traite.agent).Where(x => x.etat == Etat.Finis && x.Client.id == idc).ToList();
+            return View(_reclams);
+
             }
 
 
@@ -205,30 +206,31 @@ namespace PFE_reclamation.Controllers
 
 
         public ActionResult messages(int? id) {
-    int myid = int.Parse(ClaimsPrincipal.Current.Claims.FirstOrDefault(c => c.Type == "id").Value);
-            ViewBag.rrc = db.Responsable_Relation_Clients.Include(x => x.receivedmessages).Include("receivedmessages.sentBy").Include("receivedmessages.sentTo").Include(s => s.sentmessages).Include("sentmessages.sentTo").Include("sentmessages.sentBy").ToList();
+            int myid = int.Parse(ClaimsPrincipal.Current.Claims.FirstOrDefault(c => c.Type == "id").Value);
+            ViewBag.rrc = db.Responsable_Relation_Clients.Include(x => x.receivedmessages).Include("receivedmessages.sentBy").Include("receivedmessages.sentTo")
+                .Include(s => s.sentmessages).Include("sentmessages.sentTo").Include("sentmessages.sentBy").ToList();
             if (id != null) {
                 Responsable_relation_client _rrc = db.Responsable_Relation_Clients.Find(id);
                 if (_rrc != null) {
-  ViewBag.msgs = db.Messages.Include(i=>i.sentBy).Include(c=>c.sentTo).
-                    Where(x => (x.sentBy.id == id && x.sentTo.id == myid) || (x.sentTo.id == id && x.sentBy.id==myid)).ToList();
-             
-                ViewBag.rrcname = _rrc.nom + " " + _rrc.prenom;
-                ViewBag.rrcid = id;
+                    ViewBag.msgs = db.Messages.Include(i => i.sentBy).Include(c => c.sentTo).
+                    Where(x => (x.sentBy.id == id && x.sentTo.id == myid) || (x.sentTo.id == id && x.sentBy.id == myid)).ToList();
+
+                    ViewBag.rrcname = _rrc.nom + " " + _rrc.prenom;
+                    ViewBag.rrcid = id;
                     }
-              
+
                 }
 
             return View();
 
             }
 
-        public ActionResult sendmsg(int to ,string msg) {
+        public ActionResult sendmsg(int to, string msg) {
             if (!string.IsNullOrEmpty(msg)) {
                 Message _msg = new Message();
                 _msg.content = msg;
                 int sentbyid = int.Parse(ClaimsPrincipal.Current.Claims.FirstOrDefault(c => c.Type == "id").Value);
-                _msg.sentBy=db.Users.FirstOrDefault(x => x.id ==sentbyid );
+                _msg.sentBy = db.Users.FirstOrDefault(x => x.id == sentbyid);
                 _msg.sentTo = db.Users.FirstOrDefault(x => x.id == to);
                 _msg.date = DateTime.Now;
                 db.Messages.Add(_msg);
@@ -240,4 +242,4 @@ namespace PFE_reclamation.Controllers
 
 
         }
-}
+    }

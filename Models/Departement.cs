@@ -12,6 +12,7 @@ namespace PFE_reclamation.Models {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
 
         public int id { get; set; } 
+        [Required(ErrorMessage ="le nom de département ne peut pas etre vide")]
         public string label { get; set; }
 
 

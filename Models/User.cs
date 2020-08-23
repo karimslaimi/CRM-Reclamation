@@ -11,14 +11,42 @@ namespace PFE_reclamation.Models
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-
         public int id { get; set; }
+
+        [RegularExpression(@"^[A-Za-z ]+$",ErrorMessage = "Les caractères ne sont pas autorisés.")]
+        [Required(ErrorMessage ="Le nom ne doit pas etre vide")]
+        [MinLength(3, ErrorMessage = "doit etre plus long")]
         public string nom { get; set; }
+
+        [RegularExpression(@"^[A-Za-z ]+$", ErrorMessage = "Les caractères ne sont pas autorisés.")]
+        [Required(ErrorMessage = "Le prenom ne doit pas etre vide")]
+        [MinLength(3, ErrorMessage = "doit etre plus long")]
         public string prenom { get; set; }
+
+        [RegularExpression(@"^[0-9]+$", ErrorMessage = "Les caractères ne sont pas autorisés.")]
+        [Required(ErrorMessage = "Le cin ne doit pas etre vide")]
+        [StringLength(8,ErrorMessage ="Le cin doit etre 8 caractére")]
+        [Index(IsUnique = true)]
         public string cin { get; set; }
+
+
+        [RegularExpression(@"^[0-9]+$", ErrorMessage = "Les caractères ne sont pas autorisés.")]
+        [Required(ErrorMessage = "Le numéro ne doit pas etre vide")]
+        [MaxLength(8, ErrorMessage = "Le numéro doit etre 8 caractére")]
         public string tel { get; set; }
+
+        [Required(ErrorMessage = "Le mail ne doit pas etre vide")]
+        [StringLength(254,MinimumLength =3, ErrorMessage ="mail invalide")]
+        [EmailAddress(ErrorMessage ="Format de l'adresse mail n'est pas valide")]
+        [Index(IsUnique = true)]
         public string mail { get; set; }
+
+        [Required(ErrorMessage = "Le nom d'utilisateur ne doit pas etre vide")]
+        [Index(IsUnique = true)]
         public string username { get; set; }
+
+        [Required(ErrorMessage = "Le mot de passe ne doit pas etre vide")]
+        [StringLength(254,MinimumLength =8,ErrorMessage ="mot de passe ne doit pas etre inférieur à 8")]
         public string password { get; set; }
 
         [InverseProperty(nameof(Message.sentBy))]

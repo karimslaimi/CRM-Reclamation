@@ -285,6 +285,10 @@
     <Compile Include="Migrations\202008210141393_msgmig.designer.cs">
       <DependentUpon>202008210141393_msgmig.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202008230346491_data-validation.cs" />
+    <Compile Include="Migrations\202008230346491_data-validation.designer.cs">
+      <DependentUpon>202008230346491_data-validation.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Admin.cs" />
     <Compile Include="Models\Agent.cs" />
@@ -618,6 +622,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202008210141393_msgmig.resx">
       <DependentUpon>202008210141393_msgmig.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202008230346491_data-validation.resx">
+      <DependentUpon>202008230346491_data-validation.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

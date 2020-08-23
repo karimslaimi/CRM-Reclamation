@@ -13,6 +13,7 @@ namespace PFE_reclamation.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
 
         public int id { get; set; }
+        [Required(ErrorMessage ="Le titre ne doit pas etre vide")]
         public string titre { get; set; }
         public DateTime deb_contrat { get; set; }
         public DateTime fin_contrat { get; set; }
