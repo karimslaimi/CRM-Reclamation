@@ -174,9 +174,6 @@ namespace PFE_reclamation.Controllers
 
             PdfPageSize pageSize = (PdfPageSize)Enum.Parse(typeof(PdfPageSize), "1", true);
 
-
-           
-
             // instantiate a html to pdf converter object
             HtmlToPdf converter = new HtmlToPdf();
 
@@ -201,7 +198,7 @@ namespace PFE_reclamation.Controllers
             // return resulted pdf document
             FileResult fileResult = new FileContentResult(pdf, "application/pdf");
             fileResult.FileDownloadName = "Document.pdf";
-              return fileResult;
+            //  return fileResult;
             return View();
         }
 [HttpPost]
