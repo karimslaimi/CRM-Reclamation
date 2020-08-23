@@ -198,7 +198,7 @@ namespace PFE_reclamation.Controllers
             // return resulted pdf document
             FileResult fileResult = new FileContentResult(pdf, "application/pdf");
             fileResult.FileDownloadName = "Document.pdf";
-            //  return fileResult;
+              return fileResult;
             return View();
         }
 [HttpPost]
