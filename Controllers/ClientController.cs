@@ -61,7 +61,7 @@ namespace PFE_reclamation.Controllers {
             Client rrc = db.Clients.AsNoTracking().FirstOrDefault(x => x.id == _client.id);
 
             _client.password = rrc.password;
-
+            ModelState.Remove("password");
 
 
             if (ModelState.IsValid) {

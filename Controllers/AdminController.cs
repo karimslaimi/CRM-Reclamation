@@ -27,6 +27,7 @@ namespace PFE_reclamation.Controllers {
 
         DatabContext db = new DatabContext();
         Authentication authservice = new Authentication();
+        ApiService apiservice = new ApiService();
 
 
         // GET: Admin
@@ -75,7 +76,7 @@ namespace PFE_reclamation.Controllers {
 
             _admin.password = ad.password;
 
-
+            ModelState.Remove("password");
 
             if (ModelState.IsValid) {
                 try {
@@ -140,17 +141,25 @@ namespace PFE_reclamation.Controllers {
 
         //post method for new client
         [HttpPost]
-        public ActionResult newClient(Client _client,string cpass) {
+        public ActionResult newClient(Client _client, string cpass) {
             //checl if the 2 pass are equals
-            if (_client.password.Equals(cpass) ) {
+            if (_client.password.Equals(cpass)) {
 
-               
-            if (ModelState.IsValid) {
-                    _client.password = authservice.HashPassword(_client.password);
-                    db.Clients.Add(_client);
-                db.SaveChanges(); 
-                return RedirectToAction("clients");
-                } else {
+
+                if (ModelState.IsValid) {
+                    try {
+                        _client.password = authservice.HashPassword(_client.password);
+                        db.Clients.Add(_client);
+                        db.SaveChanges();
+                        apiservice.sendmail("Votre compte a été créé dans le crm vous pouvez vous connectez\nContactez l'administrateur pour le mot de passe ", "Compte créé", _client.mail);
+                        } catch (Exception e) {
+                        ViewBag.error = "vérifier mail ou nom d'utilisateur";
+                        return View(_client);
+                        }
+
+
+                    return RedirectToAction("clients");
+                    } else {
                     ViewBag.error = "vérifier les données saisi";
                     }
                 } else {
@@ -165,7 +174,7 @@ namespace PFE_reclamation.Controllers {
             if (id == null) {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
                 }
-            Client _client = db.Clients.Where(x => x.id == id).Include(s=>s.Contrats).Include(r=>r.Reclamations).FirstOrDefault();
+            Client _client = db.Clients.Where(x => x.id == id).Include(s => s.Contrats).Include(r => r.Reclamations).FirstOrDefault();
             if (_client == null) {
                 return HttpNotFound();
                 }
@@ -179,11 +188,11 @@ namespace PFE_reclamation.Controllers {
             }
 
         // POST: Users/Edit/5
-      
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Editc(Client _client) {
-            _client.password = db.Clients.AsNoTracking().FirstOrDefault(x =>x.id==_client.id).password;
+            _client.password = db.Clients.AsNoTracking().FirstOrDefault(x => x.id == _client.id).password;
 
 
             if (ModelState.IsValid) {
@@ -237,10 +246,10 @@ namespace PFE_reclamation.Controllers {
             }
 
 
-        public ActionResult newContrat(string titre, string descr,DateTime debut,DateTime fin,string clid) {
+        public ActionResult newContrat(string titre, string descr, DateTime debut, DateTime fin, string clid) {
 
             int idc = int.Parse(clid);
-         
+
 
             Contrat contrat = new Contrat();
             contrat.Client = db.Clients.Find(idc);
@@ -287,6 +296,7 @@ namespace PFE_reclamation.Controllers {
                     _reclam.etat = Etat.En_cours;
                     db.Entry(_reclam).State = EntityState.Modified;
                     db.SaveChanges();
+                    apiservice.sendmail("Votre réclamation "+_reclam.titre+" a été approuvez et en cours de traitement", "réclamation vérifié", _reclam.Client.mail);
                     }
 
 
@@ -301,16 +311,16 @@ namespace PFE_reclamation.Controllers {
             }
 
         public ActionResult traite_reclams() {
-            IList<Reclamation> _reclams = db.Reclamations.Include(x=>x.Traite.agent).Where(x => x.etat == Etat.Finis).ToList();
+            IList<Reclamation> _reclams = db.Reclamations.Include(x => x.Traite.agent).Where(x => x.etat == Etat.Finis).ToList();
             return View(_reclams);
-            } 
+            }
         public ActionResult encours_reclams() {
             IList<Reclamation> _reclams = db.Reclamations.Where(x => x.etat == Etat.En_cours).ToList();
             return View(_reclams);
             }
 
 
-   
+
 
 
 
@@ -327,204 +337,178 @@ namespace PFE_reclamation.Controllers {
         // créer un responsable
 
         [HttpGet]
-        public ActionResult newResponsableDep()
-        {
+        public ActionResult newResponsableDep() {
             List<Departement> dp = db.Departements.ToList();
             ViewBag.list = dp;
             return View();
-        }
+            }
 
 
         [HttpPost]
-        public ActionResult newResponsableDep(Responsable_departement responsable,string cpass,string select)
-        {
+        public ActionResult newResponsableDep(Responsable_departement responsable, string cpass, string select) {
 
-            if (responsable.password.Equals(cpass))
-            {  int id = Int32.Parse(select);
-               if (id!=0)
-                 responsable.departementId = id;
-            
-                if (ModelState.IsValid)
-            {
-                Authentication authservice = new Authentication();
-                responsable.password = authservice.HashPassword(responsable.password);
-                db.Responsable_Departements.Add(responsable);
-                    try
-                    {
+            if (responsable.password.Equals(cpass)) {
+                int id = Int32.Parse(select);
+                if (id != 0)
+                    responsable.departementId = id;
+
+                if (ModelState.IsValid) {
+                    Authentication authservice = new Authentication();
+                    responsable.password = authservice.HashPassword(responsable.password);
+                    db.Responsable_Departements.Add(responsable);
+                    try {
                         db.SaveChanges();
+                        apiservice.sendmail("Votre compte a été créé dans le crm vous pouvez vous connectez\nContactez l'administrateur pour le mot de passe ", "Compte créé", responsable.mail);
                         return RedirectToAction("responsables");
-                    }catch(Exception ee)
-                    { ViewBag.error = "Ce département à déja un responsable"; }
+                        } catch (Exception ee) { ViewBag.error = "Ce département à déja un responsable"; }
 
+                    } else {
+                    ViewBag.error = "vérifier les données saisi";
                     }
-            else
-            {
-                ViewBag.error = "vérifier les données saisi";
-            }
-        } else {
+                } else {
                 ViewBag.passerr = "vérifier les mots de passe";
                 }
 
             List<Departement> dp = db.Departements.ToList();
             ViewBag.list = dp;
             return View(responsable);
-        }
+            }
 
         [HttpGet]
-        public ActionResult editResponsableDep(int? id)
-        {
-            if (id == null)
-            {
+        public ActionResult editResponsableDep(int? id) {
+            if (id == null) {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Responsable_departement _rs = db.Responsable_Departements.FirstOrDefault(x=>x.id==id);
-            if (_rs == null)
-            {
+                }
+            Responsable_departement _rs = db.Responsable_Departements.FirstOrDefault(x => x.id == id);
+            if (_rs == null) {
                 return HttpNotFound();
-            }
+                }
             return View(_rs);
-        }
+            }
 
         // POST: Users/Edit/5
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult editResponsableDep(Responsable_departement _rs)
-        {
+        public ActionResult editResponsableDep(Responsable_departement _rs) {
 
-            Responsable_departement rd=db.Responsable_Departements.AsNoTracking().FirstOrDefault(x=>x.id==_rs.id) ;
+            Responsable_departement rd = db.Responsable_Departements.AsNoTracking().FirstOrDefault(x => x.id == _rs.id);
             _rs.password = rd.password;
-            
 
-            if (ModelState.IsValid)
-            {
+
+            if (ModelState.IsValid) {
                 db.Entry(_rs).State = EntityState.Modified;
-               
+
                 db.SaveChanges();
-                return RedirectToAction("responsables");                      
-            }
+                return RedirectToAction("responsables");
+                }
             return View(_rs);
-        }
+            }
 
         // afficher la liste des responsables dep
-        public ActionResult responsables()
-        {
+        public ActionResult responsables() {
             DatabContext db = new DatabContext();
             List<Responsable_departement> rs = db.Responsable_Departements.ToList();
 
             return View(rs);
-        }
+            }
 
         // supprimer un responsable département
-        public ActionResult deleteResponsableDep(int id)
-        {
-          
+        public ActionResult deleteResponsableDep(int id) {
+
             Responsable_departement rs = db.Responsable_Departements.Find(id);
 
             db.Responsable_Departements.Remove(rs);
             db.SaveChanges();
             return RedirectToAction("responsables");
 
-        }
+            }
         // methode pour  affichage des details d'un resp departement
-        public ActionResult detailsResponsableDep(int id)
-        {
-      
+        public ActionResult detailsResponsableDep(int id) {
+
             Responsable_departement rs = db.Responsable_Departements.Find(id);
 
             return View(rs);
-        }
+            }
 
-        public ActionResult passwordchangerd(string pass, string cpass, int id)
-        {
-            if (pass.Equals(cpass) && !string.IsNullOrEmpty(pass) && !string.IsNullOrWhiteSpace(cpass))
-            {
+        public ActionResult passwordchangerd(string pass, string cpass, int id) {
+            if (pass.Equals(cpass) && !string.IsNullOrEmpty(pass) && !string.IsNullOrWhiteSpace(cpass)) {
 
                 Responsable_departement _rd = db.Responsable_Departements.Find(id);
                 _rd.password = authservice.HashPassword(pass);
                 db.Entry(_rd).State = EntityState.Modified;
                 db.SaveChanges();
                 TempData["msg"] = "Mot de passe a été modifié";
-            }
-            else
-            {
+                } else {
                 TempData["passerr"] = "Erreur est survenu réessayer";
-            }
+                }
             return RedirectToAction("editResponsableDep", new { id = id });
-        }
+            }
 
 
         //------------------------superviseur-----------------------------
 
         // créer un superviseur
         [HttpGet]
-        public ActionResult newSuperviseur()
-        {
+        public ActionResult newSuperviseur() {
             return View();
-        }
+            }
         [HttpPost]
-        public ActionResult newSuperviseur(Superviseur superviseur,string cpass)
-        {
-            if (superviseur.password.Equals(cpass)) { 
-            if (ModelState.IsValid)
-            {
-                Authentication authservice = new Authentication();
-                superviseur.password = authservice.HashPassword(superviseur.password);
-                db.Superviseurs.Add(superviseur);
-                db.SaveChanges();
-                return RedirectToAction("superviseurs");
-            }
-            else
-            {
-                ViewBag.error = "vérifier les données saisi";
-            }
-        } else {
+        public ActionResult newSuperviseur(Superviseur superviseur, string cpass) {
+            if (superviseur.password.Equals(cpass)) {
+                if (ModelState.IsValid) {
+                    Authentication authservice = new Authentication();
+                    superviseur.password = authservice.HashPassword(superviseur.password);
+                    db.Superviseurs.Add(superviseur);
+                    apiservice.sendmail("Votre compte a été créé dans le crm vous pouvez vous connectez\nContactez l'administrateur pour le mot de passe ", "Compte créé", superviseur.mail);
+
+                    db.SaveChanges();
+
+                    return RedirectToAction("superviseurs");
+                    } else {
+                    ViewBag.error = "vérifier les données saisi";
+                    }
+                } else {
                 ViewBag.passerr = "vérifier les mots de passe";
                 }
             return View(superviseur);
-        }
+            }
 
         // afficher la liste des superviseurs
-        public ActionResult superviseurs()
-        {
-       
+        public ActionResult superviseurs() {
+
             List<Superviseur> rs = db.Superviseurs.ToList();
 
             return View(rs);
-        }
+            }
 
         // supprimer un responsable département
-        public ActionResult deleteSuperviseur(int id)
-        {
-       
+        public ActionResult deleteSuperviseur(int id) {
+
             Superviseur rs = db.Superviseurs.Find(id);
             db.Superviseurs.Remove(rs);
             db.SaveChanges();
             return RedirectToAction("superviseurs");
 
-        }
+            }
         // methode pour  affichage des details d'un resp departement
-        public ActionResult detailsSuperviseur(int id)
-        {
+        public ActionResult detailsSuperviseur(int id) {
 
-        
+
             Superviseur rs = db.Superviseurs.Find(id);
 
 
             return View(rs);
-        }
+            }
         [HttpGet]
-        public ActionResult editSuperviseur(int? id)
-        {
-            if (id == null)
-            {
+        public ActionResult editSuperviseur(int? id) {
+            if (id == null) {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
+                }
             Superviseur _rs = db.Superviseurs.FirstOrDefault(x => x.id == id);
-            if (_rs == null)
-             {
+            if (_rs == null) {
                 return HttpNotFound();
-            }
+                }
             if (TempData["passerr"] != null) {
                 ViewBag.passerr = TempData["error"];
                 }
@@ -532,36 +516,34 @@ namespace PFE_reclamation.Controllers {
                 ViewBag.passmsg = TempData["msg"];
                 }
             return View(_rs);
-        }
+            }
 
         // POST: Users/Edit/5
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult editSuperviseur(Superviseur _rs)
-        {
+        public ActionResult editSuperviseur(Superviseur _rs) {
             Superviseur sr = db.Superviseurs.AsNoTracking().FirstOrDefault(x => x.id == _rs.id);
             _rs.password = sr.password;
 
 
-            if (ModelState.IsValid)
-            {
+            if (ModelState.IsValid) {
                 db.Entry(_rs).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("superviseurs");
-            }
+                }
             return View(_rs);
-        }
+            }
 
 
 
         public ActionResult passwordchangesuperv(string pass, string cpass, int id) {
-            if(pass.Equals(cpass) && !string.IsNullOrEmpty(pass) && !string.IsNullOrWhiteSpace(cpass)) {
-                
-                    Superviseur _superv = db.Superviseurs.Find(id);
-                    _superv.password = authservice.HashPassword(pass);
-                    db.Entry(_superv).State =EntityState.Modified;
-                    db.SaveChanges();
+            if (pass.Equals(cpass) && !string.IsNullOrEmpty(pass) && !string.IsNullOrWhiteSpace(cpass)) {
+
+                Superviseur _superv = db.Superviseurs.Find(id);
+                _superv.password = authservice.HashPassword(pass);
+                db.Entry(_superv).State = EntityState.Modified;
+                db.SaveChanges();
                 TempData["msg"] = "Mot de passe a été modifié";
                 } else {
                 TempData["passerr"] = "Erreur est survenu réessayer";
@@ -574,245 +556,210 @@ namespace PFE_reclamation.Controllers {
 
         // créer un agent
         [HttpGet]
-        public ActionResult newAgent()
-        {
+        public ActionResult newAgent() {
             List<Departement> dp = db.Departements.ToList();
             ViewBag.list = dp;
             return View();
-        }
+            }
         [HttpPost]
-        public ActionResult newAgent(Agent agent,string cpass,string select)
-        {
-         
+        public ActionResult newAgent(Agent agent, string cpass, string select) {
+
 
             if (agent.password.Equals(cpass)) {
                 int id = Int32.Parse(select);
                 if (id != 0)
                     agent.departement = db.Departements.Find(id);
 
-                if (ModelState.IsValid)
-            {
-                Authentication authservice = new Authentication();
-                agent.password = authservice.HashPassword(agent.password);
-                db.Agents.Add(agent);
-                db.SaveChanges();
-                return RedirectToAction("agents");
-            }
-            else
-            {
-                ViewBag.error = "vérifier les données saisi";
-            }
-        } else {
+                if (ModelState.IsValid) {
+                    Authentication authservice = new Authentication();
+                    agent.password = authservice.HashPassword(agent.password);
+                    db.Agents.Add(agent);
+                    db.SaveChanges();
+                    apiservice.sendmail("Votre compte a été créé dans le crm vous pouvez vous connectez\nContactez l'administrateur pour le mot de passe ", "Compte créé", agent.mail);
+                    return RedirectToAction("agents");
+                    } else {
+                    ViewBag.error = "vérifier les données saisi";
+                    }
+                } else {
                 ViewBag.passerr = "vérifier les mots de passe";
                 }
 
             List<Departement> dp = db.Departements.ToList();
             ViewBag.list = dp;
             return View(agent);
-        }
+            }
 
         // afficher la liste des agents
-        public ActionResult agents()
-        {
-        
+        public ActionResult agents() {
+
             List<Agent> rs = db.Agents.ToList();
 
             return View(rs);
-        }
+            }
 
         // supprimer un agent
 
         [ValidateAntiForgeryToken]
-        public ActionResult deleteAgent(int id)
-        {
-    
+        public ActionResult deleteAgent(int id) {
+
             Agent rs = db.Agents.Find(id);
             db.Agents.Remove(rs);
             db.SaveChanges();
             return RedirectToAction("agents");
 
-        }
+            }
         // methode pour  affichage des details d'un agent
-        public ActionResult detailsAgent(int id)
-        {
-      
+        public ActionResult detailsAgent(int id) {
+
             Agent rs = db.Agents.Find(id);
 
             return View(rs);
-        }
+            }
 
         [HttpGet]
-        public ActionResult editAgent(int? id)
-        {
-            if (id == null)
-            {
+        public ActionResult editAgent(int? id) {
+            if (id == null) {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
+                }
 
-           Agent _rs = db.Agents.FirstOrDefault(x => x.id == id);
-            if (_rs == null)
-            {
+            Agent _rs = db.Agents.FirstOrDefault(x => x.id == id);
+            if (_rs == null) {
                 return HttpNotFound();
-            }
+                }
             return View(_rs);
-        }
+            }
 
         // POST: Users/Edit/5
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult editAgent(Agent _rs)
-        {
+        public ActionResult editAgent(Agent _rs) {
             Agent _rd = db.Agents.AsNoTracking().FirstOrDefault(x => x.id == _rs.id);
 
             _rs.password = _rd.password;
 
 
-            if (ModelState.IsValid)
-            {
+            if (ModelState.IsValid) {
                 db.Entry(_rs).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("agents");
-            }
+                }
             return View(_rs);
-        }
+            }
 
-        public ActionResult passwordchangeagent(string pass, string cpass, int id)
-        {
-            if (pass.Equals(cpass) && !string.IsNullOrEmpty(pass) && !string.IsNullOrWhiteSpace(cpass))
-            {
+        public ActionResult passwordchangeagent(string pass, string cpass, int id) {
+            if (pass.Equals(cpass) && !string.IsNullOrEmpty(pass) && !string.IsNullOrWhiteSpace(cpass)) {
 
                 Agent _agent = db.Agents.Find(id);
                 _agent.password = authservice.HashPassword(pass);
                 db.Entry(_agent).State = EntityState.Modified;
                 db.SaveChanges();
                 TempData["msg"] = "Mot de passe a été modifié";
-            }
-            else
-            {
+                } else {
                 TempData["passerr"] = "Erreur est survenu réessayer";
-            }
+                }
             return RedirectToAction("editAgent", new { id = id });
-        }
+            }
         //----------------------------rrc----------------------------
 
         // créer un RRC
         [HttpGet]
-        public ActionResult newRRC()
-        {
+        public ActionResult newRRC() {
             return View();
-        }
+            }
         [HttpPost]
 
-        public ActionResult newRRC(Responsable_relation_client _rrc,string cpass)
-        {
-            if (_rrc.password.Equals(cpass))
-            {
+        public ActionResult newRRC(Responsable_relation_client _rrc, string cpass) {
+            if (_rrc.password.Equals(cpass)) {
 
-                if (ModelState.IsValid)
-                {
+                if (ModelState.IsValid) {
                     Authentication authservice = new Authentication();
                     _rrc.password = authservice.HashPassword(_rrc.password);
                     db.Responsable_Relation_Clients.Add(_rrc);
                     db.SaveChanges();
+                    apiservice.sendmail("Votre compte a été créé dans le crm vous pouvez vous connectez\nContactez l'administrateur pour le mot de passe ", "Compte créé", _rrc.mail);
                     return RedirectToAction("RRCs");
-                }
-                else
-                {
+                    } else {
                     ViewBag.error = "vérifier les données saisi";
-                }
-            }
-            else
-            {
+                    }
+                } else {
                 ViewBag.passerr = "vérifier les mots de passe";
-            }
+                }
             return View(_rrc);
-        }
+            }
 
         // afficher la liste des RRC
-        public ActionResult RRCs()
-        {
+        public ActionResult RRCs() {
 
             List<Responsable_relation_client> rs = db.Responsable_Relation_Clients.ToList();
 
             return View(rs);
-        }
+            }
 
         // supprimer un RRC
-        public ActionResult deleteRRC(int id)
-        {
+        public ActionResult deleteRRC(int id) {
 
             Responsable_relation_client rs = db.Responsable_Relation_Clients.Find(id);
             db.Responsable_Relation_Clients.Remove(rs);
             db.SaveChanges();
             return RedirectToAction("RRCs");
 
-        }
+            }
         // methode pour  affichage des details d'un RRC
-        public ActionResult detailsRRC(int id)
-        {
+        public ActionResult detailsRRC(int id) {
 
             Responsable_relation_client rs = db.Responsable_Relation_Clients.Find(id);
 
             return View(rs);
-        }
+            }
 
         //modifier un RRC
         [HttpGet]
-        public ActionResult editRRC(int? id)
-        {
-            if (id == null)
-            {
+        public ActionResult editRRC(int? id) {
+            if (id == null) {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
+                }
 
             Responsable_relation_client _rs = db.Responsable_Relation_Clients.FirstOrDefault(x => x.id == id);
-            if (_rs == null)
-            {
+            if (_rs == null) {
                 return HttpNotFound();
-            }
+                }
             return View(_rs);
-        }
+            }
 
         // POST: Users/Edit/5
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult editRRC(Responsable_relation_client _rs)
-        {
+        public ActionResult editRRC(Responsable_relation_client _rs) {
 
             Responsable_relation_client _rrc = db.Responsable_Relation_Clients.AsNoTracking().FirstOrDefault(x => x.id == _rs.id);
             _rs.password = _rrc.password;
 
-            if (ModelState.IsValid)
-            {
+            if (ModelState.IsValid) {
                 db.Entry(_rs).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("RRCs");
 
-            }
+                }
             return View(_rs);
-        }
+            }
 
-        public ActionResult passwordchangerrc(string pass, string cpass, int id)
-        {
-            if (pass.Equals(cpass) && !string.IsNullOrEmpty(pass) && !string.IsNullOrWhiteSpace(cpass))
-            {
+        public ActionResult passwordchangerrc(string pass, string cpass, int id) {
+            if (pass.Equals(cpass) && !string.IsNullOrEmpty(pass) && !string.IsNullOrWhiteSpace(cpass)) {
 
                 Responsable_relation_client _rrc = db.Responsable_Relation_Clients.Find(id);
                 _rrc.password = authservice.HashPassword(pass);
                 db.Entry(_rrc).State = EntityState.Modified;
                 db.SaveChanges();
                 TempData["msg"] = "Mot de passe a été modifié";
-            }
-            else
-            {
+                } else {
                 TempData["passerr"] = "Erreur est survenu réessayer";
-            }
+                }
             return RedirectToAction("editRRC", new { id = id });
+            }
+
+
+
         }
-
-
-
     }
-}

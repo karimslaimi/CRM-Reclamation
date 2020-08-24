@@ -136,119 +136,35 @@ namespace PFE_reclamation.Controllers
 
 
 
-        [HttpPost]
-        public ActionResult save_c(Client client)
-        {
-            
-
-            return View();
-        }
-
-
-
-
-
-        // GET: Users
-        public ActionResult Index()
-        {
-             
-            return View(db.Users.ToList());
-        }
-
-        // GET: Users/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            User user = db.Users.Find(id);
-            if (user == null)
-            {
-                return HttpNotFound();
-            }
-            return View(user);
-        }
-
-        // GET: Users/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: Users/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "id,nom,prenom,cin,tel,mail,username,password")] User user)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Users.Add(user);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+        public JsonResult IsUsernameExists(string UserName,int ? id) {
+            if (id != 0) {
+                return Json(!db.Users.Any(x => x.username == UserName && x.id!=id), JsonRequestBehavior.AllowGet);
+                } else {
+        return Json(!db.Users.Any(x => x.username == UserName), JsonRequestBehavior.AllowGet);
+                }
+    
             }
 
-            return View(user);
-        }
+        public JsonResult IsmailExists(string mail, int? id) {
 
-        // GET: Users/Edit/5
-        public ActionResult Edit(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            if (id != 0) {
+                return Json(!db.Users.Any(x => x.mail == mail && x.id != id), JsonRequestBehavior.AllowGet);
+                } else {
+                return Json(!db.Users.Any(x => x.mail == mail), JsonRequestBehavior.AllowGet);
+                }
             }
-            User user = db.Users.Find(id);
-            if (user == null)
-            {
-                return HttpNotFound();
-            }
-            return View(user);
-        }
+        public JsonResult IscinExists(string cin, int? id) {
 
-        // POST: Users/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "id,nom,prenom,cin,tel,mail,username,password")] User user)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Entry(user).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+            if (id != 0) {
+                return Json(!db.Users.Any(x => x.cin == cin && x.id != id), JsonRequestBehavior.AllowGet);
+                } else {
+                return Json(!db.Users.Any(x => x.cin == cin), JsonRequestBehavior.AllowGet);
+                }
             }
-            return View(user);
-        }
 
-        // GET: Users/Delete/5
-        public ActionResult Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            User user = db.Users.Find(id);
-            if (user == null)
-            {
-                return HttpNotFound();
-            }
-            return View(user);
-        }
 
-        // POST: Users/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            User user = db.Users.Find(id);
-            db.Users.Remove(user);
-            db.SaveChanges();
-            return RedirectToAction("Index");
-        }
+
+
 
         protected override void Dispose(bool disposing)
         {

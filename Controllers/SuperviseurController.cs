@@ -52,7 +52,7 @@ namespace PFE_reclamation.Controllers
             _superviseur.password = superviseur.password;
             _superviseur.date_aff = superviseur.date_aff;
 
-
+            ModelState.Remove("password");
 
             if (ModelState.IsValid) {
                 try {

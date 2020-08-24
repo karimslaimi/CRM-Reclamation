@@ -54,7 +54,7 @@ namespace PFE_reclamation.Controllers
 
             _rd.password = rd.password;
 
-
+            ModelState.Remove("password");
 
             if (ModelState.IsValid) {
                 try {

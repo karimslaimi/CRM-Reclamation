@@ -22,7 +22,8 @@ namespace PFE_reclamation.Models
         public Etat etat{get;set;}
 
         public Types type { get; set; }
-
+        [Required(ErrorMessage = "La description ne doit pas etre vide")]
+        [MinLength(3, ErrorMessage = "doit etre plus long")]
         public string description { get; set; }
 
         public int? DepartementId { get; set; }    

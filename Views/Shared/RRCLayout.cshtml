@@ -26,7 +26,7 @@
                 <img alt="Midone Tailwind HTML Admin Template" class="w-6" src="~/Content/images/logo.svg">
             </a>
             <a href="javascript:;" id="mobile-menu-toggler"> <i data-feather="bar-chart-2" class="w-8 h-8 text-white transform -rotate-90"></i> </a>
-        </div>    
+        </div>
         <ul class="border-t border-theme-24 py-5 hidden">
             <li>
                 <a href=" " class="menu menu--active ">
@@ -35,7 +35,7 @@
                 </a>
             </li>
             <li>
-                <a href="javascript:;" class="menu clientlink" >
+                <a href="javascript:;" class="menu clientlink">
                     <div class="menu__icon"> <i data-feather="user"></i> </div>
                     <div class="menu__title"> Clients <i data-feather="chevron-down" class=" menu__sub-icon"></i> </div>
                 </a>
@@ -105,7 +105,7 @@
                 </a>
             </li>
         </ul>
-    
+
     </div>
     <!-- END: Mobile Menu -->
     <div class="flex" onload="activelink()">
@@ -201,9 +201,9 @@
             <div class="top-bar">
                 <!-- BEGIN: Breadcrumb -->
                 <div class="-intro-x breadcrumb mr-auto hidden sm:flex">
-                <a href="" class="">Application</a> <i data-feather="chevron-right" class="breadcrumb__icon"></i> <a href="javascript:;" class="breadcrumb--active">CRM</a> </div>
+                    <a href="" class="">Application</a> <i data-feather="chevron-right" class="breadcrumb__icon"></i> <a href="javascript:;" class="breadcrumb--active">CRM</a>
+                </div>
                 <!-- END: Breadcrumb -->
-             
                 <!-- BEGIN: Account Menu -->
                 <div class="intro-x dropdown w-8 h-8 relative">
                     <div class="dropdown-toggle w-8 h-8 rounded-full overflow-hidden shadow-lg image-fit zoom-in">
@@ -219,7 +219,7 @@
                             </div>
                             <div class="p-2">
                                 <a href="@Url.Action("profile","RRC")" class="flex items-center block p-2 transition duration-300 ease-in-out hover:bg-theme-1 dark:hover:bg-dark-3 rounded-md"> <i data-feather="user" class="w-4 h-4 mr-2"></i> Profile </a>
-                              </div>
+                            </div>
                             <div class="p-2 border-t border-theme-40 dark:border-dark-3">
                                 <a href="@Url.Action("logout","Users")" class="flex items-center block p-2 transition duration-300 ease-in-out hover:bg-theme-1 dark:hover:bg-dark-3 rounded-md"> <i data-feather="toggle-right" class="w-4 h-4 mr-2"></i> Logout </a>
                             </div>
@@ -241,7 +241,9 @@
     </div>
 
 
-
+    <script src="~/Scripts/jquery-3.4.1.js"></script>
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="~/Scripts/app.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>

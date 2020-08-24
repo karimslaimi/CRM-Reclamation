@@ -16,7 +16,7 @@ namespace PFE_reclamation.Controllers {
     {
         DatabContext db = new DatabContext();
         Authentication authservice = new Authentication();
-
+        ApiService apiservice = new ApiService();
 
         // GET: Agent
         public ActionResult Index()
@@ -56,7 +56,7 @@ namespace PFE_reclamation.Controllers {
 
             _agent.password = agent.password;
 
-
+            ModelState.Remove("password");
 
             if (ModelState.IsValid) {
                 try {
@@ -121,6 +121,7 @@ namespace PFE_reclamation.Controllers {
             //update
             db.Entry(_traite).State = EntityState.Modified;
             db.SaveChanges();
+            apiservice.sendmail("Votre réclamation "+_traite.Reclamation.titre+" a été traité par l'agent"+_traite.agent.nom+" "+_traite.agent.prenom+"\n"+_traite.detaille, "Réclamation traité", _traite.Reclamation.Client.mail);
             return Redirect("reclams");
 
             }
