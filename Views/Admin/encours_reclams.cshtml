@@ -18,6 +18,9 @@
                 <h2 class="font-medium text-base mr-auto">
                     Reclamations
                 </h2>
+                <div class="float-right">
+                    <a href="@Url.Action("ListeRecAdmPDF","Home",new { id =1})" class="button text-white bg-theme-1 shadow-md mr-2">Générer PDF</a>
+                </div>
             </div>
             <!-- BEGIN: Datatable -->
             <div class="intro-y datatable-wrapper box p-5 mt-5">
@@ -142,6 +145,8 @@
                                                data-toggle="modal" data-target="#Recl-confirmation-modal"> <i data-feather="check-square" class="w-4 h-4 mr-1"></i> Afficher </a>
 
                                         }
+                                        <a href="@Url.Action("generatePDF","Home",new { id =recl.id})" class="button text-white bg-theme-1 shadow-md mr-2">PDF</a>
+
                                     </div>
                                 </td>
                             </tr>
