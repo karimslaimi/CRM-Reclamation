@@ -1,4 +1,5 @@
-﻿using PFE_reclamation.DAL;
+﻿using Org.BouncyCastle.Asn1;
+using PFE_reclamation.DAL;
 using PFE_reclamation.Models;
 using PFE_reclamation.Security;
 using PFE_reclamation.Services;
@@ -197,11 +198,17 @@ namespace PFE_reclamation.Controllers
             doc.Close();
             // return resulted pdf document
             FileResult fileResult = new FileContentResult(pdf, "application/pdf");
-            fileResult.FileDownloadName = "Document.pdf";
-              return fileResult;
-            return View();
+            if (id==0)
+                fileResult.FileDownloadName = "Toutes les réclamations.pdf";
+            if (id == 1)
+                fileResult.FileDownloadName = "Réclamations en cours.pdf";
+            if (id == 2)
+                fileResult.FileDownloadName = "Réclamations traités.pdf";
+
+            return fileResult;
+            //return View();
         }
-[HttpPost]
+      [HttpPost]
       public ActionResult ListeRecAdmPDF()
         {
 
@@ -209,8 +216,11 @@ namespace PFE_reclamation.Controllers
             List<Reclamation> lr = new List<Reclamation>();
             if (choice == 0) // tous les reclamations
                 lr = db.Reclamations.ToList();
-            if (choice == 1) // reclamations traités seulement  
+            if (choice == 2) // reclamations traités seulement  
                 lr = db.Reclamations.Where(x => x.etat == Etat.Finis).ToList();
+            if (choice == 1) // reclamations en cours seulement  
+                lr = db.Reclamations.Where(x => x.etat == Etat.En_cours).ToList();
+
 
             return View(lr);                   
          }
