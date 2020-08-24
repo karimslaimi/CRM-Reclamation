@@ -136,9 +136,10 @@
                                             string cin = "\"" + recl.Client.cin + "\"";
                                             string name = "\"" + recl.Client.nom + " " + recl.Client.prenom + "\"";
                                             string date = "\"" + recl.debut_reclam.ToString("dd/MM/yyyy", french) + "\"";
-                                            if (recl.Departement != null) {
+                                            if (recl.Departement != null)
+                                            {
                                                 dep = "\"" + recl.Departement.label + "\"";
-                                                }
+                                            }
 
                                             string agename = "\"" + recl.Traite.agent.nom + " " + recl.Traite.agent.prenom + "\"";
                                             string datefixed = "\"" + recl.fin_reclam.Value.ToString("dd/MM/yyyy", french) + "\"";
@@ -150,6 +151,8 @@
                                                data-toggle="modal" data-target="#Recl-confirmation-modal"> <i data-feather="check-square" class="w-4 h-4 mr-1"></i> Afficher </a>
 
                                         }
+                                        <a href="@Url.Action("generatePDF","Home",new { id =recl.id})" class="button text-white bg-theme-1 shadow-md mr-2">PDF</a>
+
                                     </div>
                                 </td>
                             </tr>
