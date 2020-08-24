@@ -443,6 +443,10 @@
     <Compile Include="Migrations\202008241120243_remote-validation.designer.cs">
       <DependentUpon>202008241120243_remote-validation.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202008241355040_pics.cs" />
+    <Compile Include="Migrations\202008241355040_pics.designer.cs">
+      <DependentUpon>202008241355040_pics.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Admin.cs" />
     <Compile Include="Models\Agent.cs" />
@@ -755,6 +759,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202008241120243_remote-validation.resx">
       <DependentUpon>202008241120243_remote-validation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202008241355040_pics.resx">
+      <DependentUpon>202008241355040_pics.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

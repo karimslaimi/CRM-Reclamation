@@ -79,7 +79,8 @@ namespace PFE_reclamation.Models
         public string password { get; set; }
 
 
-
+        
+        public string photo { get; set; }
 
 
 
