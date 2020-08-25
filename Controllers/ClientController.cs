@@ -5,6 +5,7 @@ using PFE_reclamation.Services;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Security.Claims;
 using System.Web;
@@ -31,7 +32,29 @@ namespace PFE_reclamation.Controllers {
             return View();
             }
 
+        protected bool verifyFiles(HttpPostedFileBase item)
+        {
+            bool flag = true;
 
+            if (item != null)
+            {
+                if (item.ContentLength > 0 && item.ContentLength < 5000000)
+                {
+                    if (!(Path.GetExtension(item.FileName).ToLower() == ".jpg" ||
+                        Path.GetExtension(item.FileName).ToLower() == ".png" ||
+                        Path.GetExtension(item.FileName).ToLower() == ".jpeg"))
+                    {
+                        flag = false;
+                    }
+                }
+                else { flag = false; }
+            }
+
+
+            else { flag = false; }
+
+            return flag;
+        }
 
         [HttpGet]
         public ActionResult profile() {
@@ -55,7 +78,7 @@ namespace PFE_reclamation.Controllers {
             }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult profile(Client _client) {
+        public ActionResult profile(Client _client, HttpPostedFileBase postedFile) {
 
             //we get the object so we can fill the fields left empty
             Client rrc = db.Clients.AsNoTracking().FirstOrDefault(x => x.id == _client.id);
@@ -66,9 +89,17 @@ namespace PFE_reclamation.Controllers {
 
             if (ModelState.IsValid) {
                 try {
+                    if (postedFile != null && verifyFiles(postedFile))
+                    {
+                        string path = Server.MapPath("/Content/");
+                        if (!Directory.Exists(path))
+                        {
+                            Directory.CreateDirectory(path);
+                        }
 
-
-
+                        postedFile.SaveAs(path + "profile_"+_client.id+ Path.GetExtension(postedFile.FileName));
+                        _client.photo = Path.GetFileName("profile_" + _client.id + Path.GetExtension(postedFile.FileName));
+                    }
 
                     db.Entry(_client).State = EntityState.Modified;
                     db.SaveChanges();

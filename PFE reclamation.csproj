@@ -419,6 +419,10 @@
     <Compile Include="Migrations\202008251441231_cascade.designer.cs">
       <DependentUpon>202008251441231_cascade.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202008251036420_picts.cs" />
+    <Compile Include="Migrations\202008251036420_picts.designer.cs">
+      <DependentUpon>202008251036420_picts.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Admin.cs" />
     <Compile Include="Models\Agent.cs" />
@@ -524,6 +528,7 @@
     <Content Include="Content\Table_Responsive_v1\vendor\select2\select2.js" />
     <Content Include="Content\Table_Responsive_v1\vendor\select2\select2.min.css" />
     <Content Include="Content\Table_Responsive_v1\vendor\select2\select2.min.js" />
+    <Content Include="Content\userdoesntexist.png" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -713,6 +718,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202008251441231_cascade.resx">
       <DependentUpon>202008251441231_cascade.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202008251036420_picts.resx">
+      <DependentUpon>202008251036420_picts.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
