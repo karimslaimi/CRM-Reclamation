@@ -7,13 +7,13 @@ namespace PFE_reclamation.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.4.4")]
-    public sealed partial class validationmig : IMigrationMetadata
+    public sealed partial class cascade : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(validationmig));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(cascade));
         
         string IMigrationMetadata.Id
         {
-            get { return "202008241050272_validationmig"; }
+            get { return "202008251441231_cascade"; }
         }
         
         string IMigrationMetadata.Source

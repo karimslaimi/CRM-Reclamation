@@ -7,13 +7,13 @@ namespace PFE_reclamation.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.4.4")]
-    public sealed partial class depagents : IMigrationMetadata
+    public sealed partial class cascademig : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(depagents));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(cascademig));
         
         string IMigrationMetadata.Id
         {
-            get { return "202008152330551_dep-agents"; }
+            get { return "202008251427067_cascademig"; }
         }
         
         string IMigrationMetadata.Source

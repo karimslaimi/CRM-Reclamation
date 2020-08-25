@@ -407,45 +407,17 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202008130856408_mssss.cs" />
-    <Compile Include="Migrations\202008130856408_mssss.designer.cs">
-      <DependentUpon>202008130856408_mssss.cs</DependentUpon>
+    <Compile Include="Migrations\202008251410216_newmig.cs" />
+    <Compile Include="Migrations\202008251410216_newmig.designer.cs">
+      <DependentUpon>202008251410216_newmig.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202008130913178_msssss.cs" />
-    <Compile Include="Migrations\202008130913178_msssss.designer.cs">
-      <DependentUpon>202008130913178_msssss.cs</DependentUpon>
+    <Compile Include="Migrations\202008251427067_cascademig.cs" />
+    <Compile Include="Migrations\202008251427067_cascademig.designer.cs">
+      <DependentUpon>202008251427067_cascademig.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202008130924012_mtt.cs" />
-    <Compile Include="Migrations\202008130924012_mtt.designer.cs">
-      <DependentUpon>202008130924012_mtt.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202008150429383_added.cs" />
-    <Compile Include="Migrations\202008150429383_added.designer.cs">
-      <DependentUpon>202008150429383_added.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202008152330551_dep-agents.cs" />
-    <Compile Include="Migrations\202008152330551_dep-agents.designer.cs">
-      <DependentUpon>202008152330551_dep-agents.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202008210141393_msgmig.cs" />
-    <Compile Include="Migrations\202008210141393_msgmig.designer.cs">
-      <DependentUpon>202008210141393_msgmig.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202008230346491_data-validation.cs" />
-    <Compile Include="Migrations\202008230346491_data-validation.designer.cs">
-      <DependentUpon>202008230346491_data-validation.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202008241050272_validationmig.cs" />
-    <Compile Include="Migrations\202008241050272_validationmig.designer.cs">
-      <DependentUpon>202008241050272_validationmig.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202008241120243_remote-validation.cs" />
-    <Compile Include="Migrations\202008241120243_remote-validation.designer.cs">
-      <DependentUpon>202008241120243_remote-validation.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202008241355040_pics.cs" />
-    <Compile Include="Migrations\202008241355040_pics.designer.cs">
-      <DependentUpon>202008241355040_pics.cs</DependentUpon>
+    <Compile Include="Migrations\202008251441231_cascade.cs" />
+    <Compile Include="Migrations\202008251441231_cascade.designer.cs">
+      <DependentUpon>202008251441231_cascade.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Admin.cs" />
@@ -733,35 +705,14 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202008130856408_mssss.resx">
-      <DependentUpon>202008130856408_mssss.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202008251410216_newmig.resx">
+      <DependentUpon>202008251410216_newmig.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202008130913178_msssss.resx">
-      <DependentUpon>202008130913178_msssss.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202008251427067_cascademig.resx">
+      <DependentUpon>202008251427067_cascademig.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202008130924012_mtt.resx">
-      <DependentUpon>202008130924012_mtt.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202008150429383_added.resx">
-      <DependentUpon>202008150429383_added.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202008152330551_dep-agents.resx">
-      <DependentUpon>202008152330551_dep-agents.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202008210141393_msgmig.resx">
-      <DependentUpon>202008210141393_msgmig.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202008230346491_data-validation.resx">
-      <DependentUpon>202008230346491_data-validation.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202008241050272_validationmig.resx">
-      <DependentUpon>202008241050272_validationmig.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202008241120243_remote-validation.resx">
-      <DependentUpon>202008241120243_remote-validation.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202008241355040_pics.resx">
-      <DependentUpon>202008241355040_pics.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202008251441231_cascade.resx">
+      <DependentUpon>202008251441231_cascade.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

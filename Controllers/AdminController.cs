@@ -206,7 +206,7 @@ namespace PFE_reclamation.Controllers {
 
 
         public ActionResult passwordchangeclient(string pass, string cpass, int id) {
-            if (pass.Equals(cpass) && !string.IsNullOrEmpty(pass) && !string.IsNullOrWhiteSpace(cpass)) {
+            if (pass.Equals(cpass) && !string.IsNullOrEmpty(pass) && !string.IsNullOrWhiteSpace(cpass) && pass.Length>=8) {
 
                 Client _client = db.Clients.Find(id);
                 _client.password = authservice.HashPassword(pass);
@@ -225,7 +225,7 @@ namespace PFE_reclamation.Controllers {
             if (id == null) {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
                 }
-            Client _client = db.Clients.Find(id);
+            Client _client = db.Clients.Include(x=>x.Contrats).Include(x=>x.Reclamations).Include(s=>s.receivedmessages).Include(q=>q.sentmessages).FirstOrDefault(x=>x.id==id);
             if (_client == null) {
                 return HttpNotFound();
                 } else {
@@ -296,7 +296,7 @@ namespace PFE_reclamation.Controllers {
                     _reclam.etat = Etat.En_cours;
                     db.Entry(_reclam).State = EntityState.Modified;
                     db.SaveChanges();
-                    apiservice.sendmail("Votre réclamation "+_reclam.titre+" a été approuvez et en cours de traitement", "réclamation vérifié", _reclam.Client.mail);
+                    apiservice.sendmail("Votre réclamation "+_reclam.titre+" a été approuvé et en cours de traitement", "réclamation vérifié", _reclam.Client.mail);
                     }
 
 

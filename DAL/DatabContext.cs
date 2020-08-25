@@ -2,21 +2,14 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
 
-namespace PFE_reclamation.DAL
-{
-    public class DatabContext : DbContext
-    {
+namespace PFE_reclamation.DAL {
+    public class DatabContext : DbContext {
 
-        public DatabContext() : base("name=Reclamations")
-        {
-        }
+        public DatabContext() : base("name=Reclamations") {
+            }
 
-        protected override void OnModelCreating(DbModelBuilder modelBuilder)
-        {
-
-          
-                
-
+        protected override void OnModelCreating(DbModelBuilder modelBuilder) {
+ 
 
 
             }
@@ -29,8 +22,8 @@ namespace PFE_reclamation.DAL
 
         public DbSet<Contrat> Contrats { get; set; }
         public DbSet<Departement> Departements { get; set; }
- 
-      public DbSet<Message> Messages { get; set; }
+
+        public DbSet<Message> Messages { get; set; }
         public DbSet<Reclamation> Reclamations { get; set; }
         public DbSet<Responsable_departement> Responsable_Departements { get; set; }
         public DbSet<Responsable_relation_client> Responsable_Relation_Clients { get; set; }
@@ -49,5 +42,5 @@ namespace PFE_reclamation.DAL
 
 
 
+        }
     }
-}

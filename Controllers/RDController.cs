@@ -20,6 +20,7 @@ namespace PFE_reclamation.Controllers
     {
         DatabContext db = new DatabContext();
         Authentication authservice = new Authentication();
+        ApiService apiservice = new ApiService();
         // GET: RD
         public ActionResult Index()
         {
@@ -116,6 +117,7 @@ namespace PFE_reclamation.Controllers
                 agent.password = authservice.HashPassword(agent.password);
                 db.Agents.Add(agent);
                 db.SaveChanges();
+                apiservice.sendmail("Votre compte a été créé dans le crm vous pouvez vous connectez\nContactez votre responsable pour le mot de passe ", "Compte créé", agent.mail);
                 return RedirectToAction("agents");
             }
             return View(agent);
@@ -213,6 +215,7 @@ namespace PFE_reclamation.Controllers
             _traite.date = DateTime.Now;
             db.Traites.Add(_traite);
             db.SaveChanges();
+            apiservice.sendmail("Une réclamation intitulé "+_reclam.titre+" vous a été affecté pour la traiter\nConsulter votre compte sur le crm pour la traiter ", "Reclamation affecté", _agent.mail);
             return Redirect("reclams");
 
 

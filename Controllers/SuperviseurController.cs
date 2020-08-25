@@ -17,6 +17,7 @@ namespace PFE_reclamation.Controllers
     {
         DatabContext db = new DatabContext();
         Authentication authservice = new Authentication();
+        ApiService apiservice = new ApiService();
         // GET: Superviseur
         public ActionResult Index()
         {
@@ -172,10 +173,12 @@ namespace PFE_reclamation.Controllers
             Reclamation _reclam = db.Reclamations.Find(idr);
             if (_reclam.Departement == null) {
                 Departement _dep = db.Departements.Find(iddep);
+                Responsable_departement _rd = db.Responsable_Departements.Where(x => x.departementId == iddep).FirstOrDefault();
                 _reclam.Departement = _dep;
                 _reclam.DepartementId = iddep;
                 db.Entry(_reclam).State = EntityState.Modified;
                 db.SaveChanges();
+                apiservice.sendmail("Une réclamation intitulé " + _reclam.titre + " a été affecté à votre département", "Réclamation validé", _rd.mail);
                 }
             return Redirect("reclams");
 

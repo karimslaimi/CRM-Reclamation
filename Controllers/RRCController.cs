@@ -19,6 +19,7 @@ namespace PFE_reclamation.Controllers {
 
         DatabContext db = new DatabContext();
         Authentication authservice = new Authentication();
+        ApiService apiservice = new ApiService();
         // GET: RRC
         public ActionResult Index() {
             return View();
@@ -129,6 +130,7 @@ namespace PFE_reclamation.Controllers {
                     _client.password = authservice.HashPassword(_client.password);
                     db.Clients.Add(_client);
                     db.SaveChanges();
+                    apiservice.sendmail("Votre compte a été créé dans le crm vous pouvez vous connectez\nContactez l'administrateur pour le mot de passe ", "Compte créé", _client.mail);
                     return RedirectToAction("clients");
                     } else {
                     ViewBag.error = "vérifier les données saisi";
@@ -268,6 +270,7 @@ namespace PFE_reclamation.Controllers {
                     _reclam.etat = Etat.En_cours;
                     db.Entry(_reclam).State = EntityState.Modified;
                     db.SaveChanges();
+                    apiservice.sendmail("Votre réclamation " + _reclam.titre + " a été approuvé et elle est en cours de traitement", "réclamation vérifié", _reclam.Client.mail);
                     }
 
 
@@ -297,15 +300,15 @@ namespace PFE_reclamation.Controllers {
 
             ViewBag.clients = db.Clients.Include(x => x.receivedmessages).Include("receivedmessages.sentBy").Include("receivedmessages.sentTo").Include(s => s.sentmessages).Include("sentmessages.sentTo").Include("sentmessages.sentBy").ToList();
             if (id != null) {
-  Client _client = db.Clients.Find(id);
+                Client _client = db.Clients.Find(id);
                 if (_client != null) {
- ViewBag.msgs = db.Messages.Include(i => i.sentBy).Include(c => c.sentTo).
-                    Where(x => (x.sentBy.id == id && x.sentTo.id == myid) || (x.sentTo.id == id && x.sentBy.id == myid)).ToList();
-              
-                ViewBag.clname = _client.nom + " " + _client.prenom;
-                ViewBag.clid = id;
+                    ViewBag.msgs = db.Messages.Include(i => i.sentBy).Include(c => c.sentTo).
+                                       Where(x => (x.sentBy.id == id && x.sentTo.id == myid) || (x.sentTo.id == id && x.sentBy.id == myid)).ToList();
+
+                    ViewBag.clname = _client.nom + " " + _client.prenom;
+                    ViewBag.clid = id;
                     }
-               
+
                 }
 
             return View();
