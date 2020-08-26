@@ -5,6 +5,7 @@ using PFE_reclamation.Services;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Security.Claims;
 using System.Web;
@@ -26,6 +27,22 @@ namespace PFE_reclamation.Controllers {
 
             return View();
         }
+        protected bool verifyFiles(HttpPostedFileBase item) {
+            bool flag = true;
+
+            if (item != null) {
+                if (item.ContentLength > 0 && item.ContentLength < 5000000) {
+                    if (!(Path.GetExtension(item.FileName).ToLower() == ".jpg" ||
+                        Path.GetExtension(item.FileName).ToLower() == ".png" ||
+                        Path.GetExtension(item.FileName).ToLower() == ".jpeg")) {
+                        flag = false;
+                        }
+                    } else { flag = false; }
+                } else { flag = false; }
+
+            return flag;
+            }
+
 
         [HttpGet]
         public ActionResult profile() {
@@ -49,10 +66,10 @@ namespace PFE_reclamation.Controllers {
             }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult profile(Agent _agent) {
+        public ActionResult profile(Agent _agent, HttpPostedFileBase postedFile) {
 
             //we get the object so we can fill the fields left empty
-            Agent agent = db.Agents.AsNoTracking().FirstOrDefault(x => x.id == _agent.id);
+            Agent agent = db.Agents.Include(x=>x.departement).AsNoTracking().FirstOrDefault(x => x.id == _agent.id);
 
             _agent.password = agent.password;
 
@@ -61,19 +78,31 @@ namespace PFE_reclamation.Controllers {
             if (ModelState.IsValid) {
                 try {
 
+                    if (postedFile != null && verifyFiles(postedFile)) {
+                        string path = Server.MapPath("/Content/images/");
+                        if (!Directory.Exists(path)) {
+                            Directory.CreateDirectory(path);
+                            }
 
+                        if (System.IO.File.Exists(Path.GetFullPath(path + "profile_" + _agent.id + Path.GetExtension(postedFile.FileName))))
+                            System.IO.File.Delete(path + "profile_" + _agent.id + Path.GetExtension(postedFile.FileName));
+
+                        postedFile.SaveAs(path + "profile_" + _agent.id + Path.GetExtension(postedFile.FileName));
+                        _agent.photo = Path.GetFileName("profile_" + _agent.id + Path.GetExtension(postedFile.FileName));
+                        }
 
 
                     db.Entry(_agent).State = EntityState.Modified;
                     db.SaveChanges();
                     ViewBag.msg = "Profile modifié avec succés";
+
                     } catch (Exception e) {
                     ViewBag.error = "Erreur est survenu réessayer";
                     }
                 } else {
                 ViewBag.error = "Erreur est survenu réessayer";
                 }
-
+            _agent.departement = agent.departement;
 
             return View(_agent);
 

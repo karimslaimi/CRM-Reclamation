@@ -22,18 +22,29 @@
                 Information Personnel
             </h2>
         </div>
-        @using (Html.BeginForm("profile", "Client",FormMethod.Post, new { enctype = "multipart/form-data" }))
-        {
+        @using (Html.BeginForm("profile", "Client", FormMethod.Post, new { enctype = "multipart/form-data" })) {
             @Html.AntiForgeryToken()
             @Html.ValidationSummary(true, "", new { @class = "text-theme-6" })
             @Html.HiddenFor(model => model.id)
+            @Html.HiddenFor(model => model.photo)
 
             <div class="flex flex-col  lg:flex-row border-b border-gray-200 dark:border-dark-5 pb-5 -mx-5">
                 <div class="flex flex-1 px-5 items-center justify-center ">
                     <div class="w-20 h-20 sm:w-24 sm:h-24 flex-none lg:w-32 lg:h-32 image-fit relative">
-                        <img alt="Midone Tailwind HTML Admin Template" class="rounded-full" src="~/Content/@Model.photo">
+                        @{
+
+                            string srcimg = "/Content/images/" + Model.photo;
+                            if (Model.photo == null) {
+                                srcimg = "/Content/images/profile-1.jpg";
+                                }
+
+                          
+
+                        }
+
+                        <img alt="Midone Tailwind HTML Admin Template" class="rounded-full" src="@srcimg">
                         <div onclick="activate()" class="absolute mb-1 mr-1 flex items-center justify-center bottom-0 right-0 bg-theme-1 rounded-full p-2">
-                            <input type="file" name="postedFile" id="pic" hidden="hidden">
+                            <input type="file" name="postedFile" id="pic" hidden="hidden" value="">
                             <i class="w-4 h-4 text-white" data-feather="camera"></i>
                         </div>
 
@@ -91,24 +102,22 @@
                     </div>
                 </div>
                 <div class="flex justify-end mt-4">
-                    @if (ViewBag.msg != null)
-                    {
+                    @if (ViewBag.msg != null) {
 
                         <span class="text-theme-9">
                             @ViewBag.msg
                         </span>
-                    }
-                    @if (ViewBag.error != null)
-                    {
+                        }
+                    @if (ViewBag.error != null) {
 
                         <span class=" text-theme-6 ">
                             @ViewBag.error
                         </span>
-                    }
+                        }
                     <button type="submit" class="button w-22 bg-theme-1 text-white ml-auto">Enregistrer</button>
                 </div>
             </div>
-        }
+            }
     </div>
 
 

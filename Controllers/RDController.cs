@@ -26,6 +26,26 @@ namespace PFE_reclamation.Controllers
         {
             return View();
         }
+
+
+        protected bool verifyFiles(HttpPostedFileBase item) {
+            bool flag = true;
+
+            if (item != null) {
+                if (item.ContentLength > 0 && item.ContentLength < 5000000) {
+                    if (!(Path.GetExtension(item.FileName).ToLower() == ".jpg" ||
+                        Path.GetExtension(item.FileName).ToLower() == ".png" ||
+                        Path.GetExtension(item.FileName).ToLower() == ".jpeg")) {
+                        flag = false;
+                        }
+                    } else { flag = false; }
+                } else { flag = false; }
+
+            return flag;
+            }
+
+
+
         [HttpGet]
         public ActionResult profile() {
             //get the userid from claims principal where we stored the user data after login
@@ -48,7 +68,7 @@ namespace PFE_reclamation.Controllers
             }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult profile(Responsable_departement _rd) {
+        public ActionResult profile(Responsable_departement _rd, HttpPostedFileBase postedFile) {
 
             //we get the object so we can fill the fields left empty
             Responsable_departement rd = db.Responsable_Departements.AsNoTracking().FirstOrDefault(x => x.id == _rd.id);
@@ -60,6 +80,18 @@ namespace PFE_reclamation.Controllers
             if (ModelState.IsValid) {
                 try {
 
+                    if (postedFile != null && verifyFiles(postedFile)) {
+                        string path = Server.MapPath("/Content/images/");
+                        if (!Directory.Exists(path)) {
+                            Directory.CreateDirectory(path);
+                            }
+
+                        if (System.IO.File.Exists(Path.GetFullPath(path + "profile_" + _rd.id + Path.GetExtension(postedFile.FileName))))
+                            System.IO.File.Delete(path + "profile_" + _rd.id + Path.GetExtension(postedFile.FileName));
+
+                        postedFile.SaveAs(path + "profile_" + _rd.id + Path.GetExtension(postedFile.FileName));
+                        _rd.photo = Path.GetFileName("profile_" + _rd.id + Path.GetExtension(postedFile.FileName));
+                        }
 
 
 

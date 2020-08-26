@@ -97,6 +97,9 @@ namespace PFE_reclamation.Controllers {
                             Directory.CreateDirectory(path);
                         }
 
+                        if (System.IO.File.Exists(Path.GetFullPath(path + "profile_" + _client.id + Path.GetExtension(postedFile.FileName))))
+                            System.IO.File.Delete(path + "profile_" + _client.id + Path.GetExtension(postedFile.FileName));
+
                         postedFile.SaveAs(path + "profile_"+_client.id+ Path.GetExtension(postedFile.FileName));
                         _client.photo = Path.GetFileName("profile_" + _client.id + Path.GetExtension(postedFile.FileName));
                     }

@@ -15,6 +15,7 @@ using System.IO;
 using Syncfusion.HtmlConverter;
 using SelectPdf;
 using System.Web.Security;
+using System.Web;
 
 namespace PFE_reclamation.Controllers {
     [CustomAuthorize("ADMIN")]
@@ -45,7 +46,21 @@ namespace PFE_reclamation.Controllers {
             return View();
             }
 
+        protected bool verifyFiles(HttpPostedFileBase item) {
+            bool flag = true;
 
+            if (item != null) {
+                if (item.ContentLength > 0 && item.ContentLength < 5000000) {
+                    if (!(Path.GetExtension(item.FileName).ToLower() == ".jpg" ||
+                        Path.GetExtension(item.FileName).ToLower() == ".png" ||
+                        Path.GetExtension(item.FileName).ToLower() == ".jpeg")) {
+                        flag = false;
+                        }
+                    } else { flag = false; }
+                } else { flag = false; }
+
+            return flag;
+            }
 
         [HttpGet]
         public ActionResult profile() {
@@ -69,7 +84,7 @@ namespace PFE_reclamation.Controllers {
             }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult profile(Admin _admin) {
+        public ActionResult profile(Admin _admin, HttpPostedFileBase postedFile) {
 
             //we get the object so we can fill the fields left empty
             Admin ad = db.Admins.AsNoTracking().FirstOrDefault(x => x.id == _admin.id);
@@ -80,6 +95,18 @@ namespace PFE_reclamation.Controllers {
 
             if (ModelState.IsValid) {
                 try {
+                    if (postedFile != null && verifyFiles(postedFile)) {
+                        string path = Server.MapPath("/Content/images/");
+                        if (!Directory.Exists(path)) {
+                            Directory.CreateDirectory(path);
+                            }
+
+                        if (System.IO.File.Exists(Path.GetFullPath(path + "profile_" + _admin.id + Path.GetExtension(postedFile.FileName))))
+                            System.IO.File.Delete(path + "profile_" + _admin.id + Path.GetExtension(postedFile.FileName));
+
+                        postedFile.SaveAs(path + "profile_" + _admin.id + Path.GetExtension(postedFile.FileName));
+                        _admin.photo = Path.GetFileName("profile_" + _admin.id + Path.GetExtension(postedFile.FileName));
+                        }
 
 
 

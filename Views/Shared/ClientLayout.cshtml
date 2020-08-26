@@ -182,7 +182,7 @@
                             string imgsrc = "/Content/images/profile-1.jpg";
                             var absolutePath = HttpContext.Current.Server.MapPath("/Content/images/profile_" + userid + ".jpg");
                             if (System.IO.File.Exists(absolutePath)) {
-                                imgsrc = "/Content/profile_" + userid + ".jpg";
+                                imgsrc = "/Content/images/profile_" + userid + ".jpg";
                                 }
 
 
