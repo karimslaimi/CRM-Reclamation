@@ -91,7 +91,7 @@ namespace PFE_reclamation.Controllers {
                 try {
                     if (postedFile != null && verifyFiles(postedFile))
                     {
-                        string path = Server.MapPath("/Content/");
+                        string path = Server.MapPath("/Content/images/");
                         if (!Directory.Exists(path))
                         {
                             Directory.CreateDirectory(path);

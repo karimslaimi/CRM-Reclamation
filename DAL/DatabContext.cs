@@ -9,7 +9,8 @@ namespace PFE_reclamation.DAL {
             }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder) {
- 
+
+            modelBuilder.Entity<Reclamation>().HasOptional<Traite>(s => s.Traite).WithRequired(x => x.Reclamation).WillCascadeOnDelete(true);
 
 
             }

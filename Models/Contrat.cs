@@ -21,6 +21,8 @@ namespace PFE_reclamation.Models
         [Required(ErrorMessage = "La description ne doit pas etre vide")]
         [MinLength(3, ErrorMessage = "doit etre plus long")]
         public string description { get; set; }
+
+        [Required]
         public virtual Client Client { get; set; }
     }
 }

@@ -423,6 +423,18 @@
     <Compile Include="Migrations\202008251036420_picts.designer.cs">
       <DependentUpon>202008251036420_picts.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202008260853472_requiredrelation.cs" />
+    <Compile Include="Migrations\202008260853472_requiredrelation.designer.cs">
+      <DependentUpon>202008260853472_requiredrelation.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202008260906079_traitre_reclam_relation.cs" />
+    <Compile Include="Migrations\202008260906079_traitre_reclam_relation.designer.cs">
+      <DependentUpon>202008260906079_traitre_reclam_relation.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202008260911516_msg_required_relation.cs" />
+    <Compile Include="Migrations\202008260911516_msg_required_relation.designer.cs">
+      <DependentUpon>202008260911516_msg_required_relation.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Admin.cs" />
     <Compile Include="Models\Agent.cs" />
@@ -721,6 +733,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202008251036420_picts.resx">
       <DependentUpon>202008251036420_picts.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202008260853472_requiredrelation.resx">
+      <DependentUpon>202008260853472_requiredrelation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202008260906079_traitre_reclam_relation.resx">
+      <DependentUpon>202008260906079_traitre_reclam_relation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202008260911516_msg_required_relation.resx">
+      <DependentUpon>202008260911516_msg_required_relation.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
