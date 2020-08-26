@@ -165,7 +165,7 @@
                         @Model.type
                     </td>
                 </tr>
-                
+
                 <tr class="item">
                     <td>
                         Etat
@@ -183,7 +183,7 @@
                 </tr>
                 <tr class="item last">
                     <td>
-                        @Model.titre 
+                        @Model.titre
 
                     </td>
                 </tr>
@@ -197,23 +197,45 @@
                 </tr>
                 <tr class="item last">
                     <td>
-                    @Model.description llllllll lllllllll kkkkkkk mmmmmmmmmm pppppppppp ioooooooooo uuuuuuuuuu ttttttt
+                        @Model.description llllllll lllllllll kkkkkkk mmmmmmmmmm pppppppppp ioooooooooo uuuuuuuuuu ttttttt
 
                     </td>
                 </tr>
-                <tr class="heading">
-                    <td>
-                        Réglement
-                    </td>
-                    <td>
-                    </td>
-                </tr>
-                <tr class="total">
-                    <td>  Date réglement</td>
-                    <td>
-                        @Model.fin_reclam
-                    </td>
-                </tr>
+                @if (Model.etat == PFE_reclamation.Models.Etat.Finis)
+                {
+                    <tr class="heading">
+                        <td>
+                            Réglement
+                        </td>
+                        <td>
+                        </td>
+                    </tr>
+                    <tr class="total">
+                        <td>  Date réglement</td>
+                        <td>
+                            @Model.fin_reclam.Value.ToString("dd/MM/yyyy")
+                        </td>
+                    </tr>
+                    <tr class="total">
+                        <td>  Agent</td>
+                        <td>
+                            @Model.Traite.agent.nom @Model.Traite.agent.prenom
+                        </td>
+                    </tr>
+                    <tr class="heading">
+                        <td>
+                            Détails
+                        </td>
+                        <td>
+                        </td>
+                    </tr>
+                    <tr class="total">
+                        
+                        <td>
+                            @Model.Traite.detaille
+                        </td>
+                    </tr>
+                }
             </tbody>
         </table>
     </div>

@@ -407,10 +407,6 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202008251410216_newmig.cs" />
-    <Compile Include="Migrations\202008251410216_newmig.designer.cs">
-      <DependentUpon>202008251410216_newmig.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\202008251427067_cascademig.cs" />
     <Compile Include="Migrations\202008251427067_cascademig.designer.cs">
       <DependentUpon>202008251427067_cascademig.cs</DependentUpon>
@@ -434,6 +430,10 @@
     <Compile Include="Migrations\202008260911516_msg_required_relation.cs" />
     <Compile Include="Migrations\202008260911516_msg_required_relation.designer.cs">
       <DependentUpon>202008260911516_msg_required_relation.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202008261316236_adm.cs" />
+    <Compile Include="Migrations\202008261316236_adm.designer.cs">
+      <DependentUpon>202008261316236_adm.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Admin.cs" />
@@ -722,9 +722,6 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202008251410216_newmig.resx">
-      <DependentUpon>202008251410216_newmig.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202008251427067_cascademig.resx">
       <DependentUpon>202008251427067_cascademig.cs</DependentUpon>
     </EmbeddedResource>
@@ -742,6 +739,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202008260911516_msg_required_relation.resx">
       <DependentUpon>202008260911516_msg_required_relation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202008261316236_adm.resx">
+      <DependentUpon>202008261316236_adm.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

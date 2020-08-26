@@ -78,10 +78,9 @@ namespace PFE_reclamation.Controllers {
                 ViewBag.passmsg = TempData["msg"];
                 }
             return View(_admin);
-
-
-
-            }
+                              }
+  
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult profile(Admin _admin, HttpPostedFileBase postedFile) {

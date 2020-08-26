@@ -135,22 +135,36 @@ namespace PFE_reclamation.Controllers
         [HttpGet]
         public ActionResult newAgent()
         {
+            List<Departement> dp = db.Departements.ToList();
+            ViewBag.list = dp;
+
             return View();
         }
         [HttpPost]
-        public ActionResult newAgent(Agent agent)
+        public ActionResult newAgent(Agent agent,string select,string cpass)
         {
-        
-            if (ModelState.IsValid)
+    
+            List<Departement> dp = db.Departements.ToList();
+            ViewBag.list = dp;
+
+            if (agent.password.Equals(cpass))
             {
-                int idresp = int.Parse(ClaimsPrincipal.Current.Claims.FirstOrDefault(x => x.Type == "id").Value);
-                Responsable_departement _rd = db.Responsable_Departements.Find(idresp);
-                agent.departement = db.Departements.Where(x => x.id == _rd.departementId).FirstOrDefault();
-                agent.password = authservice.HashPassword(agent.password);
-                db.Agents.Add(agent);
-                db.SaveChanges();
-                apiservice.sendmail("Votre compte a été créé dans le crm vous pouvez vous connectez\nContactez votre responsable pour le mot de passe ", "Compte créé", agent.mail);
-                return RedirectToAction("agents");
+
+                int id = Int32.Parse(select);
+                if (id != 0)
+                    agent.departementId = id;
+
+                if (ModelState.IsValid)
+                {
+                    int idresp = int.Parse(ClaimsPrincipal.Current.Claims.FirstOrDefault(x => x.Type == "id").Value);
+                    Responsable_departement _rd = db.Responsable_Departements.Find(idresp);
+                    agent.departement = db.Departements.Where(x => x.id == _rd.departementId).FirstOrDefault();
+                    agent.password = authservice.HashPassword(agent.password);
+                    db.Agents.Add(agent);
+                    db.SaveChanges();
+                    apiservice.sendmail("Votre compte a été créé dans le crm vous pouvez vous connectez\nContactez votre responsable pour le mot de passe ", "Compte créé", agent.mail);
+                    return RedirectToAction("agents");
+                }
             }
             return View(agent);
         }
