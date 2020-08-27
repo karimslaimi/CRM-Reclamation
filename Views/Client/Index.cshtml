@@ -4,5 +4,122 @@
     Layout = "~/Views/Shared/ClientLayout.cshtml";
 }
 
-<h2>Index</h2>
+@using System.Globalization;
+@{
+    CultureInfo french = new CultureInfo("fr-FR"); }
+
+
+<div class="grid grid-cols-12 gap-6">
+    <div class="col-span-12 xxl:col-span-9 grid grid-cols-12 gap-6">
+        <!-- BEGIN: General Report -->
+        <div class="col-span-12 mt-8">
+            <div class="intro-y flex items-center h-10">
+                <h2 class="text-lg font-medium truncate mr-5">
+                </h2>
+                <a href="" class="ml-auto flex text-theme-1 dark:text-theme-10"> <i data-feather="refresh-ccw" class="w-4 h-4 mr-3"></i> Actualiser </a>
+            </div>
+            <div class="grid grid-cols-12 gap-6 mt-5">
+                <div class="col-span-12 sm:col-span-6 xl:col-span-3 intro-y">
+                    <div class="report-box zoom-in">
+                        <div class="box p-5">
+                            <div class="flex">
+                                <i data-feather="alert-triangle" class="report-box__icon text-theme-10"></i>
+
+                            </div>
+                            <div class="text-3xl font-bold leading-8 mt-6">@ViewBag.nbreclam</div>
+                            <div class="text-base text-gray-600 mt-1">Nombre de réclamations</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-span-12 sm:col-span-6 xl:col-span-3 intro-y">
+                    <div class="report-box zoom-in">
+                        <div class="box p-5">
+                            <div class="flex">
+                                <i data-loading-icon="spinning-circles" class="report-box__icon text-theme-11"></i>
+
+                            </div>
+                            <div class="text-3xl font-bold leading-8 mt-6">@ViewBag.encourreclam</div>
+                            <div class="text-base text-gray-600 mt-1">Réclamations en cour</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-span-12 sm:col-span-6 xl:col-span-3 intro-y">
+                    <div class="report-box zoom-in">
+                        <div class="box p-5">
+                            <div class="flex">
+                                <i data-feather="check-square" class="report-box__icon text-theme-12"></i>
+
+                            </div>
+                            <div class="text-3xl font-bold leading-8 mt-6">@ViewBag.traitereclam</div>
+                            <div class="text-base text-gray-600 mt-1">Réclamations traité</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-span-12 sm:col-span-6 xl:col-span-3 intro-y">
+                    <div class="report-box zoom-in">
+                        <div class="box p-5">
+                            <div class="flex">
+                                <i data-feather="clipboard" class="report-box__icon text-theme-9"></i>
+
+                            </div>
+                            <div class="text-3xl font-bold leading-8 mt-6"> @ViewBag.contrat</div>
+                            <div class="text-base text-gray-600 mt-1">Nombre de contrats</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- END: General Report -->
+
+    </div>
+
+    <div class="col-span-12 xxl:col-span-3 xxl:border-l border-theme-5 -mb-10 pb-10">
+        <div class="xxl:pl-6 grid grid-cols-12 gap-6">
+            <!-- BEGIN: Transactions -->
+            <div class="col-span-12 md:col-span-6 xl:col-span-4 xxl:col-span-12 mt-3 xxl:mt-8">
+                <div class="intro-x flex items-center h-10">
+                    <h2 class="text-lg font-medium truncate mr-5">
+                        Mes derniers reclamation
+                    </h2>
+                </div>
+                <div class="mt-5">
+                    @foreach (var _reclam in ViewBag.reclams) {
+                        <div class="intro-x">
+                            <div class="box px-5 py-3 mb-3 flex items-center zoom-in">
+                                <div class="w-10 h-10 flex-none image-fit rounded-full overflow-hidden">
+
+                                </div>
+                                <div class="ml-4 mr-auto">
+                                    <div class="font-medium">@_reclam.titre</div>
+                                    <div class="text-gray-600 text-xs">
+                                        @{
+                                            var d2 = _reclam.debut_reclam.ToString("dd/MM/yyyy", french);
+
+
+                                        }
+                                        @d2
+                                    </div>
+                                </div>
+                                @if (_reclam.etat == PFE_reclamation.Models.Etat.Nouveau) {
+                                    <div class="text-theme-6">Nouveau</div>
+                                    } else if (_reclam.etat == PFE_reclamation.Models.Etat.En_cours) {
+                                    <div class="text-theme-9">En cours</div>
+                                    } else {
+                                    <div class="text-gray-500">Traité</div>
+                                    }
+
+                            </div>
+                        </div>
+
+                        }
+
+                </div>
+            </div>
+            <!-- END: Transactions -->
+          
+
+        </div>
+    </div>
+
+</div>
 

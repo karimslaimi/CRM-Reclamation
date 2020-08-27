@@ -31,7 +31,8 @@ namespace PFE_reclamation.Controllers
             ViewBag.encourreclam = _reclams.Where(x => x.etat == Etat.En_cours).Count();
             ViewBag.nbreclam = _reclams.Count();
             ViewBag.newreclam = _reclams.Where(x=>x.etat==Etat.Nouveau).Count();
-            ViewBag.clients = db.Clients.OrderBy(x => x.Reclamations.Count()).Take(5);
+            ViewBag.clients = db.Clients.Include(s=>s.Reclamations).Where(x=>x.Reclamations.Count()>0).OrderBy(x => x.Reclamations.Count()).Take(5).ToList();
+
             ViewBag.lastreclams =db.Reclamations.Where(x=>x.etat==Etat.Nouveau).OrderBy(s=>s.debut_reclam).Take(5);
             return View();
         }
@@ -225,7 +226,7 @@ namespace PFE_reclamation.Controllers
                 db.SaveChanges();
                 apiservice.sendmail("Une réclamation intitulé " + _reclam.titre + " a été affecté à votre département", "Réclamation validé", _rd.mail);
                 }
-            return Redirect("reclams");
+            return Redirect("encours_reclams");
 
 
             }

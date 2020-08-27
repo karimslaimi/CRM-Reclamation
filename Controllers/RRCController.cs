@@ -26,6 +26,21 @@ namespace PFE_reclamation.Controllers {
 
         // GET: RRC
         public ActionResult Index() {
+
+            List<Reclamation> _reclams = db.Reclamations.ToList();
+
+
+            ViewBag.traitereclam = _reclams.Where(x => x.etat == Etat.Finis).Count();
+            ViewBag.encourreclam = _reclams.Where(x => x.etat == Etat.En_cours).Count();
+            ViewBag.nbreclam = _reclams.Count();
+            ViewBag.newreclam = _reclams.Where(x => x.etat == Etat.Nouveau).Count();
+            ViewBag.clients = db.Clients.Include(s => s.Reclamations).Where(x => x.Reclamations.Count() > 0).OrderBy(x => x.Reclamations.Count()).Take(5).ToList();
+
+            ViewBag.lastreclams = db.Reclamations.Where(x => x.etat == Etat.Nouveau).OrderBy(s => s.debut_reclam).Take(5);
+
+
+
+
             return View();
             }
         protected bool verifyFiles(HttpPostedFileBase item) {
