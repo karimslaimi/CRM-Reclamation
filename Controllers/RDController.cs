@@ -105,7 +105,7 @@ namespace PFE_reclamation.Controllers
                 ViewBag.error = "Erreur est survenu réessayer";
                 }
 
-
+            _rd.departement = rd.departement;
             return View(_rd);
 
 

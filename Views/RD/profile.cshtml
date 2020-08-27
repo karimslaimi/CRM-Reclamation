@@ -16,14 +16,36 @@
                 Information Personnel
             </h2>
         </div>
-        @using (Html.BeginForm("profile", "RD")) {
+        @using (Html.BeginForm("profile", "RD", FormMethod.Post, new { enctype = "multipart/form-data" })) {
             @Html.AntiForgeryToken()
             @Html.ValidationSummary(true, "", new { @class = "text-theme-6" })
             @Html.HiddenFor(model => model.id)
             @Html.HiddenFor(model => model.departementId)
             @Html.HiddenFor(model => model.password)
             @Html.HiddenFor(model => model.date_aff)
+            <div class="flex flex-col  lg:flex-row border-b border-gray-200 dark:border-dark-5 pb-5 -mx-5">
+                <div class="flex flex-1 px-5 items-center justify-center ">
+                    <div class="w-20 h-20 sm:w-24 sm:h-24 flex-none lg:w-32 lg:h-32 image-fit relative">
+                        @{
 
+                            string srcimg = "/Content/images/" + @Model.photo;
+                            if (Model.photo == null)
+                                srcimg = "/Content/images/profile-1.jpg";
+
+
+                        }
+
+                        <img alt="Midone Tailwind HTML Admin Template" class="rounded-full" id="imgfield" src="@srcimg">
+                        <div onclick="activate()" class="absolute mb-1 mr-1 flex items-center justify-center bottom-0 right-0 bg-theme-1 rounded-full p-2">
+                            <input type="file" name="postedFile" id="pic" hidden="hidden" >
+                            <i class="w-4 h-4 text-white" data-feather="camera"></i>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
             <div class="p-5">
                 <div class="grid grid-cols-12 gap-5">
                     <div class="col-span-12 xl:col-span-6">
@@ -157,6 +179,33 @@
 </div>
 
 <script>
+    activate = function () {
+        var inp = document.getElementById("pic");
+        inp.readOnly = false;
+        inp.click();
+      
+    };
+
+   
+
+    document.getElementById('pic').onchange = function (event) {
+      
+        var selectedFile = event.target.files[0];
+            var reader = new FileReader();
+   
+        var imgtag = document.getElementById("imgfield");
+            imgtag.title = selectedFile.name;
+ 
+            reader.onload = function (event) {
+                imgtag.src = event.target.result;
+            };
+     
+            reader.readAsDataURL(selectedFile);
+        }
+
+     
+  
+
 
     window.onload = function () {
 
