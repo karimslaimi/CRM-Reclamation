@@ -24,6 +24,26 @@ namespace PFE_reclamation.Controllers
         // GET: RD
         public ActionResult Index()
         {
+            //nb reclam for his dep
+            //nb reclam in progress
+            //nb reclam treated
+            //nb agent
+            //top 5 agent
+            //latest treated reclam
+            int userid = int.Parse(ClaimsPrincipal.Current.Claims.FirstOrDefault(x => x.Type == "id").Value);
+            Departement _dep = db.Responsable_Departements.Where(x => x.id == userid).FirstOrDefault().departement;
+            List<Reclamation> _reclam = db.Reclamations.Where(x => x.DepartementId == _dep.id).ToList();
+            ViewBag.depreclam = _reclam.Count();
+            ViewBag.encours = _reclam.Where(x => x.etat == Etat.En_cours).Count();
+            ViewBag.treated = _reclam.Where(w => w.etat == Etat.Finis).Count();
+            List<Agent> _agents = db.Agents.Include(x=>x.reclamTraite).Where(x => x.departementId == _dep.id).ToList();
+            ViewBag.agent = _agents.Count();
+            ViewBag.agents = _agents.OrderByDescending(x => x.reclamTraite!=null).ThenByDescending(x=>x.reclamTraite!=null? x.reclamTraite.Count() : x.id).Take(5);
+            ViewBag.latest = _reclam.Where(x => x.etat == Etat.Finis).OrderBy(x => x.fin_reclam).Take(5);
+
+
+
+
             return View();
         }
 

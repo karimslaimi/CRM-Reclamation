@@ -22,10 +22,10 @@ namespace PFE_reclamation.Controllers {
         // GET: Agent
         public ActionResult Index()
         {
+            //nothing to show in the index so redirect to untreated reclam
 
 
-
-            return View();
+            return RedirectToAction("reclams");
         }
         protected bool verifyFiles(HttpPostedFileBase item) {
             bool flag = true;

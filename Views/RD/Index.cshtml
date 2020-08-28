@@ -26,7 +26,7 @@
                                 <i data-feather="alert-triangle" class="report-box__icon text-theme-10"></i>
 
                             </div>
-                            <div class="text-3xl font-bold leading-8 mt-6">@ViewBag.nbreclam</div>
+                            <div class="text-3xl font-bold leading-8 mt-6">@ViewBag.depreclam</div>
                             <div class="text-base text-gray-600 mt-1">Nombre de réclamations</div>
                         </div>
                     </div>
@@ -38,7 +38,7 @@
                                 <i data-loading-icon="spinning-circles" class="report-box__icon text-theme-11"></i>
 
                             </div>
-                            <div class="text-3xl font-bold leading-8 mt-6">@ViewBag.encourreclam</div>
+                            <div class="text-3xl font-bold leading-8 mt-6">@ViewBag.encours</div>
                             <div class="text-base text-gray-600 mt-1">Réclamations en cour</div>
                         </div>
                     </div>
@@ -50,7 +50,7 @@
                                 <i data-feather="check-square" class="report-box__icon text-theme-12"></i>
 
                             </div>
-                            <div class="text-3xl font-bold leading-8 mt-6">@ViewBag.traitereclam</div>
+                            <div class="text-3xl font-bold leading-8 mt-6">@ViewBag.treated</div>
                             <div class="text-base text-gray-600 mt-1">Réclamations traité</div>
                         </div>
                     </div>
@@ -62,8 +62,8 @@
                                 <i data-feather="layers" class="report-box__icon text-theme-9"></i>
 
                             </div>
-                            <div class="text-3xl font-bold leading-8 mt-6"> @ViewBag.newreclam</div>
-                            <div class="text-base text-gray-600 mt-1">Nouvelles réclamations</div>
+                            <div class="text-3xl font-bold leading-8 mt-6"> @ViewBag.agent</div>
+                            <div class="text-base text-gray-600 mt-1">Nombre d'agents</div>
                         </div>
                     </div>
                 </div>
@@ -80,22 +80,22 @@
             <div class="col-span-12 md:col-span-6 xl:col-span-4 xxl:col-span-12 mt-3 xxl:mt-8">
                 <div class="intro-x flex items-center h-10">
                     <h2 class="text-lg font-medium truncate mr-5">
-                        Clients plus réclamants
+                        Agents
                     </h2>
                 </div>
                 <div class="mt-5">
-                    @foreach (PFE_reclamation.Models.Client client in ViewBag.clients) {
+                    @foreach (PFE_reclamation.Models.Agent agent in ViewBag.agents) {
                         <div class="intro-x">
                             <div class="box px-5 py-3 mb-3 flex items-center zoom-in">
                                 <div class="w-10 h-10 flex-none image-fit rounded-full overflow-hidden">
                                     @{
 
-                                        string srcimg = "/Content/images/" + client.photo;
-                                        if (client.photo == null) {
+                                        string srcimg = "/Content/images/" + agent.photo;
+                                        if (agent.photo == null) {
                                             srcimg = "/Content/images/profile-1.jpg";
                                             }
 
-                                        string fullname = client.nom + " " + client.prenom;
+                                        string fullname = agent.nom + " " + agent.prenom;
 
                                     }
 
@@ -103,10 +103,10 @@
                                 </div>
                                 <div class="ml-4 mr-auto">
                                     <div class="font-medium">@fullname</div>
-                                    <div class="text-gray-600 text-xs">@client.cin</div>
+                                    <div class="text-gray-600 text-xs">@agent.cin</div>
                                 </div>
                                 @{
-                                    int reccount = client.Reclamations.Count();
+                                    int reccount = agent.reclamTraite!=null? agent.reclamTraite.Count():0;
                                 }
                                 <div class="text-theme-6">@reccount</div>
                             </div>
@@ -121,12 +121,12 @@
             <div class="col-span-12 md:col-span-6 xl:col-span-4 xxl:col-span-12 mt-3">
                 <div class="intro-x flex items-center h-10">
                     <h2 class="text-lg font-medium truncate mr-5">
-                        Réclamations récentes
+                        Dernier réclamation traité
                     </h2>
-                    <a href="@Url.Action("reclams")" class="ml-auto text-theme-1 dark:text-theme-10 truncate">Voir tout</a>
+                    <a href="@Url.Action("treatedreclams")" class="ml-auto text-theme-1 dark:text-theme-10 truncate">Voir tout</a>
                 </div>
                 <div class="report-timeline mt-5 relative">
-                    @foreach (var reclam in ViewBag.lastreclams) {
+                    @foreach (var reclam in ViewBag.latest) {
 
 
                         <div class="intro-x relative flex items-center mb-3">
