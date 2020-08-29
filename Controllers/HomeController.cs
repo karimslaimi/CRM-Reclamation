@@ -161,7 +161,7 @@ namespace PFE_reclamation.Controllers
         public ActionResult generatePDF()
         {
             int id=Int32.Parse(Request["recId"]);
-            Reclamation rec = db.Reclamations.Find(id);
+            Reclamation rec = db.Reclamations.Include(x=>x.Traite.agent).FirstOrDefault(x=>x.id==id);
 
             return View(rec);
         }

@@ -4,5 +4,169 @@
     Layout = "~/Views/Shared/SuperviseurLayout.cshtml";
 }
 
-<h2>Index</h2>
+@using System.Globalization;
+@{
+    CultureInfo french = new CultureInfo("fr-FR"); }
 
+<div class="grid grid-cols-12 gap-6">
+    <div class="col-span-12 xxl:col-span-9 grid grid-cols-12 gap-6">
+        <!-- BEGIN: General Report -->
+        <div class="col-span-12 mt-8">
+            <div class="intro-y flex items-center h-10">
+                <h2 class="text-lg font-medium truncate mr-5">
+                </h2>
+                <a href="" class="ml-auto flex text-theme-1 dark:text-theme-10"> <i data-feather="refresh-ccw" class="w-4 h-4 mr-3"></i> Actualiser </a>
+            </div>
+            <div class="grid grid-cols-12 gap-6 mt-5">
+                <div class="col-span-12 sm:col-span-6 xl:col-span-3 intro-y">
+                    <div class="report-box zoom-in">
+                        <div class="box p-5">
+                            <div class="flex">
+                                <i data-feather="alert-triangle" class="report-box__icon text-theme-10"></i>
+
+                            </div>
+                            <div class="text-3xl font-bold leading-8 mt-6">@ViewBag.nbreclam</div>
+                            <div class="text-base text-gray-600 mt-1">Nombre de réclamations</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-span-12 sm:col-span-6 xl:col-span-3 intro-y">
+                    <div class="report-box zoom-in">
+                        <div class="box p-5">
+                            <div class="flex">
+                                <i data-loading-icon="spinning-circles" class="report-box__icon text-theme-11"></i>
+
+                            </div>
+                            <div class="text-3xl font-bold leading-8 mt-6">@ViewBag.encourreclam</div>
+                            <div class="text-base text-gray-600 mt-1">Réclamations en cour</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-span-12 sm:col-span-6 xl:col-span-3 intro-y">
+                    <div class="report-box zoom-in">
+                        <div class="box p-5">
+                            <div class="flex">
+                                <i data-feather="check-square" class="report-box__icon text-theme-12"></i>
+
+                            </div>
+                            <div class="text-3xl font-bold leading-8 mt-6">@ViewBag.traitereclam</div>
+                            <div class="text-base text-gray-600 mt-1">Réclamations traité</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-span-12 sm:col-span-6 xl:col-span-3 intro-y">
+                    <div class="report-box zoom-in">
+                        <div class="box p-5">
+                            <div class="flex">
+                                <i data-feather="layers" class="report-box__icon text-theme-9"></i>
+
+                            </div>
+                            <div class="text-3xl font-bold leading-8 mt-6"> @ViewBag.newreclam</div>
+                            <div class="text-base text-gray-600 mt-1">Nouvelles réclamations</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- END: General Report -->
+
+    </div>
+
+
+    <div class="col-span-12 xxl:col-span-3 xxl:border-l border-theme-5 -mb-10 pb-10">
+        <div class="xxl:pl-6 grid grid-cols-12 gap-6">
+            <!-- BEGIN: Transactions -->
+            <div class="col-span-12 md:col-span-6 xl:col-span-4 xxl:col-span-12 mt-3 xxl:mt-8">
+                <div class="intro-x flex items-center h-10">
+                    <h2 class="text-lg font-medium truncate mr-5">
+                        Clients plus réclamants
+                    </h2>
+                </div>
+                <div class="mt-5">
+                    @foreach (PFE_reclamation.Models.Client client in ViewBag.clients) {
+                        <div class="intro-x">
+                            <div class="box px-5 py-3 mb-3 flex items-center zoom-in">
+                                <div class="w-10 h-10 flex-none image-fit rounded-full overflow-hidden">
+                                    @{
+
+                                        string srcimg = "/Content/images/" + client.photo;
+                                        if (client.photo == null) {
+                                            srcimg = "/Content/images/profile-1.jpg";
+                                            }
+
+                                        string fullname = client.nom + " " + client.prenom;
+
+                                    }
+
+                                    <img alt="Midone Tailwind HTML Admin Template" class="rounded-full" id="imgfield" src="@srcimg">
+                                </div>
+                                <div class="ml-4 mr-auto">
+                                    <div class="font-medium">@fullname</div>
+                                    <div class="text-gray-600 text-xs">@client.cin</div>
+                                </div>
+                                @{
+                                    int reccount = client.Reclamations.Count();
+                                }
+                                <div class="text-theme-6">@reccount</div>
+                            </div>
+                        </div>
+
+                        }
+
+                </div>
+            </div>
+            <!-- END: Transactions -->
+            <!-- BEGIN: Recent Activities -->
+            <div class="col-span-12 md:col-span-6 xl:col-span-4 xxl:col-span-12 mt-3">
+                <div class="intro-x flex items-center h-10">
+                    <h2 class="text-lg font-medium truncate mr-5">
+                        Réclamations récentes
+                    </h2>
+                    <a href="@Url.Action("reclams")" class="ml-auto text-theme-1 dark:text-theme-10 truncate">Voir tout</a>
+                </div>
+                <div class="report-timeline mt-5 relative">
+                    @foreach (var reclam in ViewBag.lastreclams) {
+
+
+                        <div class="intro-x relative flex items-center mb-3">
+                            <div class="report-timeline__image">
+                                <div class="w-10 h-10 flex-none image-fit rounded-full overflow-hidden">
+                                    @{
+
+                                        string srcimg = "/Content/images/" + reclam.Client.photo;
+                                        if (reclam.Client.photo == null) {
+                                            srcimg = "/Content/images/profile-3.jpg";
+                                            }
+
+                                        string fullname = reclam.Client.nom + " " + reclam.Client.prenom;
+
+                                    }
+
+                                    <img alt="Midone Tailwind HTML Admin Template" class="rounded-full" id="imgfield" src="@srcimg">
+
+
+                                </div>
+                            </div>
+                            <div class="box px-5 py-3 ml-4 flex-1 zoom-in">
+                                <div class="flex items-center">
+                                    <div class="font-medium">@fullname</div>
+                                    @{
+                                        var d2 = reclam.debut_reclam.ToString("dd/MM/yyyy", french);
+
+
+                                    }
+                                    <div class="text-xs text-gray-500 ml-auto">@d2</div>
+                                </div>
+                                <div class="text-gray-600 mt-1">@reclam.titre</div>
+                            </div>
+                        </div>
+                        }
+
+                </div>
+            </div>
+            <!-- END: Recent Activities -->
+      
+        </div>
+    </div>
+
+</div>

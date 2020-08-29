@@ -26,78 +26,73 @@
     <!--===============================================================================================-->
 </head>
 <br />
-<center><h1>LISTE DES RECLAMATIONS</h1></center><br /><br />
-                                                      <body>
-                                                                
-                                                          <div class="wrap-table100">
-                                                                      <div class="table100">
-                                                                          <table>
-                                                                              <thead style="display: table-header-group;">
-                                                                                  <tr class="table100-head">
-                                                                                      <th class="column6">Client</th>
-                                                                                      <th class="column6">Département</th>
-                                                                                      <th class="column6">Type</th>
-                                                                                      <th class="column6">Etat</th>
-                                                                                      <th class="column6">Date réclamation</th>
-                                                                                      <th class="column6">Date réglement</th>
-                                                                                  </tr>
-                                                                              </thead>
-                                                                              <tbody>
-                                                                             @foreach(var item in Model) {
-                                                                                  <tr>
-                                                                                      <td class="column6">@item.Client.nom @item.Client.prenom </td>
-                                                                                      @if(@item.Departement==null)
-                                                                                      {
-                                                                                      <td class="column6">---</td>
-                                                                                      }
-                                                                                  else{
-                                                                                      <td class="column6">@item.Departement.label</td>
-                                                                                      }
-                                                                                      <td class="column6">@item.type</td>
-                                                                                      @if (item.etat == PFE_reclamation.Models.Etat.En_cours)
-                                                                                      {
-                                                                                          <td class="column6">En cours</td>
-                                                                                      }
-                                                                                      else if (item.etat == PFE_reclamation.Models.Etat.Finis)
-                                                                                      {
-                                                                                          <td class="column6">Traité</td>
-                                                                                      }
-                                                                                      else
-                                                                                      {
-                                                                                          <td class="column6">Nouvelle</td>
-                                                                                      }
-                                                                                      <td class="column6">@item.debut_reclam.ToString("dd/MM/yyyy")</td>
-                                                                                      @if (item.fin_reclam == null)
-                                                                                      {
-                                                                                          <td class="column6">Non défini</td>
-                                                                                      }
-                                                                                      else
-                                                                                      {
-                                                                                          <td class="column6">@item.fin_reclam.Value.ToString("dd/MM/yyyy")</td>
-                                                                                      }
-                                                                                  </tr>}
-                                                                                                                              </tbody>
-                                                                          </table>
-                                                                      </div>
-                                                                  </div>
+<center><h1>LISTE DES RECLAMATIONS</h1></center>
+<br />
+<br />
+<body>
+
+    <div class="wrap-table100">
+        <div class="table100">
+            <table>
+                <thead style="display: table-header-group;">
+                    <tr class="table100-head">
+                        <th class="column6">Client</th>
+                        <th class="column6">Département</th>
+                        <th class="column6">Type</th>
+                        <th class="column6">Etat</th>
+                        <th class="column6">Date réclamation</th>
+                        <th class="column6">Date réglement</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model) {
+                        <tr>
+                            <td class="column6">@item.Client.nom @item.Client.prenom </td>
+                            <td class="column6">
+                                @if (item.Departement != null) {
+                                    @item.Departement.label
+                                    } else {
+                                    @Html.Raw("Non attribué")
+                                    }
+
+                            </td>
+                            <td class="column6">@item.type</td>
+                            @if (item.etat == PFE_reclamation.Models.Etat.En_cours) {
+                                <td class="column6">En cours</td>
+} else if (item.etat == PFE_reclamation.Models.Etat.Finis) {
+                                <td class="column6">Traité</td>
+                                } else {
+                                <td class="column6">Nouvelle</td>
+}
+                            <td class="column6">@item.debut_reclam.ToString("dd/MM/yyyy")</td>
+                            @if (item.fin_reclam == null) {
+                                <td class="column6">Non défini</td>
+                                } else {
+                                <td class="column6">@item.fin_reclam.Value.ToString("dd/MM/yyyy")</td>
+}
+                        </tr>
+}
+                </tbody>
+            </table>
+        </div>
+    </div>
 
 
 
 
-                                                          <!--===============================================================================================-->
-                                                          <script src="~/Content/Table_Responsive_v1/vendor/jquery/jquery-3.2.1.min.js"></script>
-                                                          <!--===============================================================================================-->
-                                                          <script src="~/Content/Table_Responsive_v1/vendor/bootstrap/js/popper.js"></script>
-                                                          <script src="~/Content/Table_Responsive_v1/vendor/bootstrap/js/bootstrap.min.js"></script>
-                                                          <!--===============================================================================================-->
-                                                          <script src="~/Content/Table_Responsive_v1/vendor/select2/select2.min.js"></script>
-                                                          <!--===============================================================================================-->
-                                                          <script src="~/Content/Table_Responsive_v1/js/main.js"></script>
+    <!--===============================================================================================-->
+    <script src="~/Content/Table_Responsive_v1/vendor/jquery/jquery-3.2.1.min.js"></script>
+    <!--===============================================================================================-->
+    <script src="~/Content/Table_Responsive_v1/vendor/bootstrap/js/popper.js"></script>
+    <script src="~/Content/Table_Responsive_v1/vendor/bootstrap/js/bootstrap.min.js"></script>
+    <!--===============================================================================================-->
+    <script src="~/Content/Table_Responsive_v1/vendor/select2/select2.min.js"></script>
+    <!--===============================================================================================-->
+    <script src="~/Content/Table_Responsive_v1/js/main.js"></script>
 
 
-                                                      </body>                                  
-                                                                                                          
-       
-    
+</body>
 
-     
+
+
+

@@ -5,6 +5,7 @@
     Layout = "~/Views/Shared/RDLayout.cshtml";
 }
 
+
 <div class="intro-y flex items-center mt-8">
     <h2 class="text-lg font-medium mr-auto">
         Ajouter un agent
@@ -15,11 +16,10 @@
 <div class="intro-y box lg:mt-5">
     <div class="flex items-center p-5 border-b border-gray-200 dark:border-dark-5">
         <h2 class="font-medium text-base mr-auto">
-            Information Personnel
+            Informations Personnel
         </h2>
     </div>
-    @using (Html.BeginForm("newAgent", "RD"))
-    {
+    @using (Html.BeginForm("newAgent", "RD")) {
         @Html.AntiForgeryToken()
         @Html.ValidationSummary(true, "", new { @class = "text-theme-6" })
 
@@ -51,24 +51,7 @@
                         @Html.EditorFor(model => model.password, new { htmlAttributes = new { @class = "input w-full border mt-2", type = "password" } })
                         @Html.ValidationMessageFor(model => model.password, "", new { @class = "text-theme-6 mt-2" })
                     </div>
-
-                    <div class="mt-3">
-                        <label>Département</label>
-
-                        <select name="select" data-hide-search="true" class="select2 w-full border  mt-2" required>
-
-                            <option value="0">selectionner un département</option>
-                            @foreach (var dep in (List<PFE_reclamation.Models.Departement>)ViewBag.list)
-                            {
-                                <option value="@dep.id">@dep.label</option>
-
-                            }
-
-                        </select>
-                        @Html.ValidationMessageFor(model => model.departement, "", new { @class = "text-theme-6 mt-2" })
-                    </div>
-
-
+              
                 </div>
                 <div class="col-span-12 xl:col-span-6">
                     <div class="mt-3">
@@ -99,29 +82,26 @@
                         @Html.EditorFor(model => model.date_aff, new { htmlAttributes = new { @class = "input w-full border mt-2 " } })
                         @Html.ValidationMessageFor(model => model.date_aff, "", new { @class = "text-theme-6 mt-2" })
                     </div>
-
                 </div>
 
             </div>
             <div class="flex justify-end mt-4">
-                @if (ViewBag.passerr != null)
-                {
+                @if (ViewBag.passerr != null) {
 
                     <span class="text-theme-6">
                         @ViewBag.passerr
                     </span>
-                }
-                @if (ViewBag.error != null)
-                {
+                    }
+                @if (ViewBag.error != null) {
 
                     <span class=" text-theme-6 ">
                         @ViewBag.error
                     </span>
-                }
+                    }
                 <button type="submit" class="button w-22 bg-theme-1 text-white ml-auto">Enregistrer</button>
             </div>
         </div>
-    }
+        }
 </div>
 
 <script>
@@ -129,10 +109,10 @@
     window.onload = function () {
 
         var dashlink = this.document.getElementById("dashlink");
-        var respolink = this.document.getElementById("respolink");
+        var agentlink = this.document.getElementById("agentlink");
 
         dashlink.classList.remove("side-menu--active");
-        respolink.classList.add("side-menu--active");
+        agentlink.classList.add("side-menu--active");
 
 
     };

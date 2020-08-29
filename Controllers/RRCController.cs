@@ -5,6 +5,7 @@ using PFE_reclamation.Services;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Security.Claims;
@@ -20,9 +21,42 @@ namespace PFE_reclamation.Controllers {
         DatabContext db = new DatabContext();
         Authentication authservice = new Authentication();
         ApiService apiservice = new ApiService();
+
+
+
         // GET: RRC
         public ActionResult Index() {
+
+            List<Reclamation> _reclams = db.Reclamations.ToList();
+
+
+            ViewBag.traitereclam = _reclams.Where(x => x.etat == Etat.Finis).Count();
+            ViewBag.encourreclam = _reclams.Where(x => x.etat == Etat.En_cours).Count();
+            ViewBag.nbreclam = _reclams.Count();
+            ViewBag.newreclam = _reclams.Where(x => x.etat == Etat.Nouveau).Count();
+            ViewBag.clients = db.Clients.Include(s => s.Reclamations).Where(x => x.Reclamations.Count() > 0).OrderBy(x => x.Reclamations.Count()).Take(5).ToList();
+
+            ViewBag.lastreclams = db.Reclamations.Where(x => x.etat == Etat.Nouveau).OrderBy(s => s.debut_reclam).Take(5);
+
+
+
+
             return View();
+            }
+        protected bool verifyFiles(HttpPostedFileBase item) {
+            bool flag = true;
+
+            if (item != null) {
+                if (item.ContentLength > 0 && item.ContentLength < 5000000) {
+                    if (!(Path.GetExtension(item.FileName).ToLower() == ".jpg" ||
+                        Path.GetExtension(item.FileName).ToLower() == ".png" ||
+                        Path.GetExtension(item.FileName).ToLower() == ".jpeg")) {
+                        flag = false;
+                        }
+                    } else { flag = false; }
+                } else { flag = false; }
+
+            return flag;
             }
 
 
@@ -49,7 +83,7 @@ namespace PFE_reclamation.Controllers {
             }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult profile(Responsable_relation_client _rrc) {
+        public ActionResult profile(Responsable_relation_client _rrc, HttpPostedFileBase postedFile) {
 
             //we get the object so we can fill the fields left empty
             Responsable_relation_client rrc = db.Responsable_Relation_Clients.AsNoTracking().FirstOrDefault(x => x.id == _rrc.id);
@@ -61,7 +95,18 @@ namespace PFE_reclamation.Controllers {
             if (ModelState.IsValid) {
                 try {
 
+                    if (postedFile != null && verifyFiles(postedFile)) {
+                        string path = Server.MapPath("/Content/images/");
+                        if (!Directory.Exists(path)) {
+                            Directory.CreateDirectory(path);
+                            }
 
+                        if (System.IO.File.Exists(Path.GetFullPath(path + "profile_" + _rrc.id + Path.GetExtension(postedFile.FileName))))
+                            System.IO.File.Delete(path + "profile_" + _rrc.id + Path.GetExtension(postedFile.FileName));
+
+                        postedFile.SaveAs(path + "profile_" + _rrc.id + Path.GetExtension(postedFile.FileName));
+                        _rrc.photo = Path.GetFileName("profile_" + _rrc.id + Path.GetExtension(postedFile.FileName));
+                        }
 
 
                     db.Entry(_rrc).State = EntityState.Modified;

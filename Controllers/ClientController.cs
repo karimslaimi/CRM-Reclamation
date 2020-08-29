@@ -29,6 +29,20 @@ namespace PFE_reclamation.Controllers {
 
         // GET: Client
         public ActionResult Index() {
+            int userid = int.Parse(ClaimsPrincipal.Current.Claims.FirstOrDefault(x => x.Type == "id").Value);
+
+
+            List<Reclamation> _reclams = db.Reclamations.Where(x => x.Client.id == userid).ToList();
+            ViewBag.nbreclam = _reclams.Count();
+            ViewBag.encourreclam = _reclams.Where(x => x.etat == Etat.En_cours).Count();
+            ViewBag.traitereclam = _reclams.Where(x => x.etat == Etat.Finis).Count();
+            ViewBag.contrat = db.Contrats.Where(x => x.Client.id == userid).Count();
+            ViewBag.reclams = _reclams.OrderBy(x=>x.debut_reclam).Take(5).ToList();
+
+
+
+
+
             return View();
             }
 
@@ -161,6 +175,7 @@ namespace PFE_reclamation.Controllers {
             }
         [HttpPost]
         public ActionResult addreclam(Reclamation _reclam) {
+            ModelState.Remove("Client");
             if (ModelState.IsValid) {
                 int id = int.Parse(ClaimsPrincipal.Current.Claims.FirstOrDefault(x => x.Type == "id").Value);
                 Client cl = db.Clients.Find(id);

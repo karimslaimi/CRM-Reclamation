@@ -38,7 +38,22 @@
                     @foreach (var client in ViewBag.clients) {
                         <div class="intro-x cursor-pointer box relative flex items-center p-5 mt-5">
                             <div class="w-12 h-12 flex-none image-fit mr-1">
-                                <img alt="Midone Tailwind HTML Admin Template" class="rounded-full" src="~/Content/images/profile-2.jpg">
+
+                                @{
+
+                                    string srcimg = "/Content/images/" + client.photo;
+                                    if (client.photo == null) {
+                                        srcimg = "/Content/images/profile-2.jpg";
+                                        }
+
+
+
+                                }
+
+                                <img alt=" " class="rounded-full" id="imgfield" src="@srcimg">
+                               
+
+
                                 <div class="w-3 h-3 bg-theme-9 absolute right-0 bottom-0 rounded-full border-2 border-white"></div>
                             </div>
 
@@ -134,7 +149,18 @@
 
 
                             <div class="w-10 h-10 sm:w-12 sm:h-12 flex-none image-fit relative">
-                                <img alt="Midone Tailwind HTML Admin Template" class="rounded-full" src="~/Content/images/profile-10.jpg">
+                                @{
+
+                                    string srcimg = "/Content/images/" + Model.photo;
+                                    if (Model.photo == null) {
+                                        srcimg = "/Content/images/profile-10.jpg";
+                                        }
+
+
+
+                                }
+
+                                <img alt="Midone Tailwind HTML Admin Template" class="rounded-full" id="imgfield" src="@srcimg">
                             </div>
 
 

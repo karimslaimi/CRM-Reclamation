@@ -39,7 +39,7 @@
 
                         }
 
-                        <img alt="Midone Tailwind HTML Admin Template" class="rounded-full" src="@srcimg">
+                        <img alt="Midone Tailwind HTML Admin Template" class="rounded-full" id="imgfield" src="@srcimg">
                         <div onclick="activate()" class="absolute mb-1 mr-1 flex items-center justify-center bottom-0 right-0 bg-theme-1 rounded-full p-2">
                             <input type="file" name="postedFile" id="pic" hidden="hidden">
                             <i class="w-4 h-4 text-white" data-feather="camera"></i>
@@ -190,6 +190,28 @@
         inp.click();
         console.log("ggg")
     };
+
+
+
+
+
+
+    document.getElementById('pic').onchange = function (event) {
+
+        var selectedFile = event.target.files[0];
+        var reader = new FileReader();
+
+        var imgtag = document.getElementById("imgfield");
+        imgtag.title = selectedFile.name;
+
+        reader.onload = function (event) {
+            imgtag.src = event.target.result;
+        };
+
+        reader.readAsDataURL(selectedFile);
+    }
+
+
     window.onload = function () {
 
         var dashlink = this.document.getElementById("dashlink");

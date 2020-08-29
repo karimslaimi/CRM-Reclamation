@@ -5,6 +5,7 @@ using PFE_reclamation.Services;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Security.Claims;
 using System.Web;
@@ -21,8 +22,41 @@ namespace PFE_reclamation.Controllers
         // GET: Superviseur
         public ActionResult Index()
         {
+
+
+            List<Reclamation> _reclams = db.Reclamations.ToList();
+
+
+            ViewBag.traitereclam = _reclams.Where(x => x.etat == Etat.Finis).Count();
+            ViewBag.encourreclam = _reclams.Where(x => x.etat == Etat.En_cours).Count();
+            ViewBag.nbreclam = _reclams.Count();
+            ViewBag.newreclam = _reclams.Where(x=>x.etat==Etat.Nouveau).Count();
+            ViewBag.clients = db.Clients.Include(s=>s.Reclamations).Where(x=>x.Reclamations.Count()>0).OrderBy(x => x.Reclamations.Count()).Take(5).ToList();
+
+            ViewBag.lastreclams =db.Reclamations.Where(x=>x.etat==Etat.Nouveau).OrderBy(s=>s.debut_reclam).Take(5);
             return View();
         }
+
+
+
+        protected bool verifyFiles(HttpPostedFileBase item) {
+            bool flag = true;
+
+            if (item != null) {
+                if (item.ContentLength > 0 && item.ContentLength < 5000000) {
+                    if (!(Path.GetExtension(item.FileName).ToLower() == ".jpg" ||
+                        Path.GetExtension(item.FileName).ToLower() == ".png" ||
+                        Path.GetExtension(item.FileName).ToLower() == ".jpeg")) {
+                        flag = false;
+                        }
+                    } else { flag = false; }
+                } else { flag = false; }
+
+            return flag;
+            }
+
+
+
         [HttpGet]
         public ActionResult profile() {
             //get the userid from claims principal where we stored the user data after login
@@ -45,7 +79,7 @@ namespace PFE_reclamation.Controllers
             }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult profile(Superviseur _superviseur) {
+        public ActionResult profile(Superviseur _superviseur, HttpPostedFileBase postedFile) {
 
             //we get the object so we can fill the fields left empty
             Superviseur superviseur = db.Superviseurs.AsNoTracking().FirstOrDefault(x => x.id == _superviseur.id);
@@ -58,6 +92,18 @@ namespace PFE_reclamation.Controllers
             if (ModelState.IsValid) {
                 try {
 
+                    if (postedFile != null && verifyFiles(postedFile)) {
+                        string path = Server.MapPath("/Content/images/");
+                        if (!Directory.Exists(path)) {
+                            Directory.CreateDirectory(path);
+                            }
+
+                        if (System.IO.File.Exists(Path.GetFullPath(path + "profile_" + _superviseur.id + Path.GetExtension(postedFile.FileName))))
+                            System.IO.File.Delete(path + "profile_" + _superviseur.id + Path.GetExtension(postedFile.FileName));
+
+                        postedFile.SaveAs(path + "profile_" + _superviseur.id + Path.GetExtension(postedFile.FileName));
+                        _superviseur.photo = Path.GetFileName("profile_" + _superviseur.id + Path.GetExtension(postedFile.FileName));
+                        }
 
 
 
@@ -180,7 +226,7 @@ namespace PFE_reclamation.Controllers
                 db.SaveChanges();
                 apiservice.sendmail("Une réclamation intitulé " + _reclam.titre + " a été affecté à votre département", "Réclamation validé", _rd.mail);
                 }
-            return Redirect("reclams");
+            return Redirect("encours_reclams");
 
 
             }
