@@ -34,7 +34,24 @@
                 @Html.HiddenFor(model => model.date_aff)
                 @Html.HiddenFor(model => model.password)
 
+               
+
+                    string srcimg = "/Content/images/" + Model.photo;
+                    if (Model.photo == null)
+                    {
+                        srcimg = "/Content/images/profile-1.jpg";
+                    }
+
+
+
+        
                 <div class="p-5">
+                    <center>
+                        <div class="w-20 h-20 sm:w-24 sm:h-24 flex-none lg:w-32 lg:h-32 image-fit relative">
+
+                            <img class="rounded-full" id="imgfield" src="@srcimg">
+                        </div>
+                    </center>
                     <div class="grid grid-cols-12 gap-5">
                         <div class="col-span-12 xl:col-span-6">
 

@@ -224,6 +224,64 @@ namespace PFE_reclamation.Controllers
 
             return View(lr);                   
          }
+        public ActionResult ListeRecAgtPDF(int id)
+        {
+            int idagent = int.Parse(ClaimsPrincipal.Current.Claims.FirstOrDefault(x => x.Type == "id").Value);
 
+            //Get the current URL 
+            string url = "https://localhost:44385/Home/ListeRecAgtPDF/";
+            //HttpContext.Request.Url.AbsoluteUri;
+         
+            PdfPageSize pageSize = (PdfPageSize)Enum.Parse(typeof(PdfPageSize), "1", true);
+
+            // instantiate a html to pdf converter object
+            HtmlToPdf converter = new HtmlToPdf();
+
+            // get base url (to resolve relative links to external resources)
+            string baseUrl = url;
+
+
+            // set converter options
+            converter.Options.PdfPageSize = pageSize;
+
+            // set the HTTP POST parameters
+            converter.Options.HttpPostParameters.Add("choice", id + "");
+            converter.Options.HttpPostParameters.Add("agent", idagent + "");
+
+            // create a new pdf document converting an url
+            SelectPdf.PdfDocument doc = converter.ConvertUrl(baseUrl);
+
+            // save pdf document
+            byte[] pdf = doc.Save();
+
+            // close pdf document
+            doc.Close();
+            // return resulted pdf document
+            FileResult fileResult = new FileContentResult(pdf, "application/pdf");
+            if (id == 0)
+                fileResult.FileDownloadName = "Toutes les réclamations.pdf";
+            if (id == 1)
+                fileResult.FileDownloadName = "Réclamations Traités.pdf";
+            
+
+            return fileResult;
+            //return View();
+        }
+        [HttpPost]
+        public ActionResult ListeRecAgtPDF()
+        {
+            int id = Int32.Parse(Request["agent"]);
+            ViewBag.agent = db.Agents.Find(id);
+            int choice = Int32.Parse(Request["choice"]);
+            List<Reclamation> lr = new List<Reclamation>();
+            if (choice == 0) // tous les reclamations
+                lr = db.Reclamations.Where(x => x.Traite.agent.id==id&&x.etat!=Etat.Finis).ToList();
+       
+            if (choice == 1) // reclamations traités seulement  
+                lr = db.Reclamations.Where(x => x.etat == Etat.Finis&&x.Traite.agent.id==id).ToList();
+
+
+            return View(lr);
+        }
     }
 }

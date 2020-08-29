@@ -19,7 +19,7 @@
                     Reclamations
                 </h2>
                 <div class="float-right">
-                    <a href="@Url.Action("ListeRecAdmPDF","Home",new { id =0})" class="button text-white bg-theme-1 shadow-md mr-2">Générer PDF</a>
+                    <a href="@Url.Action("ListeRecAgtPDF","Home",new { id =0})" class="button text-white bg-theme-1 shadow-md mr-2">Générer PDF</a>
                 </div>
             </div>
             <!-- BEGIN: Datatable -->
@@ -56,7 +56,8 @@
                     </thead>
                     <tbody>
 
-                        @foreach (var recl in Model) {
+                        @foreach (var recl in Model)
+                        {
 
                             <tr class="intro-x">
 
@@ -78,17 +79,20 @@
                                 <td>
 
                                     <div class="font-medium whitespace-no-wrap">
-                                        @if (recl.fin_reclam != null) {
+                                        @if (recl.fin_reclam != null)
+                                        {
 
 
                                             var d1 = recl.fin_reclam.Value.ToString("dd/MM/yyyy", french);
 
                                             @d1
-                                            } else {
+                                        }
+                                        else
+                                        {
 
                                             @Html.Raw("----")
 
-                                            }
+                                        }
 
 
 
@@ -102,13 +106,18 @@
                                 </td>
 
                                 <td>
-                                    @if (recl.etat == PFE_reclamation.Models.Etat.Nouveau) {
+                                    @if (recl.etat == PFE_reclamation.Models.Etat.Nouveau)
+                                    {
                                         <div class="flex text-theme-6"> <i data-feather="check-square" class="w-4 h-4 mr-2"></i> Nouveau </div>
-                                        } else if (recl.etat == PFE_reclamation.Models.Etat.En_cours) {
+                                    }
+                                    else if (recl.etat == PFE_reclamation.Models.Etat.En_cours)
+                                    {
                                         <div class="flex  text-theme-9"> <i data-loading-icon="spinning-circles" class="w-4 h-4 mr-2"></i> En cours </div>
-                                        } else {
+                                    }
+                                    else
+                                    {
                                         <div class="flex text-gray-600"> <i data-feather="check-square" class="w-4 h-4 mr-2"></i> Finis</div>
-                                        }
+                                    }
 
 
 
@@ -148,13 +157,13 @@
                                             <a class="flex  items-center text-gray-600 mr-2" href="javascript:;" onclick="Afficher(@recl.id,@titre,@descr,@type,@etat,@cin,@name,@date)"
                                                data-toggle="modal" data-target="#Recl-confirmation-modal"> <i data-feather="check-square" class="w-4 h-4 mr-1"></i> Afficher </a>
 
-                                        } 
+                                        }
                                         <a href="@Url.Action("generatePDF","Home",new { id =recl.id})" class="button text-white bg-theme-1 shadow-md mr-2 ml-2">PDF</a>
 
                                     </div>
                                 </td>
                             </tr>
-                            }
+                        }
                     </tbody>
                 </table>
             </div>
