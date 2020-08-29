@@ -44,7 +44,7 @@ namespace PFE_reclamation.Controllers
         public ActionResult Signin(User user)
         {
               User u = authservice.AuthUser(user.username, user.password);
-            if (u != null)
+            if (u != null && u.enabled==true)
             {
                 string role="";
                 if (u is Admin) role = "ADMIN";

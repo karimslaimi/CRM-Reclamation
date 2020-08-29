@@ -283,5 +283,26 @@ namespace PFE_reclamation.Controllers
 
             return View(lr);
         }
+
+
+
+
+
+        public ActionResult Error() {
+            var val = RouteData.Values["id"].ToString();
+
+            if (val.Equals("Http404")) {
+                return View("error404");
+                }
+
+            return View();
+
+
+
+            }
+
+
+
+
     }
 }

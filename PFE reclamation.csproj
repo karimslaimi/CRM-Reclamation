@@ -443,6 +443,10 @@
     <Compile Include="Migrations\202008291508489_reclamdateformat.designer.cs">
       <DependentUpon>202008291508489_reclamdateformat.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202008292143383_enableduer.cs" />
+    <Compile Include="Migrations\202008292143383_enableduer.designer.cs">
+      <DependentUpon>202008292143383_enableduer.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Admin.cs" />
     <Compile Include="Models\Agent.cs" />
@@ -710,6 +714,8 @@
     <Content Include="Views\RRC\messages.cshtml" />
     <Content Include="Views\RD\messages.cshtml" />
     <Content Include="Views\Home\ListeRecAgtPDF.cshtml" />
+    <Content Include="Views\Home\error404.cshtml" />
+    <Content Include="Views\Home\Error.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -757,6 +763,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202008291508489_reclamdateformat.resx">
       <DependentUpon>202008291508489_reclamdateformat.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202008292143383_enableduer.resx">
+      <DependentUpon>202008292143383_enableduer.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -83,6 +83,9 @@ namespace PFE_reclamation.Models
         [DefaultValue("userdoesntexist.png")]
         public string photo { get; set; }
 
+        [DefaultValue(true)]
+        public bool enabled { get; set; }
+
 
 
 
