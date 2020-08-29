@@ -435,6 +435,10 @@
     <Compile Include="Migrations\202008261316236_adm.designer.cs">
       <DependentUpon>202008261316236_adm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202008290931419_dateformat.cs" />
+    <Compile Include="Migrations\202008290931419_dateformat.designer.cs">
+      <DependentUpon>202008290931419_dateformat.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Admin.cs" />
     <Compile Include="Models\Agent.cs" />
@@ -743,6 +747,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202008261316236_adm.resx">
       <DependentUpon>202008261316236_adm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202008290931419_dateformat.resx">
+      <DependentUpon>202008290931419_dateformat.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

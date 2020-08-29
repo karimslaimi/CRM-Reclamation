@@ -220,11 +220,14 @@ namespace PFE_reclamation.Controllers {
         public ActionResult Editc(Client _client) {
             _client.password = db.Clients.AsNoTracking().FirstOrDefault(x => x.id == _client.id).password;
 
+            ModelState.Remove("password");
 
             if (ModelState.IsValid) {
                 db.Entry(_client).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("clients");
+              ViewBag.msg="Modifié avec succés";
+                } else {
+                ViewBag.error = "verifier les donnés saisi";
                 }
             return View(_client);
             }

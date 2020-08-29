@@ -16,8 +16,14 @@ namespace PFE_reclamation.Models
         [Required(ErrorMessage = "Le titre ne doit pas etre vide")]
         [MinLength(3, ErrorMessage = "doit etre plus long")]
         public string titre { get; set; }
+        [DataType(DataType.Date)]
+        [Column(TypeName = "Date")]
         public DateTime deb_contrat { get; set; }
+        [DataType(DataType.Date)]
+        [Column(TypeName = "Date")]
         public DateTime fin_contrat { get; set; }
+
+
         [Required(ErrorMessage = "La description ne doit pas etre vide")]
         [MinLength(3, ErrorMessage = "doit etre plus long")]
         public string description { get; set; }

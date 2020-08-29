@@ -1,5 +1,5 @@
 ﻿@model PFE_reclamation.Models.Client
- 
+
 
 @{
     ViewBag.Title = "Editc";
@@ -26,23 +26,21 @@
                     Information Client
                 </h2>
             </div>
-            @using (Html.BeginForm())
-            {
+            @using (Html.BeginForm()) {
                 @Html.AntiForgeryToken()
                 @Html.ValidationSummary(true, "", new { @class = "text-theme-6" })
                 @Html.HiddenFor(model => model.id)
+                @Html.HiddenFor(model => model.photo)
 
-           
 
-                    string srcimg = "/Content/images/" + Model.photo;
-                    if (Model.photo == null)
-                    {
-                        srcimg = "/Content/images/profile-1.jpg";
+                string srcimg = "/Content/images/" + Model.photo;
+                if (Model.photo == null) {
+                    srcimg = "/Content/images/profile-1.jpg";
                     }
 
 
 
-           
+
                 <div class="p-5">
                     <center>
                         <div class="w-20 h-20 sm:w-24 sm:h-24 flex-none lg:w-32 lg:h-32 image-fit relative">
@@ -94,24 +92,22 @@
                         </div>
                     </div>
                     <div class="flex justify-end mt-4">
-                        @if (ViewBag.msg != null)
-                        {
+                        @if (ViewBag.msg != null) {
 
                             <span class="text-theme-9">
                                 @ViewBag.msg
                             </span>
-                        }
-                        @if (ViewBag.error != null)
-                        {
+                            }
+                        @if (ViewBag.error != null) {
 
                             <span class=" text-theme-6 ">
                                 @ViewBag.error
                             </span>
-                        }
+                            }
                         <button type="submit" class="button w-22 bg-theme-1 text-white ml-auto">Enregistrer</button>
                     </div>
                 </div>
-            }
+                }
         </div>
         <!-- END: Form Layout -->
     </div>

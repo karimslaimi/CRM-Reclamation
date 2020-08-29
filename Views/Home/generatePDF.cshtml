@@ -204,6 +204,9 @@
 
                         </td>
                     </tr>
+                    @if (Model.Traite != null) {
+
+                 
                     <tr class="heading">
                         <td>
                             Réglement
@@ -228,7 +231,7 @@
                         <td>
                             @Model.fin_reclam.Value.ToString("dd/MM/yyyy HH:mm", french)
                         </td>
-                    </tr>
+                    </tr>       }
                 </tbody>
             </table>
         </div>
