@@ -32,17 +32,19 @@
                 @Html.AntiForgeryToken()
                 @Html.ValidationSummary(true, "", new { @class = "text-theme-6" })
                 @Html.HiddenFor(model => model.id)
-             
-
-                    string srcimg = "/Content/images/" + Model.photo;
-                    if (Model.photo == null)
-                    {
-                        srcimg = "/Content/images/profile-1.jpg";
-                    }
+                @Html.HiddenFor(model => model.enabled)
 
 
 
-              
+                string srcimg = "/Content/images/" + Model.photo;
+                if (Model.photo == null)
+                {
+                    srcimg = "/Content/images/profile-1.jpg";
+                }
+
+
+
+
                 <div class="p-5">
                     <center>
                         <div class="w-20 h-20 sm:w-24 sm:h-24 flex-none lg:w-32 lg:h-32 image-fit relative">

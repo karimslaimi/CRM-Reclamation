@@ -22,11 +22,14 @@
                 Information Personnel
             </h2>
         </div>
-        @using (Html.BeginForm("profile", "Client", FormMethod.Post, new { enctype = "multipart/form-data" })) {
+        @using (Html.BeginForm("profile", "Client", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
             @Html.AntiForgeryToken()
             @Html.ValidationSummary(true, "", new { @class = "text-theme-6" })
             @Html.HiddenFor(model => model.id)
             @Html.HiddenFor(model => model.photo)
+            @Html.HiddenFor(model => model.enabled)
+
 
             <div class="flex flex-col  lg:flex-row border-b border-gray-200 dark:border-dark-5 pb-5 -mx-5">
                 <div class="flex flex-1 px-5 items-center justify-center ">
@@ -34,11 +37,12 @@
                         @{
 
                             string srcimg = "/Content/images/" + Model.photo;
-                            if (Model.photo == null) {
+                            if (Model.photo == null)
+                            {
                                 srcimg = "/Content/images/profile-1.jpg";
-                                }
+                            }
 
-                          
+
 
                         }
 
@@ -102,22 +106,24 @@
                     </div>
                 </div>
                 <div class="flex justify-end mt-4">
-                    @if (ViewBag.msg != null) {
+                    @if (ViewBag.msg != null)
+                    {
 
                         <span class="text-theme-9">
                             @ViewBag.msg
                         </span>
-                        }
-                    @if (ViewBag.error != null) {
+                    }
+                    @if (ViewBag.error != null)
+                    {
 
                         <span class=" text-theme-6 ">
                             @ViewBag.error
                         </span>
-                        }
+                    }
                     <button type="submit" class="button w-22 bg-theme-1 text-white ml-auto">Enregistrer</button>
                 </div>
             </div>
-            }
+        }
     </div>
 
 
@@ -158,7 +164,7 @@
                 <div class="flex justify-end mt-4">
                     @if (ViewBag.passerr != null) {
 
-                        <span class="text-theme-6">
+                        <span class="text-theme-9">
                             @ViewBag.passerr
                         </span>
                         }

@@ -35,6 +35,8 @@ Modifier un agent
                 @Html.HiddenFor(model => model.departementId)
                 @Html.HiddenFor(model => model.password)
                 @Html.HiddenFor(model => model.date_aff)
+                @Html.HiddenFor(model => model.enabled)
+
 
                 string srcimg = "/Content/images/" + Model.photo;
                 if (Model.photo == null)
@@ -42,101 +44,101 @@ Modifier un agent
                     srcimg = "/Content/images/profile-1.jpg";
                 }
 
-        <div class="p-5">
-            <center>
-                <div class="w-20 h-20 sm:w-24 sm:h-24 flex-none lg:w-32 lg:h-32 image-fit relative">
+                <div class="p-5">
+                    <center>
+                        <div class="w-20 h-20 sm:w-24 sm:h-24 flex-none lg:w-32 lg:h-32 image-fit relative">
 
-                    <img class="rounded-full" id="imgfield" src="@srcimg">
-           </div>
+                            <img class="rounded-full" id="imgfield" src="@srcimg">
+                        </div>
                     </center>
-            <br />
-            <div class="grid grid-cols-12 gap-5">
+                    <br />
+                    <div class="grid grid-cols-12 gap-5">
 
-                <div class="col-span-12 xl:col-span-6">
+                        <div class="col-span-12 xl:col-span-6">
 
-                    <div class="mt-3">
-                        <label>Nom d'utilisateur</label>
-                        @Html.EditorFor(model => model.username, new { htmlAttributes = new { @class = "input w-full border    mt-2" } })
-                        @Html.ValidationMessageFor(model => model.username, "", new { @class = "text-theme-6 mt-2" })
+                            <div class="mt-3">
+                                <label>Nom d'utilisateur</label>
+                                @Html.EditorFor(model => model.username, new { htmlAttributes = new { @class = "input w-full border    mt-2" } })
+                                @Html.ValidationMessageFor(model => model.username, "", new { @class = "text-theme-6 mt-2" })
+                            </div>
+                            <div class="mt-3">
+                                <label>Nom</label>
+
+                                @Html.EditorFor(model => model.nom, new { htmlAttributes = new { @class = "input w-full border mt-2" } })
+                                @Html.ValidationMessageFor(model => model.nom, "", new { @class = "text-theme-6 mt-2" })
+
+                            </div>
+                            <div class="mt-3">
+                                <label>Prenom</label>
+                                @Html.EditorFor(model => model.prenom, new { htmlAttributes = new { @class = "input w-full border mt-2" } })
+                                @Html.ValidationMessageFor(model => model.prenom, "", new { @class = "text-theme-6 mt-2" })
+                            </div>
+
+
+                        </div>
+                        <div class="col-span-12 xl:col-span-6">
+                            <div class="mt-3">
+                                <label>Email</label>
+
+                                @Html.EditorFor(model => model.mail, new { htmlAttributes = new { @class = "input w-full border    mt-2" } })
+                                @Html.ValidationMessageFor(model => model.mail, "", new { @class = "text-theme-6 mt-2" })
+                            </div>
+                            <div class="mt-3">
+                                <label>Numéro téléphone</label>
+                                @Html.EditorFor(model => model.tel, new { htmlAttributes = new { @class = "input w-full border mt-2" } })
+                                @Html.ValidationMessageFor(model => model.tel, "", new { @class = "text-theme-6 mt-2" })
+                            </div>
+
+                            <div class="mt-3">
+                                <label>CIN</label>
+                                @Html.EditorFor(model => model.cin, new { htmlAttributes = new { @class = "input w-full border mt-2" } })
+                                @Html.ValidationMessageFor(model => model.cin, "", new { @class = "text-theme-6 mt-2" })
+                            </div>
+
+
+                        </div>
+                        <div class="col-span-12 xl:col-span-12">
+
+                            <div class="flex items-center p-5 border-b border-gray-200 dark:border-dark-5">
+                                <h2 class="font-medium text-base mr-auto">
+                                </h2>
+                            </div>
+                        </div>
+                        <div class="col-span-12 xl:col-span-6">
+
+                            @{ string dt = Model.date_aff.Date.ToString("dd/MM/yyyy");}
+                            <div class="mt-3">
+                                <label>Date Création</label>
+                                <input class="input w-full border mt-2" value="@dt" disabled="disabled" />
+                            </div>
+                        </div>
+                        <div class="col-span-12 xl:col-span-6">
+                            <div class="mt-3">
+                                <label>Département</label>
+                                <input class="input w-full border mt-2" value="@Model.departement.label" disabled="disabled" />
+
+                            </div>
+                        </div>
+
                     </div>
-                    <div class="mt-3">
-                        <label>Nom</label>
+                    <div class="flex justify-end mt-4">
+                        @if (ViewBag.msg != null)
+                        {
 
-                        @Html.EditorFor(model => model.nom, new { htmlAttributes = new { @class = "input w-full border mt-2" } })
-                        @Html.ValidationMessageFor(model => model.nom, "", new { @class = "text-theme-6 mt-2" })
+                            <span class="text-theme-9">
+                                @ViewBag.msg
+                            </span>
+                        }
+                        @if (ViewBag.error != null)
+                        {
 
+                            <span class=" text-theme-6 ">
+                                @ViewBag.error
+                            </span>
+                        }
+                        <button type="submit" class="button w-22 bg-theme-1 text-white ml-auto">Enregistrer</button>
                     </div>
-                    <div class="mt-3">
-                        <label>Prenom</label>
-                        @Html.EditorFor(model => model.prenom, new { htmlAttributes = new { @class = "input w-full border mt-2" } })
-                        @Html.ValidationMessageFor(model => model.prenom, "", new { @class = "text-theme-6 mt-2" })
-                    </div>
-
-
                 </div>
-                <div class="col-span-12 xl:col-span-6">
-                    <div class="mt-3">
-                        <label>Email</label>
-
-                        @Html.EditorFor(model => model.mail, new { htmlAttributes = new { @class = "input w-full border    mt-2" } })
-                        @Html.ValidationMessageFor(model => model.mail, "", new { @class = "text-theme-6 mt-2" })
-                    </div>
-                    <div class="mt-3">
-                        <label>Numéro téléphone</label>
-                        @Html.EditorFor(model => model.tel, new { htmlAttributes = new { @class = "input w-full border mt-2" } })
-                        @Html.ValidationMessageFor(model => model.tel, "", new { @class = "text-theme-6 mt-2" })
-                    </div>
-
-                    <div class="mt-3">
-                        <label>CIN</label>
-                        @Html.EditorFor(model => model.cin, new { htmlAttributes = new { @class = "input w-full border mt-2" } })
-                        @Html.ValidationMessageFor(model => model.cin, "", new { @class = "text-theme-6 mt-2" })
-                    </div>
-
-
-                </div>
-                <div class="col-span-12 xl:col-span-12">
-
-                    <div class="flex items-center p-5 border-b border-gray-200 dark:border-dark-5">
-                        <h2 class="font-medium text-base mr-auto">
-                        </h2>
-                    </div>
-                </div>
-                <div class="col-span-12 xl:col-span-6">
-
-                    @{ string dt = Model.date_aff.Date.ToString("dd/MM/yyyy");}
-                    <div class="mt-3">
-                        <label>Date Création</label>
-                        <input class="input w-full border mt-2" value="@dt" disabled="disabled" />
-                    </div>
-                </div>
-                <div class="col-span-12 xl:col-span-6">
-                    <div class="mt-3">
-                        <label>Département</label>
-                        <input class="input w-full border mt-2" value="@Model.departement.label" disabled="disabled" />
-
-                    </div>
-                </div>
-
-            </div>
-            <div class="flex justify-end mt-4">
-                @if (ViewBag.msg != null)
-                {
-
-                    <span class="text-theme-9">
-                        @ViewBag.msg
-                    </span>
-                }
-                @if (ViewBag.error != null)
-                {
-
-                    <span class=" text-theme-6 ">
-                        @ViewBag.error
-                    </span>
-                }
-                <button type="submit" class="button w-22 bg-theme-1 text-white ml-auto">Enregistrer</button>
-            </div>
-        </div>
             }
         </div>
         <!-- END: Form Layout -->

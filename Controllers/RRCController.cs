@@ -132,6 +132,8 @@ namespace PFE_reclamation.Controllers {
             if (pass.Equals(cpass) && !String.IsNullOrEmpty(pass) && !string.IsNullOrWhiteSpace(pass)) {
                 Responsable_relation_client _rrc = db.Responsable_Relation_Clients.Find(id);
                 _rrc.password = authservice.HashPassword(pass);
+                db.Entry(_rrc).State = EntityState.Modified;
+                db.SaveChanges();
                 TempData["msg"] = "Mot de passe a été modifié";
                 } else {
                 TempData["error"] = "les mots de passe ne correspondent pas";
@@ -196,6 +198,14 @@ namespace PFE_reclamation.Controllers {
             if (_client == null) {
                 return HttpNotFound();
                 }
+            if (TempData["passerr"] != null)
+            {
+                ViewBag.passerr = TempData["error"];
+            }
+            if (TempData["msg"] != null)
+            {
+                ViewBag.passmsg = TempData["msg"];
+            }
             return View(_client);
             }
 
@@ -223,6 +233,8 @@ namespace PFE_reclamation.Controllers {
             if (pass.Equals(cpass) && !String.IsNullOrEmpty(pass) && !string.IsNullOrWhiteSpace(pass)) {
                 Client _client = db.Clients.Find(id);
                 _client.password = authservice.HashPassword(pass);
+                db.Entry(_client).State = EntityState.Modified;
+                db.SaveChanges();
                 TempData["msg"] = "Mot de passe a été modifié";
                 } else {
                 TempData["error"] = "les mots de passe ne correspondent pas";

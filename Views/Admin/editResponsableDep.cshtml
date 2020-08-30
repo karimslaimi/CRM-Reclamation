@@ -26,11 +26,11 @@
                     Informations personnelles
                 </h2>
             </div>
-           @{ string srcimg = "/Content/images/" + Model.photo;
-            if (Model.photo == null)
-            {
-            srcimg = "/Content/images/profile-1.jpg";
-            }}
+            @{ string srcimg = "/Content/images/" + Model.photo;
+                if (Model.photo == null)
+                {
+                    srcimg = "/Content/images/profile-1.jpg";
+                }}
             @using (Html.BeginForm())
             {
                 @Html.AntiForgeryToken()
@@ -39,6 +39,8 @@
                 @Html.HiddenFor(model => model.departementId)
                 @Html.HiddenFor(model => model.password)
                 @Html.HiddenFor(model => model.date_aff)
+                @Html.HiddenFor(model => model.enabled)
+
 
 
 

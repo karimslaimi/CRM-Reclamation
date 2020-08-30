@@ -138,6 +138,8 @@ namespace PFE_reclamation.Controllers
             if (pass.Equals(cpass) && !String.IsNullOrEmpty(pass) && !string.IsNullOrWhiteSpace(pass)) {
                 Responsable_departement _rd = db.Responsable_Departements.Find(id);
                 _rd.password = authservice.HashPassword(pass);
+                db.Entry(_rd).State = EntityState.Modified;
+                db.SaveChanges();
                 TempData["msg"] = "Mot de passe a été modifié";
                 } else {
                 TempData["error"] = "les mots de passe ne correspondent pas";
@@ -231,6 +233,14 @@ namespace PFE_reclamation.Controllers
             if (_rs == null)
             {
                 return HttpNotFound();
+            }
+            if (TempData["passerr"] != null)
+            {
+                ViewBag.passerr = TempData["error"];
+            }
+            if (TempData["msg"] != null)
+            {
+                ViewBag.passmsg = TempData["msg"];
             }
             return View(_rs);
         }
@@ -333,7 +343,30 @@ namespace PFE_reclamation.Controllers
 
 
 
+        public ActionResult agentpasswordchange(string pass, string cpass, int id)
+        {
+
+            if (pass.Equals(cpass) && !String.IsNullOrEmpty(pass) && !string.IsNullOrWhiteSpace(pass))
+            {
+                Agent _ag = db.Agents.Find(id);
+                _ag.password = authservice.HashPassword(pass);
+                db.Entry(_ag).State = EntityState.Modified;
+                db.SaveChanges();
+                TempData["msg"] = "Mot de passe a été modifié";
+            }
+            else
+            {
+                TempData["error"] = "les mots de passe ne correspondent pas";
+            }
 
 
+
+            return RedirectToAction("editAgent", new { id = id });
         }
+
+
+
+
+
     }
+}

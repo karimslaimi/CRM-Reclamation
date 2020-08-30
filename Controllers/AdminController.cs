@@ -412,6 +412,14 @@ namespace PFE_reclamation.Controllers {
             if (_rs == null) {
                 return HttpNotFound();
                 }
+            if (TempData["passerr"] != null)
+            {
+                ViewBag.passerr = TempData["error"];
+            }
+            if (TempData["msg"] != null)
+            {
+                ViewBag.passmsg = TempData["msg"];
+            }
             return View(_rs);
             }
 
@@ -655,6 +663,14 @@ namespace PFE_reclamation.Controllers {
             if (_rs == null) {
                 return HttpNotFound();
                 }
+            if (TempData["passerr"] != null)
+            {
+                ViewBag.passerr = TempData["error"];
+            }
+            if (TempData["msg"] != null)
+            {
+                ViewBag.passmsg = TempData["msg"];
+            }
             return View(_rs);
             }
 
@@ -753,6 +769,14 @@ namespace PFE_reclamation.Controllers {
             if (_rs == null) {
                 return HttpNotFound();
                 }
+            if (TempData["passerr"] != null)
+            {
+                ViewBag.passerr = TempData["error"];
+            }
+            if (TempData["msg"] != null)
+            {
+                ViewBag.passmsg = TempData["msg"];
+            }
             return View(_rs);
             }
 
