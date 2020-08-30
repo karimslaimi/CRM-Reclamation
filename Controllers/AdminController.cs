@@ -175,6 +175,7 @@ namespace PFE_reclamation.Controllers {
                 if (ModelState.IsValid) {
                     try {
                         _client.password = authservice.HashPassword(_client.password);
+                        _client.enabled = true;
                         db.Clients.Add(_client);
                         db.SaveChanges();
                         apiservice.sendmail("Votre compte a été créé dans le crm vous pouvez vous connectez\nContactez l'administrateur pour le mot de passe ", "Compte créé", _client.mail);
@@ -258,22 +259,25 @@ namespace PFE_reclamation.Controllers {
             if (_client == null) {
                 return HttpNotFound();
                 } else {
-                db.Clients.Remove(_client);
+                _client.enabled = false;
+                db.Entry(_client).State = EntityState.Modified;
                 db.SaveChanges();
                 }
             return Redirect("clients");
             }
+        public ActionResult enableclient(int id) {
+            if (id != 0) {
+                Client _client = db.Clients.Find(id);
+                if (_client != null) {
+                    _client.enabled = true;
+                    db.Entry(_client).State = EntityState.Modified;
+                    db.SaveChanges();
 
-        // POST: Users/Delete/5
-        [HttpPost, ActionName("Deletec")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id) {
-            Client _client = db.Clients.Find(id);
-            db.Clients.Remove(_client);
-            db.SaveChanges();
-            return RedirectToAction("Index");
+                    }
+                }
+            return RedirectToAction("Editc", new { id = id });
+
             }
-
 
         public ActionResult newContrat(string titre, string descr, DateTime debut, DateTime fin, string clid) {
 

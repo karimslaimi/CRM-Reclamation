@@ -42,8 +42,9 @@
                             Adresse mail
                         </th>
                         <th class=" whitespace-no-wrap">
-                            Nom d'utilisateur'
+                            Nom d'utilisateur
                         </th>
+                        <th>Etat</th>
                         <th class="text-center whitespace-no-wrap">
                             Actions
                         </th>
@@ -79,6 +80,14 @@
                             <td>
 
                                 <div class="font-medium whitespace-no-wrap">  @Html.DisplayFor(modelItem => item.username)</div>
+                            </td>
+                            <td>
+                                @if (item.enabled == false) {
+                                    <div class="font-medium whitespace-no-wrap">  @Html.Raw("Désactivé")</div>
+                                    } else {
+                                    <div class="font-medium whitespace-no-wrap">  @Html.Raw("Acitvé")</div>
+                                    }
+
                             </td>
 
 

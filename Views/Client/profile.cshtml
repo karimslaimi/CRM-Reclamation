@@ -36,11 +36,10 @@
                     <div class="w-20 h-20 sm:w-24 sm:h-24 flex-none lg:w-32 lg:h-32 image-fit relative">
                         @{
 
-                            string srcimg = "/Content/images/" + Model.photo;
-                            if (Model.photo == null)
-                            {
-                                srcimg = "/Content/images/profile-1.jpg";
-                            }
+                            string srcimg = "/Content/images/profile-1.jpg";
+                            if (Model.photo != null) {
+                                srcimg = "/Content/images/" + Model.photo;
+                                }
 
 
 

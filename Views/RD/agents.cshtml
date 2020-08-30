@@ -40,6 +40,10 @@
                     <th class="whitespace-no-wrap">
                         Département
                     </th>
+                    <th class="whitespace-no-wrap">
+                        Etat
+                    </th>
+                   
                     <th class="text-center whitespace-no-wrap">
                         Actions
                     </th>
@@ -51,49 +55,57 @@
                 @foreach (var item in Model)
                 {
 
-                    <tr class="intro-x">
+                <tr class="intro-x">
 
-                        <td>
-                            <div class="font-medium whitespace-no-wrap">  @Html.DisplayFor(modelItem => item.nom)</div>
-                        </td>
-                        <td>
+                    <td>
+                        <div class="font-medium whitespace-no-wrap">  @Html.DisplayFor(modelItem => item.nom)</div>
+                    </td>
+                    <td>
 
-                            <div class="font-medium whitespace-no-wrap">  @Html.DisplayFor(modelItem => item.prenom)</div>
-                        </td>
-                        <td>
+                        <div class="font-medium whitespace-no-wrap">  @Html.DisplayFor(modelItem => item.prenom)</div>
+                    </td>
+                    <td>
 
-                            <div class="font-medium whitespace-no-wrap">  @Html.DisplayFor(modelItem => item.cin)</div>
-                        </td>
-                        <td>
+                        <div class="font-medium whitespace-no-wrap">  @Html.DisplayFor(modelItem => item.cin)</div>
+                    </td>
+                    <td>
 
-                            <div class="font-medium whitespace-no-wrap">  @Html.DisplayFor(modelItem => item.tel)</div>
-                        </td>
-                        <td>
+                        <div class="font-medium whitespace-no-wrap">  @Html.DisplayFor(modelItem => item.tel)</div>
+                    </td>
+                    <td>
 
-                            <div class="font-medium whitespace-no-wrap">  @Html.DisplayFor(modelItem => item.mail)</div>
-                        </td>
-                        <td>
+                        <div class="font-medium whitespace-no-wrap">  @Html.DisplayFor(modelItem => item.mail)</div>
+                    </td>
+                    <td>
 
-                            <div class="font-medium whitespace-no-wrap">  @Html.DisplayFor(modelItem => item.username)</div>
-                        </td>
+                        <div class="font-medium whitespace-no-wrap">  @Html.DisplayFor(modelItem => item.username)</div>
+                    </td>
 
-                        <td>
+                    <td>
 
-                            <div class="font-medium whitespace-no-wrap" >  @Html.DisplayFor(modelItem => item.departement.label)</div>
-                        </td>
+                        <div class="font-medium whitespace-no-wrap">  @Html.DisplayFor(modelItem => item.departement.label)</div>
+                    </td>
+                    <td>
+                        @if (item.enabled == false) {
+                            <div class="font-medium whitespace-no-wrap">  @Html.Raw("Désactivé")</div>
+                            } else {
+                            <div class="font-medium whitespace-no-wrap">  @Html.Raw("Acitvé")</div>
+                            }
 
-                        <td class="table-report__action w-56">
-                            <div class="flex justify-center items-center">
+                    </td>
+
+                    <td class="table-report__action w-56">
+                        <div class="flex justify-center items-center">
 
 
 
-                                <a href="@Url.Action("editAgent","RD",new { id=item.id})" class="flex items-center text-gray-600"><i data-feather="edit" class="w-4 h-4 mr-1"></i>Modifier</a>
+                            <a href="@Url.Action("editAgent","RD",new { id=item.id})" class="flex items-center text-gray-600"><i data-feather="edit" class="w-4 h-4 mr-1"></i>Modifier</a>
 
 
-                                <a class="flex items-center text-theme-6" href="javascript:;" onclick="deleteagent(@item.id)" id="deletemodal" data-id="@item.id" data-toggle="modal" data-target="#delete-confirmation-modal"> <i data-feather="trash-2" class="w-4 h-4 mr-1"></i> Supprimer </a>
-                            </div>
-                        </td>
-                    </tr>
+                            <a class="flex items-center text-theme-6" href="javascript:;" onclick="deleteagent(@item.id)" id="deletemodal" data-id="@item.id" data-toggle="modal" data-target="#delete-confirmation-modal"> <i data-feather="trash-2" class="w-4 h-4 mr-1"></i> Supprimer </a>
+                        </div>
+                    </td>
+                </tr>
                 }
             </tbody>
         </table>

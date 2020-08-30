@@ -42,8 +42,9 @@
                         Adresse mail
                     </th>
                     <th class=" whitespace-no-wrap">
-                        Nom d'utilisateur'
+                        Nom d'utilisateur
                     </th>
+                    <th>Etat</th>
                     <th class="text-center whitespace-no-wrap">
                         Actions
                     </th>
@@ -54,51 +55,58 @@
             <tbody>
                 @foreach (var item in Model) {
 
-                    <tr class="intro-x">
+                <tr class="intro-x">
 
-                        <td>
+                    <td>
 
-                            <div class="font-medium whitespace-no-wrap">  @Html.DisplayFor(modelItem => item.nom)</div>
-                        </td>
-                        <td>
+                        <div class="font-medium whitespace-no-wrap">  @Html.DisplayFor(modelItem => item.nom)</div>
+                    </td>
+                    <td>
 
-                            <div class="font-medium whitespace-no-wrap">  @Html.DisplayFor(modelItem => item.prenom)</div>
-                        </td>
-                        <td>
+                        <div class="font-medium whitespace-no-wrap">  @Html.DisplayFor(modelItem => item.prenom)</div>
+                    </td>
+                    <td>
 
-                            <div class="font-medium whitespace-no-wrap">  @Html.DisplayFor(modelItem => item.cin)</div>
-                        </td>
-                        <td>
+                        <div class="font-medium whitespace-no-wrap">  @Html.DisplayFor(modelItem => item.cin)</div>
+                    </td>
+                    <td>
 
-                            <div class="font-medium whitespace-no-wrap">  @Html.DisplayFor(modelItem => item.tel)</div>
-                        </td>
-                        <td>
+                        <div class="font-medium whitespace-no-wrap">  @Html.DisplayFor(modelItem => item.tel)</div>
+                    </td>
+                    <td>
 
-                            <div class="font-medium whitespace-no-wrap">  @Html.DisplayFor(modelItem => item.mail)</div>
-                        </td>
-                        <td>
+                        <div class="font-medium whitespace-no-wrap">  @Html.DisplayFor(modelItem => item.mail)</div>
+                    </td>
+                    <td>
 
-                            <div class="font-medium whitespace-no-wrap">  @Html.DisplayFor(modelItem => item.username)</div>
-                        </td>
+                        <div class="font-medium whitespace-no-wrap">  @Html.DisplayFor(modelItem => item.username)</div>
+                    </td>
+                    <td>
+                        @if (item.enabled == false) {
+                            <div class="font-medium whitespace-no-wrap">  @Html.Raw("Désactivé")</div>
+                            } else {
+                            <div class="font-medium whitespace-no-wrap">  @Html.Raw("Acitvé")</div>
+                            }
 
-
-
-                        <td class="table-report__action w-56">
-                            <div class="flex justify-center items-center">
-                                @{
-                                    string fullname = "\"" + item.nom + " " + item.prenom + "\"";
-                                }
-                                <a href="javascript:;" onclick="manage(@item.id,@fullname)" id="managemodal" data-id="@item.id" data-name="@item.nom" data-toggle="modal" data-target="#button-modal-maange" class="dropdown-toggle button inline-block flex items-center mr-3"><i data-feather="check-square" class="w-4 h-4 mr-1"></i> Gérer</a>
-
+                    </td>
 
 
+                    <td class="table-report__action w-56">
+                        <div class="flex justify-center items-center">
+                            @{
+                                string fullname = "\"" + item.nom + " " + item.prenom + "\"";
+                            }
+                            <a href="javascript:;" onclick="manage(@item.id,@fullname)" id="managemodal" data-id="@item.id" data-name="@item.nom" data-toggle="modal" data-target="#button-modal-maange" class="dropdown-toggle button inline-block flex items-center mr-3"><i data-feather="check-square" class="w-4 h-4 mr-1"></i> Gérer</a>
 
 
 
-                                <a class="flex items-center text-theme-6" href="javascript:;" onclick="deleteclient(@item.id)" id="deletemodal" data-id="@item.id" data-toggle="modal" data-target="#delete-confirmation-modal"> <i data-feather="trash-2" class="w-4 h-4 mr-1"></i> Supprimer </a>
-                            </div>
-                        </td>
-                    </tr>
+
+
+
+                            <a class="flex items-center text-theme-6" href="javascript:;" onclick="deleteclient(@item.id)" id="deletemodal" data-id="@item.id" data-toggle="modal" data-target="#delete-confirmation-modal"> <i data-feather="trash-2" class="w-4 h-4 mr-1"></i> Supprimer </a>
+                        </div>
+                    </td>
+                </tr>
                     }
             </tbody>
         </table>

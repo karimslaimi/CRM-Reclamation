@@ -184,9 +184,9 @@ namespace PFE_reclamation.Controllers {
                if (_rd != null) {
                     ViewBag.msgs = db.Messages.Include(i => i.sentBy).Include(c => c.sentTo).
                     Where(x => (x.sentBy.id == id && x.sentTo.id == myid) || (x.sentTo.id == id && x.sentBy.id == myid)).ToList();
-              
-                
 
+
+                    ViewBag.rdpic = _rd.photo;
                 ViewBag.rdname = _rd.nom + " " + _rd.prenom;
                 ViewBag.rdid = id;
                     }

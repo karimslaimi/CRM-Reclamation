@@ -25,6 +25,12 @@
                 <h2 class="font-medium text-base mr-auto">
                     Information Client
                 </h2>
+                <div class="mr-1">
+                    @if (Model.enabled == false) {
+                        <a href="@Url.Action("enableclient", "ADMIN",new { id = Model.id })" class="button w-22 bg-theme-1 text-white ml-auto">Activer</a>
+                        }
+
+                </div>
             </div>
             @using (Html.BeginForm())
             {

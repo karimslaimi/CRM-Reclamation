@@ -108,7 +108,7 @@ namespace PFE_reclamation.Controllers {
                         _rrc.photo = Path.GetFileName("profile_" + _rrc.id + Path.GetExtension(postedFile.FileName));
                         }
 
-
+                    _rrc.enabled = true;
                     db.Entry(_rrc).State = EntityState.Modified;
                     db.SaveChanges();
                     ViewBag.msg = "Profile modifié avec succés";
@@ -175,6 +175,7 @@ namespace PFE_reclamation.Controllers {
 
                 if (ModelState.IsValid) {
                     _client.password = authservice.HashPassword(_client.password);
+                    _client.enabled = true;
                     db.Clients.Add(_client);
                     db.SaveChanges();
                     apiservice.sendmail("Votre compte a été créé dans le crm vous pouvez vous connectez\nContactez l'administrateur pour le mot de passe ", "Compte créé", _client.mail);
@@ -248,7 +249,7 @@ namespace PFE_reclamation.Controllers {
 
 
 
-        // GET: Users/Delete/5
+
         public ActionResult Deletec(int? id) {
             if (id == null) {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -257,7 +258,24 @@ namespace PFE_reclamation.Controllers {
             if (_client == null) {
                 return HttpNotFound();
                 }
+            _client.enabled = false;
+            db.Entry(_client).State = EntityState.Modified;
+            db.SaveChanges();
             return Redirect("clients");
+            }
+
+        public ActionResult enableclient(int id) {
+            if (id != 0) {
+                Client _client = db.Clients.Find(id);
+                if (_client != null) {
+                    _client.enabled = true;
+                    db.Entry(_client).State = EntityState.Modified;
+                    db.SaveChanges();
+
+                    }
+                }
+            return RedirectToAction("Editc",new { id = id });
+
             }
 
 
@@ -361,7 +379,7 @@ namespace PFE_reclamation.Controllers {
                 if (_client != null) {
                     ViewBag.msgs = db.Messages.Include(i => i.sentBy).Include(c => c.sentTo).
                                        Where(x => (x.sentBy.id == id && x.sentTo.id == myid) || (x.sentTo.id == id && x.sentBy.id == myid)).ToList();
-
+                    ViewBag.climg = _client.photo;
                     ViewBag.clname = _client.nom + " " + _client.prenom;
                     ViewBag.clid = id;
                     }

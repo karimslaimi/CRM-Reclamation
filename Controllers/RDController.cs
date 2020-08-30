@@ -114,7 +114,7 @@ namespace PFE_reclamation.Controllers
                         }
 
 
-
+                    _rd.enabled = true;
                     db.Entry(_rd).State = EntityState.Modified;
                     db.SaveChanges();
                     ViewBag.msg = "Profile modifié avec succés";
@@ -182,6 +182,7 @@ namespace PFE_reclamation.Controllers
                     Responsable_departement _rd = db.Responsable_Departements.Find(idresp);
                     agent.departement = db.Departements.Where(x => x.id == _rd.departementId).FirstOrDefault();
                     agent.password = authservice.HashPassword(agent.password);
+                    agent.enabled = true;
                     db.Agents.Add(agent);
                     db.SaveChanges();
                     apiservice.sendmail("Votre compte a été créé dans le crm vous pouvez vous connectez\nContactez votre responsable pour le mot de passe ", "Compte créé", agent.mail);
@@ -197,6 +198,8 @@ namespace PFE_reclamation.Controllers
             string userid = ClaimsPrincipal.Current.Claims.FirstOrDefault(x => x.Type == "id").Value;
             int id = int.Parse(userid); 
          Responsable_departement _rs  = db.Responsable_Departements.Find(id);
+
+
             List<Agent> rs = db.Agents.Where(x => x.departementId == _rs.departementId).ToList();
 
             return View(rs);
@@ -206,12 +209,30 @@ namespace PFE_reclamation.Controllers
         public ActionResult deleteAgent(int id)
         {
    
-            Agent rs = db.Agents.Find(id);
-            db.Agents.Remove(rs);
+            Agent _agent = db.Agents.Find(id);
+            _agent.enabled = false;
+            db.Entry(_agent).State = EntityState.Modified;
             db.SaveChanges();
             return RedirectToAction("agents");
 
         }
+
+
+        public ActionResult enableAgent(int id) {
+            if (id != 0) {
+                Agent _agent = db.Agents.Find(id);
+                if (_agent != null) {
+                    _agent.enabled = true;
+                    db.Entry(_agent).State = EntityState.Modified;
+                    db.SaveChanges();
+
+                    }
+                }
+            return RedirectToAction("editAgent", new { id = id });
+
+            }
+
+
         // methode pour  affichage des details d'un agent
         public ActionResult detailsAgent(int id)
         {
@@ -251,9 +272,9 @@ namespace PFE_reclamation.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult editAgent(Agent _rs)
         {
-            Agent _rd = db.Agents.AsNoTracking().FirstOrDefault(x => x.id == _rs.id);
+            Agent _agent = db.Agents.AsNoTracking().FirstOrDefault(x => x.id == _rs.id);
 
-            _rs.password = _rd.password;
+            _rs.password = _agent.password;
 
 
             if (ModelState.IsValid)
@@ -317,7 +338,7 @@ namespace PFE_reclamation.Controllers
                     Where(x => (x.sentBy.id == id && x.sentTo.id == myid) || (x.sentTo.id == id && x.sentBy.id == myid)).ToList();
 
 
-
+                    ViewBag.agepic = _agent.photo;
                     ViewBag.agename = _agent.nom + " " + _agent.prenom;
                     ViewBag.ageid = id;
                     }

@@ -266,6 +266,7 @@ namespace PFE_reclamation.Controllers {
 
                     ViewBag.rrcname = _rrc.nom + " " + _rrc.prenom;
                     ViewBag.rrcid = id;
+                    ViewBag.rrcimg = _rrc.photo;
                     }
 
                 }

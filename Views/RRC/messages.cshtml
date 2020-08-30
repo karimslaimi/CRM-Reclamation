@@ -151,16 +151,15 @@
                             <div class="w-10 h-10 sm:w-12 sm:h-12 flex-none image-fit relative">
                                 @{
 
-                                    string srcimg = "/Content/images/" + Model.photo;
-                                    if (Model.photo == null) {
-                                        srcimg = "/Content/images/profile-10.jpg";
+                                    string img = "/Content/images/profile-2.jpg";
+                                    if (ViewBag.climg != null) {
+                                        img = "/Content/images/" + ViewBag.climg;
                                         }
-
 
 
                                 }
 
-                                <img alt="Midone Tailwind HTML Admin Template" class="rounded-full" id="imgfield" src="@srcimg">
+                                <img alt="Midone Tailwind HTML Admin Template" class="rounded-full" id="imgfield" src="@img">
                             </div>
 
 
@@ -196,7 +195,17 @@
                                         <div class="mt-1 text-xs text-theme-25">@msg.date.ToString("dd/MM/yyyy H:mm:s", french)</div>
                                     </div>
                                     <div class="w-10 h-10 hidden sm:block flex-none image-fit relative ml-5">
-                                        <img alt="Midone Tailwind HTML Admin Template" class="rounded-full" src="~/Content/images/profile-8.jpg">
+                                        @{
+
+                                            string imgsrc = "/Content/images/profile-2.jpg";
+                                            if (msg.sentBy != null) {
+                                                imgsrc = "/Content/images/" + msg.sentBy.photo;
+                                                }
+
+
+
+                                        }
+                                        <img alt="Midone Tailwind HTML Admin Template" class="rounded-full" src="@imgsrc">
                                     </div>
                                 </div>
 
@@ -208,7 +217,17 @@
 
                                 <div class="chat__box__text-box flex items-end float-left mb-4">
                                     <div class="w-10 h-10 hidden sm:block flex-none image-fit relative mr-5">
-                                        <img alt="Midone Tailwind HTML Admin Template" class="rounded-full" src="~/Content/images/profile-10.jpg">
+                                        @{
+
+                                            string imgsrc = "/Content/images/profile-2.jpg";
+                                            if (msg.sentBy != null) {
+                                                imgsrc = "/Content/images/" + msg.sentBy.photo;
+                                                }
+
+
+
+                                        }
+                                        <img alt="Midone Tailwind HTML Admin Template" class="rounded-full" src="@imgsrc">
                                     </div>
                                     <div class="bg-gray-200 dark:bg-dark-5 px-4 py-3 text-gray-700 dark:text-gray-300 rounded-r-md rounded-t-md">
                                         @msg.content
