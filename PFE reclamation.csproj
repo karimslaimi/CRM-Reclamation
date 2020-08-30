@@ -447,6 +447,10 @@
     <Compile Include="Migrations\202008292143383_enableduer.designer.cs">
       <DependentUpon>202008292143383_enableduer.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202008301356356_contratdatetimeformat.cs" />
+    <Compile Include="Migrations\202008301356356_contratdatetimeformat.designer.cs">
+      <DependentUpon>202008301356356_contratdatetimeformat.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Admin.cs" />
     <Compile Include="Models\Agent.cs" />
@@ -766,6 +770,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202008292143383_enableduer.resx">
       <DependentUpon>202008292143383_enableduer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202008301356356_contratdatetimeformat.resx">
+      <DependentUpon>202008301356356_contratdatetimeformat.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

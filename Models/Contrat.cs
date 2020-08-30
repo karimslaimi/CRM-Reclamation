@@ -16,11 +16,12 @@ namespace PFE_reclamation.Models
         [Required(ErrorMessage = "Le titre ne doit pas etre vide")]
         [MinLength(3, ErrorMessage = "doit etre plus long")]
         public string titre { get; set; }
-        [DataType(DataType.Date)]
-        [Column(TypeName = "Date")]
+
+
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd-MM-yyyy 00:00:00}")]
         public DateTime deb_contrat { get; set; }
-        [DataType(DataType.Date)]
-        [Column(TypeName = "Date")]
+
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd-MM-yyyy 00:00:00}")]
         public DateTime fin_contrat { get; set; }
 
 

@@ -282,7 +282,8 @@ namespace PFE_reclamation.Controllers {
 
             Contrat contrat = new Contrat();
             contrat.Client = db.Clients.Find(idc);
-            contrat.deb_contrat = debut;
+       
+            contrat.deb_contrat =  debut;
             contrat.fin_contrat = fin;
             contrat.titre = titre;
             contrat.description = descr;

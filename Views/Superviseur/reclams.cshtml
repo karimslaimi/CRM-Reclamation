@@ -219,7 +219,7 @@
                             <button type="submit" class="button button--sm text-white bg-theme-1 mr-2" id="verifybtn">Valider</button>
 
 
-                            <button data-dismiss="modal" class="button button--sm text-gray-700 border border-gray-300 dark:border-dark-5 dark:text-gray-300">Annuler</button>
+                            <button type="reset" data-dismiss="modal" class="button button--sm text-gray-700 border border-gray-300 dark:border-dark-5 dark:text-gray-300">Annuler</button>
                         </div>
                   
                         }
@@ -285,20 +285,21 @@
         document.getElementById("rectype").textContent = type;
         document.getElementById("recdescr").textContent = descr;
         document.getElementById("recdep").textContent = dep;
+ 
 
-
-
-        if (etat == "Nouveau") {
+        if (etat == "En_cours") {
             document.getElementById("verifybtn").style.visibility = 'visible';
         } else {
             document.getElementById("verifybtn").style.visibility = 'hidden';
+        
         }
-        if (dep != "Non attribué") {
+        if (dep == "Non attribué" && etat =="En_cours") {
 
 
-            document.getElementById("selectdep").style.display = 'none';
+            document.getElementById("selectdep").style.visibility = 'visible';
         } else {
-            document.getElementById("selectdep").style.display = 'inline';
+            document.getElementById("selectdep").style.visibility = 'hidden';
+       
         }
 
 
