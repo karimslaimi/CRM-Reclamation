@@ -451,6 +451,10 @@
     <Compile Include="Migrations\202008301356356_contratdatetimeformat.designer.cs">
       <DependentUpon>202008301356356_contratdatetimeformat.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202008310910565_picmig.cs" />
+    <Compile Include="Migrations\202008310910565_picmig.designer.cs">
+      <DependentUpon>202008310910565_picmig.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Admin.cs" />
     <Compile Include="Models\Agent.cs" />
@@ -773,6 +777,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202008301356356_contratdatetimeformat.resx">
       <DependentUpon>202008301356356_contratdatetimeformat.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202008310910565_picmig.resx">
+      <DependentUpon>202008310910565_picmig.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
