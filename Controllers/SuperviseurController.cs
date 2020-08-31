@@ -27,7 +27,7 @@ namespace PFE_reclamation.Controllers
             List<Reclamation> _reclams = db.Reclamations.ToList();
 
 
-            ViewBag.traitereclam = _reclams.Where(x => x.etat == Etat.Finis).Count();
+            ViewBag.traitereclam = _reclams.Where(x => x.etat == Etat.Traite).Count();
             ViewBag.encourreclam = _reclams.Where(x => x.etat == Etat.En_cours).Count();
             ViewBag.nbreclam = _reclams.Count();
             ViewBag.newreclam = _reclams.Where(x=>x.etat==Etat.Nouveau).Count();
@@ -191,7 +191,7 @@ namespace PFE_reclamation.Controllers
         public ActionResult reclams() {
 
             List<Reclamation> _reclams = db.Reclamations.ToList();
-            ViewBag.deps = db.Departements;
+            ViewBag.deps = db.Responsable_Departements.Select(s=>s.departement).ToList();
             return View(_reclams);
 
 
@@ -199,21 +199,21 @@ namespace PFE_reclamation.Controllers
         public ActionResult encours_reclams() {
 
             List<Reclamation> _reclams = db.Reclamations.Where(x=>x.Departement==null && x.etat==Etat.En_cours).ToList();
-            ViewBag.deps = db.Departements.ToList();
+            ViewBag.deps = db.Responsable_Departements.Select(s => s.departement).ToList();
             return View(_reclams);
 
 
             }
 
         public ActionResult traite_reclams() {
-            List<Reclamation> _reclams = db.Reclamations.Include(x => x.Traite.agent).Where(x => x.etat == Etat.Finis).ToList();
+            List<Reclamation> _reclams = db.Reclamations.Include(x => x.Traite.agent).Where(x => x.etat == Etat.Traite).ToList();
 
             return View(_reclams);
             }
 
 
 
-        public ActionResult valider_reclam(int idr,int iddep) {
+        public ActionResult valider_reclam(int idr,int iddep,string returnurl) {
 
            
             Reclamation _reclam = db.Reclamations.Find(idr);
@@ -226,7 +226,7 @@ namespace PFE_reclamation.Controllers
                 db.SaveChanges();
                 apiservice.sendmail("Une réclamation intitulé " + _reclam.titre + " a été affecté à votre département", "Réclamation validé", _rd.mail);
                 }
-            return Redirect("encours_reclams");
+            return Redirect(returnurl);
 
 
             }

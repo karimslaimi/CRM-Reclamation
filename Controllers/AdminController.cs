@@ -38,7 +38,7 @@ namespace PFE_reclamation.Controllers {
             List<Reclamation> _reclams = db.Reclamations.ToList();
 
 
-            ViewBag.traitereclam = _reclams.Where(x => x.etat == Etat.Finis).Count();
+            ViewBag.traitereclam = _reclams.Where(x => x.etat == Etat.Traite).Count();
             ViewBag.encourreclam = _reclams.Where(x => x.etat == Etat.En_cours).Count();
             ViewBag.nbreclam = _reclams.Count();
             ViewBag.clnb = db.Clients.Count();
@@ -279,16 +279,19 @@ namespace PFE_reclamation.Controllers {
 
             }
 
-        public ActionResult newContrat(string titre, string descr, DateTime debut, DateTime fin, string clid) {
+        public ActionResult newContrat(string titre, string descr , string datecontrat, string clid) {
 
             int idc = int.Parse(clid);
 
 
             Contrat contrat = new Contrat();
             contrat.Client = db.Clients.Find(idc);
+            string d1 = datecontrat.Substring(0,datecontrat.IndexOf("-"));
+            string d2 = datecontrat.Substring(datecontrat.IndexOf("-")+1);
+
        
-            contrat.deb_contrat =  debut;
-            contrat.fin_contrat = fin;
+            contrat.deb_contrat =  DateTime.Parse(d1);
+            contrat.fin_contrat = DateTime.Parse(d2);
             contrat.titre = titre;
             contrat.description = descr;
             db.Contrats.Add(contrat);
@@ -345,7 +348,7 @@ namespace PFE_reclamation.Controllers {
             }
 
         public ActionResult traite_reclams() {
-            IList<Reclamation> _reclams = db.Reclamations.Include(x => x.Traite.agent).Where(x => x.etat == Etat.Finis).ToList();
+            IList<Reclamation> _reclams = db.Reclamations.Include(x => x.Traite.agent).Where(x => x.etat == Etat.Traite).ToList();
             return View(_reclams);
             }
         public ActionResult encours_reclams() {

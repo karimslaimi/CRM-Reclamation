@@ -35,11 +35,11 @@ namespace PFE_reclamation.Controllers
             List<Reclamation> _reclam = db.Reclamations.Where(x => x.DepartementId == _dep.id).ToList();
             ViewBag.depreclam = _reclam.Count();
             ViewBag.encours = _reclam.Where(x => x.etat == Etat.En_cours).Count();
-            ViewBag.treated = _reclam.Where(w => w.etat == Etat.Finis).Count();
+            ViewBag.treated = _reclam.Where(w => w.etat == Etat.Traite).Count();
             List<Agent> _agents = db.Agents.Include(x=>x.reclamTraite).Where(x => x.departementId == _dep.id).ToList();
             ViewBag.agent = _agents.Count();
             ViewBag.agents = _agents.OrderByDescending(x => x.reclamTraite!=null).ThenByDescending(x=>x.reclamTraite!=null? x.reclamTraite.Count() : x.id).Take(5);
-            ViewBag.latest = _reclam.Where(x => x.etat == Etat.Finis).OrderBy(x => x.fin_reclam).Take(5);
+            ViewBag.latest = _reclam.Where(x => x.etat == Etat.Traite).OrderBy(x => x.fin_reclam).Take(5);
 
 
 
@@ -320,7 +320,7 @@ namespace PFE_reclamation.Controllers
         public ActionResult treatedreclams() {
             int idr = int.Parse(ClaimsPrincipal.Current.Claims.FirstOrDefault(x => x.Type == "id").Value);
             Responsable_departement _rd = db.Responsable_Departements.FirstOrDefault(x => x.id == idr);
-            List<Reclamation> _reclams = db.Reclamations.Include(x => x.Traite.agent).Where(x => x.etat == Etat.Finis && x.DepartementId==_rd.departementId).ToList();
+            List<Reclamation> _reclams = db.Reclamations.Include(x => x.Traite.agent).Where(x => x.etat == Etat.Traite && x.DepartementId==_rd.departementId).ToList();
 
             return View(_reclams);
             }

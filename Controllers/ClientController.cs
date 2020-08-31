@@ -35,7 +35,7 @@ namespace PFE_reclamation.Controllers {
             List<Reclamation> _reclams = db.Reclamations.Where(x => x.Client.id == userid).ToList();
             ViewBag.nbreclam = _reclams.Count();
             ViewBag.encourreclam = _reclams.Where(x => x.etat == Etat.En_cours).Count();
-            ViewBag.traitereclam = _reclams.Where(x => x.etat == Etat.Finis).Count();
+            ViewBag.traitereclam = _reclams.Where(x => x.etat == Etat.Traite).Count();
             ViewBag.contrat = db.Contrats.Where(x => x.Client.id == userid).Count();
             ViewBag.reclams = _reclams.OrderBy(x=>x.debut_reclam).Take(5).ToList();
 
@@ -238,7 +238,7 @@ namespace PFE_reclamation.Controllers {
 
         public ActionResult reclamation_traite() {
             int idc = int.Parse(ClaimsPrincipal.Current.Claims.FirstOrDefault(x => x.Type == "id").Value);
-            List<Reclamation> _reclams = db.Reclamations.Include(x => x.Traite.agent).Where(x => x.etat == Etat.Finis && x.Client.id == idc).ToList();
+            List<Reclamation> _reclams = db.Reclamations.Include(x => x.Traite.agent).Where(x => x.etat == Etat.Traite && x.Client.id == idc).ToList();
             return View(_reclams);
 
             }

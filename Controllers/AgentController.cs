@@ -133,7 +133,7 @@ namespace PFE_reclamation.Controllers {
 
             //get the reclam and change its state and the end date
             Reclamation _reclam = db.Reclamations.Find(idrec);
-            _reclam.etat = Etat.Finis;
+            _reclam.etat = Etat.Traite;
             _reclam.fin_reclam = DateTime.Now;
             db.Entry(_reclam).State = EntityState.Modified;
 
@@ -167,7 +167,7 @@ namespace PFE_reclamation.Controllers {
         public ActionResult reclams_traite() {
             //his treated claims
             int id = int.Parse(ClaimsPrincipal.Current.Claims.FirstOrDefault(x => x.Type == "id").Value);
-            List<Reclamation> _reclams = db.Reclamations.Include(x => x.Traite.agent).Where(x => x.etat == Etat.Finis && x.Traite.agent.id==id).ToList();
+            List<Reclamation> _reclams = db.Reclamations.Include(x => x.Traite.agent).Where(x => x.etat == Etat.Traite && x.Traite.agent.id==id).ToList();
             return View(_reclams);
            
             
