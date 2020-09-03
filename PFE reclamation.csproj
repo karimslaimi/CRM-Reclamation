@@ -458,6 +458,7 @@
     <Compile Include="Models\Contrat.cs" />
     <Compile Include="Models\Departement.cs" />
     <Compile Include="Models\Etat.cs" />
+    <Compile Include="Models\FirstChart.cs" />
     <Compile Include="Models\Message.cs" />
     <Compile Include="Models\Reclamation.cs" />
     <Compile Include="Models\Responsable departement.cs" />
@@ -616,6 +617,7 @@
     <Content Include="Content\Table_Responsive_v1\vendor\bootstrap\css\bootstrap.css.map" />
     <Content Include="Content\Table_Responsive_v1\vendor\bootstrap\css\bootstrap.min.css.map" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
+    <Content Include="Scripts\jquery-3.3.1.min.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
     <Content Include="Scripts\jquery-3.4.1.slim.js" />
@@ -720,6 +722,7 @@
     <Content Include="Views\Home\ListeRecAgtPDF.cshtml" />
     <Content Include="Views\Home\error404.cshtml" />
     <Content Include="Views\Home\Error.cshtml" />
+    <Content Include="Views\Admin\chart.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

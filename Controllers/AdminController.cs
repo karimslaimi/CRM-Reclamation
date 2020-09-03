@@ -45,7 +45,22 @@ namespace PFE_reclamation.Controllers {
 
             return View();
             }
+        public PartialViewResult chart()
+        {
+            
+            return PartialView();
+        }
+        public JsonResult json()
+        {
+            List<FirstChart> lists = db.Reclamations.GroupBy(x => x.Departement).Select(x => new FirstChart { name = x.Key.label, y = x.Count() }).ToList();
+           foreach(FirstChart fs in lists)
+            {
+                if (fs.name == null)
+                    fs.name = "Non Attribué";
+            }
 
+            return Json(lists, JsonRequestBehavior.AllowGet);
+        }
         protected bool verifyFiles(HttpPostedFileBase item) {
             bool flag = true;
 

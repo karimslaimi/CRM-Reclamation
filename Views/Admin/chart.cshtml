@@ -1,0 +1,69 @@
+﻿<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/data.js"></script>
+<script src="https://code.highcharts.com/modules/drilldown.js"></script>
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+<script>
+    $(document).ready(function () {
+
+            $.ajax({
+                    type: 'GET',
+
+                    url: '@Url.Action("json", "Admin")',
+                success: function (result) {
+
+
+                    Highcharts.chart('container', {
+                        chart: {
+                            plotBackgroundColor: null,
+                            plotBorderWidth: null,
+                            plotShadow: false,
+                            type: 'pie'
+                        },
+                        title: {
+                            text: 'Reclamations par département'
+                        }, credits: {
+                            enabled: false
+                        },
+                        tooltip: {
+                            pointFormat: '{series.name}: <b>{point.percentage:.0f}%</b>'
+                        },
+                        plotOptions: {
+                            pie: {
+                                allowPointSelect: true,
+                                cursor: 'pointer',
+                                dataLabels: {
+                                    enabled: false
+                                },
+                                showInLegend: true
+                            }
+                        },
+                        series: [{
+
+                            name: ' ',
+                            colorByPoint: true,
+                            data: result
+                        }]
+                    });
+
+                }
+    })
+
+        });
+
+
+
+</script>
+
+
+<div class="intro-y flex items-center h-10">
+    <h2 class="text-lg font-medium truncate mr-5">
+        Weekly Top Seller
+    </h2>
+    <a href="" class="ml-auto text-theme-1 dark:text-theme-10 truncate">See all</a>
+</div>
+<div class="intro-y box p-5 mt-5">
+    <div id="container"></div>
+
+    
+</div>
+
