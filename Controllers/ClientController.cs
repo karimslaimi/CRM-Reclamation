@@ -29,13 +29,15 @@ namespace PFE_reclamation.Controllers {
 
         // GET: Client
         public ActionResult Index() {
+
+            //get the current client id 
             int userid = int.Parse(ClaimsPrincipal.Current.Claims.FirstOrDefault(x => x.Type == "id").Value);
 
-
+            //now we will retrieve only his reclams we will look by his id and then filter and send in viewbag
             List<Reclamation> _reclams = db.Reclamations.Where(x => x.Client.id == userid).ToList();
             ViewBag.nbreclam = _reclams.Count();
             ViewBag.encourreclam = _reclams.Where(x => x.etat == Etat.En_cours).Count();
-            ViewBag.traitereclam = _reclams.Where(x => x.etat == Etat.Finis).Count();
+            ViewBag.traitereclam = _reclams.Where(x => x.etat == Etat.Traite).Count();
             ViewBag.contrat = db.Contrats.Where(x => x.Client.id == userid).Count();
             ViewBag.reclams = _reclams.OrderBy(x=>x.debut_reclam).Take(5).ToList();
 
@@ -103,6 +105,7 @@ namespace PFE_reclamation.Controllers {
 
             if (ModelState.IsValid) {
                 try {
+                    //check the file if it s valid delete the old picture if existing and save the changes
                     if (postedFile != null && verifyFiles(postedFile))
                     {
                         string path = Server.MapPath("/Content/images/");
@@ -177,6 +180,8 @@ namespace PFE_reclamation.Controllers {
         public ActionResult addreclam(Reclamation _reclam) {
             ModelState.Remove("Client");
             if (ModelState.IsValid) {
+                //as we have a relation between the client and the reclam we have to get the client who created the reclam and put him in the reclam
+                
                 int id = int.Parse(ClaimsPrincipal.Current.Claims.FirstOrDefault(x => x.Type == "id").Value);
                 Client cl = db.Clients.Find(id);
                 _reclam.Client = cl;
@@ -196,7 +201,7 @@ namespace PFE_reclamation.Controllers {
 
         public ActionResult deletereclam(int id) {
 
-            Reclamation _reclam = db.Reclamations.Find(id);
+            Reclamation _reclam = db.Reclamations.Include(x=>x.Traite).FirstOrDefault(x=>x.id==id);
             //check if the id isn't null and chech is he is the owner of the reclam
             if (_reclam != null && _reclam.Client.id == int.Parse(ClaimsPrincipal.Current.Claims.FirstOrDefault(x => x.Type == "id").Value)) {
 
@@ -238,7 +243,7 @@ namespace PFE_reclamation.Controllers {
 
         public ActionResult reclamation_traite() {
             int idc = int.Parse(ClaimsPrincipal.Current.Claims.FirstOrDefault(x => x.Type == "id").Value);
-            List<Reclamation> _reclams = db.Reclamations.Include(x => x.Traite.agent).Where(x => x.etat == Etat.Finis && x.Client.id == idc).ToList();
+            List<Reclamation> _reclams = db.Reclamations.Include(x => x.Traite.agent).Where(x => x.etat == Etat.Traite && x.Client.id == idc).ToList();
             return View(_reclams);
 
             }
@@ -255,6 +260,9 @@ namespace PFE_reclamation.Controllers {
 
 
         public ActionResult messages(int? id) {
+
+            //the client can communicate with the rrc
+
             int myid = int.Parse(ClaimsPrincipal.Current.Claims.FirstOrDefault(c => c.Type == "id").Value);
             ViewBag.rrc = db.Responsable_Relation_Clients.Include(x => x.receivedmessages).Include("receivedmessages.sentBy").Include("receivedmessages.sentTo")
                 .Include(s => s.sentmessages).Include("sentmessages.sentTo").Include("sentmessages.sentBy").ToList();

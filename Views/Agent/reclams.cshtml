@@ -116,7 +116,7 @@
                                     }
                                     else
                                     {
-                                        <div class="flex text-gray-600"> <i data-feather="check-square" class="w-4 h-4 mr-2"></i> Finis</div>
+                                        <div class="flex text-gray-600"> <i data-feather="check-square" class="w-4 h-4 mr-2"></i> Traité</div>
                                     }
 
 
@@ -214,7 +214,7 @@
                     @using (Html.BeginForm("traiter", "Agent")) {
                         <input type="hidden" name="idrec" id="modclid" value="" />
                     
-                        <label class="flex flex-col sm:flex-row">Détaille</label>
+                        <label class="flex flex-col sm:flex-row">Détails</label>
                         <textarea name="detaille" class="input w-full border mt-2"></textarea>
 
                         <button type="submit" class="button button--sm text-white bg-theme-1 mr-2 mt-2" id="traitebtn">Traiter</button>
@@ -248,7 +248,7 @@
         document.getElementById("rectype").textContent = type;
         document.getElementById("recdescr").textContent = descr;
 
-        if (etat == "Finis") {
+        if (etat == "Traite") {
             document.getElementById("traitebtn").style.display = "none";
 
 

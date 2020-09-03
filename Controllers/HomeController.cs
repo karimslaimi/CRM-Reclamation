@@ -61,7 +61,11 @@ namespace PFE_reclamation.Controllers
 
         }
 
-
+        public ActionResult smssend() {
+            ApiService api = new ApiService();
+            api.sendSMS("testing sms", "94446787");
+            return Json("ok", JsonRequestBehavior.AllowGet);
+            }
 
         public ActionResult persist()
         {
@@ -217,7 +221,7 @@ namespace PFE_reclamation.Controllers
             if (choice == 0) // tous les reclamations
                 lr = db.Reclamations.ToList();
             if (choice == 2) // reclamations traités seulement  
-                lr = db.Reclamations.Where(x => x.etat == Etat.Finis).ToList();
+                lr = db.Reclamations.Where(x => x.etat == Etat.Traite).ToList();
             if (choice == 1) // reclamations en cours seulement  
                 lr = db.Reclamations.Where(x => x.etat == Etat.En_cours).ToList();
 
@@ -275,10 +279,10 @@ namespace PFE_reclamation.Controllers
             int choice = Int32.Parse(Request["choice"]);
             List<Reclamation> lr = new List<Reclamation>();
             if (choice == 0) // tous les reclamations
-                lr = db.Reclamations.Where(x => x.Traite.agent.id==id&&x.etat!=Etat.Finis).ToList();
+                lr = db.Reclamations.Where(x => x.Traite.agent.id==id&&x.etat!=Etat.Traite).ToList();
        
             if (choice == 1) // reclamations traités seulement  
-                lr = db.Reclamations.Where(x => x.etat == Etat.Finis&&x.Traite.agent.id==id).ToList();
+                lr = db.Reclamations.Where(x => x.etat == Etat.Traite && x.Traite.agent.id==id).ToList();
 
 
             return View(lr);

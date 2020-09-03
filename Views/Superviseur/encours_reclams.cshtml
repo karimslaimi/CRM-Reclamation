@@ -103,7 +103,7 @@
                                     } else if (recl.etat == PFE_reclamation.Models.Etat.En_cours) {
                                     <div class="flex  text-theme-9"> <i data-loading-icon="spinning-circles" class="w-4 h-4 mr-2"></i> En cours </div>
                                     } else {
-                                    <div class="flex   text-gray-600"> <i data-feather="check-square" class="w-4 h-4 mr-2"></i> Finis</div>
+                            <div class="flex   text-gray-600"> <i data-feather="check-square" class="w-4 h-4 mr-2"></i> Traité</div>
                                     }
 
 
@@ -201,6 +201,7 @@
                 <div class="text-center lg:text-right p-5 border-t border-gray-200 dark:border-dark-5">
                     @using (Html.BeginForm("valider_reclam", "Superviseur")) {
                         <input type="hidden" name="idr" id="modclid" value="" />
+                        <input type="hidden" name="returnurl" id="modclid" value="encours_reclams" />
                         <div id="selectdep" class="mb-2">
 
                             <select name="iddep" data-hide-search="true" class="select2 w-full mb-2 mt-2">

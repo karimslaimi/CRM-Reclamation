@@ -30,7 +30,7 @@ namespace PFE_reclamation.Controllers {
             List<Reclamation> _reclams = db.Reclamations.ToList();
 
 
-            ViewBag.traitereclam = _reclams.Where(x => x.etat == Etat.Finis).Count();
+            ViewBag.traitereclam = _reclams.Where(x => x.etat == Etat.Traite).Count();
             ViewBag.encourreclam = _reclams.Where(x => x.etat == Etat.En_cours).Count();
             ViewBag.nbreclam = _reclams.Count();
             ViewBag.newreclam = _reclams.Where(x => x.etat == Etat.Nouveau).Count();
@@ -94,7 +94,7 @@ namespace PFE_reclamation.Controllers {
 
             if (ModelState.IsValid) {
                 try {
-
+                    //check the file if it s valid replace the old file if it exist with the new one
                     if (postedFile != null && verifyFiles(postedFile)) {
                         string path = Server.MapPath("/Content/images/");
                         if (!Directory.Exists(path)) {
@@ -280,15 +280,19 @@ namespace PFE_reclamation.Controllers {
 
 
 
-        public ActionResult newContrat(string titre, string descr, DateTime debut, DateTime fin, string clid) {
+        public ActionResult newContrat(string titre, string descr, string datecontrat, string clid) {
 
             int idc = int.Parse(clid);
 
 
             Contrat contrat = new Contrat();
             contrat.Client = db.Clients.Find(idc);
-            contrat.deb_contrat = debut;
-            contrat.fin_contrat = fin;
+            string d1 = datecontrat.Substring(0, datecontrat.IndexOf("-"));
+            string d2 = datecontrat.Substring(datecontrat.IndexOf("-") + 1);
+
+
+            contrat.deb_contrat = DateTime.Parse(d1);
+            contrat.fin_contrat = DateTime.Parse(d2);
             contrat.titre = titre;
             contrat.description = descr;
             db.Contrats.Add(contrat);
@@ -330,7 +334,7 @@ namespace PFE_reclamation.Controllers {
             }
 
         public ActionResult treatedreclams() {
-            IList<Reclamation> _reclams = db.Reclamations.Include(x => x.Traite.agent).Where(x => x.etat == Etat.Finis).ToList();
+            IList<Reclamation> _reclams = db.Reclamations.Include(x => x.Traite.agent).Where(x => x.etat == Etat.Traite).ToList();
             return View(_reclams);
 
 

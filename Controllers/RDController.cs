@@ -35,11 +35,11 @@ namespace PFE_reclamation.Controllers
             List<Reclamation> _reclam = db.Reclamations.Where(x => x.DepartementId == _dep.id).ToList();
             ViewBag.depreclam = _reclam.Count();
             ViewBag.encours = _reclam.Where(x => x.etat == Etat.En_cours).Count();
-            ViewBag.treated = _reclam.Where(w => w.etat == Etat.Finis).Count();
+            ViewBag.treated = _reclam.Where(w => w.etat == Etat.Traite).Count();
             List<Agent> _agents = db.Agents.Include(x=>x.reclamTraite).Where(x => x.departementId == _dep.id).ToList();
             ViewBag.agent = _agents.Count();
             ViewBag.agents = _agents.OrderByDescending(x => x.reclamTraite!=null).ThenByDescending(x=>x.reclamTraite!=null? x.reclamTraite.Count() : x.id).Take(5);
-            ViewBag.latest = _reclam.Where(x => x.etat == Etat.Finis).OrderBy(x => x.fin_reclam).Take(5);
+            ViewBag.latest = _reclam.Where(x => x.etat == Etat.Traite).OrderBy(x => x.fin_reclam).Take(5);
 
 
 
@@ -178,6 +178,7 @@ namespace PFE_reclamation.Controllers
 
                 if (ModelState.IsValid)
                 {
+                    //get the rd id fetch it from db get his dep and put the dep in the agent
                     int idresp = int.Parse(ClaimsPrincipal.Current.Claims.FirstOrDefault(x => x.Type == "id").Value);
                     Responsable_departement _rd = db.Responsable_Departements.Find(idresp);
                     agent.departement = db.Departements.Where(x => x.id == _rd.departementId).FirstOrDefault();
@@ -289,6 +290,7 @@ namespace PFE_reclamation.Controllers
 
         //get the reclams that were sent to his departement
         public ActionResult reclams() {
+            //get the reclams for his dep
 
             int id = int.Parse(ClaimsPrincipal.Current.Claims.FirstOrDefault(x => x.Type == "id").Value);
             Responsable_departement _rd = db.Responsable_Departements.Include(x=>x.departement).Where(x=>x.id==id).FirstOrDefault();
@@ -303,6 +305,7 @@ namespace PFE_reclamation.Controllers
             }
 
         public ActionResult affecte_reclam(int idrec,int idage) {
+            //send a claim to an agent to treat it
             Traite _traite = new Traite();
             Reclamation _reclam = db.Reclamations.Find(idrec);
             Agent _agent = db.Agents.Find(idage);
@@ -320,13 +323,14 @@ namespace PFE_reclamation.Controllers
         public ActionResult treatedreclams() {
             int idr = int.Parse(ClaimsPrincipal.Current.Claims.FirstOrDefault(x => x.Type == "id").Value);
             Responsable_departement _rd = db.Responsable_Departements.FirstOrDefault(x => x.id == idr);
-            List<Reclamation> _reclams = db.Reclamations.Include(x => x.Traite.agent).Where(x => x.etat == Etat.Finis && x.DepartementId==_rd.departementId).ToList();
+            List<Reclamation> _reclams = db.Reclamations.Include(x => x.Traite.agent).Where(x => x.etat == Etat.Traite && x.DepartementId==_rd.departementId).ToList();
 
             return View(_reclams);
             }
 
 
         public ActionResult messages(int? id) {
+            //the red can communicate with his agents
             int myid = int.Parse(ClaimsPrincipal.Current.Claims.FirstOrDefault(c => c.Type == "id").Value);
             Departement dep = db.Responsable_Departements.Find(myid).departement;
             ViewBag.agents = db.Agents.Include(x => x.receivedmessages).Include("receivedmessages.sentBy").Include("receivedmessages.sentTo").Include(s => s.sentmessages).Include("sentmessages.sentTo").Include("sentmessages.sentBy").Where(d => d.departementId == dep.id).ToList();

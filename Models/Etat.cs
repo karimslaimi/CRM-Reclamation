@@ -9,6 +9,6 @@ namespace PFE_reclamation.Models
     {
         Nouveau = 1,
         En_cours = 2,
-        Finis = 3
+        Traite = 3
     }
 }

@@ -119,23 +119,28 @@
                             <div class="mt-3">
                                 <label>Titre</label>
 
-                                <input type="text" name="titre" class="input w-full border mt-2" placeholder="Titre" />
+
+                                <select name="titre" required class="select2 w-full mb-2 mt-2" oninvalid="this.setCustomValidity('Sélectionner un contrat')">
+                                    <option value="">selectionner un département</option>
+                                    <option value="Assurance multirisque habitation">Assurance multirisque habitation</option>
+                                    <option value="Assurance automobile">Assurance automobile</option>
+                                    <option value="Assurance voyage et assistance">Assurance voyage et assistance</option>
+                                    <option value="Assurance retraite et prévoyance">Assurance retraite et prévoyance</option>
+
+                                    <option value="Assurance individuelle accident">Assurance individuelle accident</option>
+                                    <option value="Assurance multirisque professionnelle">Assurance multirisque professionnelle</option>
+
+
+                                </select>
                             </div>
                             <div class="mt-3">
-
-
                                 <div class="col-span-12 sm:col-span-6">
-                                    <label>Debut Contrat</label>
-                                    <input name="debut" class="datepicker input w-full border mt-2">
-                                </div>
-                            </div>
-                            <div class="mt-3">
-                                <div class="col-span-12 sm:col-span-6">
-                                    <label>Fin Contrat</label>
-                                    <input name="fin" class="datepicker input w-full border mt-2">
-                                </div>
+                                    <label>Date contrat</label>
+
+                                    <input name="datecontrat" data-daterange="true" class="datepicker input w-56 border block mx-auto">
 
 
+                                </div>
                             </div>
                         </div>
                         <div class="col-span-12 xl:col-span-6">
