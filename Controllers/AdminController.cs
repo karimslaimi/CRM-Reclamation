@@ -53,14 +53,23 @@ namespace PFE_reclamation.Controllers {
         }
         public JsonResult json()
         {
-            List<FirstChart> lists = db.Reclamations.GroupBy(x => x.Departement).Select(x => new FirstChart { name = x.Key.label, y = x.Count() }).ToList();
-           foreach(FirstChart fs in lists)
+            //réclamations par département
+            List<FirstChart> chart1 = db.Reclamations.GroupBy(x => x.Departement).Select(x => new FirstChart { name = x.Key.label, y = x.Count() }).ToList();
+           foreach(FirstChart fs in chart1)
             {
                 if (fs.name == null)
                     fs.name = "Non Attribué";
             }
+           //réclamations par mois
+            List<FirstChart> chart2 = db.Reclamations.GroupBy(x=>x.debut_reclam.Month.ToString()).Select(x => new FirstChart { name = x.Key.ToString(), y = x.Count() }).ToList();
+            chart2.OrderBy(x=>x.name).ToList().ForEach(x=>x.name=new DateTime(2000, Int32.Parse(x.name), 1).ToString("MMMM", CultureInfo.CreateSpecificCulture("fr")));
+            
+            //liste à envoyer
+            List<List<FirstChart>> final = new List<List<FirstChart>>();
+            final.Add(chart1);
+            final.Add(chart2);
 
-            return Json(lists, JsonRequestBehavior.AllowGet);
+            return Json(final, JsonRequestBehavior.AllowGet);
         }
         protected bool verifyFiles(HttpPostedFileBase item) {
             bool flag = true;

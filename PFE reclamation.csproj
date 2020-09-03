@@ -488,6 +488,7 @@
     <Compile Include="Models\Contrat.cs" />
     <Compile Include="Models\Departement.cs" />
     <Compile Include="Models\Etat.cs" />
+    <Compile Include="Models\FirstChart.cs" />
     <Compile Include="Models\Message.cs" />
     <Compile Include="Models\Reclamation.cs" />
     <Compile Include="Models\Responsable departement.cs" />
@@ -853,6 +854,7 @@
     <Content Include="Scripts\popper.js.map" />
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
+    <Content Include="Views\Admin\chart.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

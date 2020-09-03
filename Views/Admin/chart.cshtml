@@ -41,7 +41,67 @@
 
                             name: ' ',
                             colorByPoint: true,
-                            data: result
+                            data: result[0]
+                        }]
+                    });
+
+//second chart starts here
+
+                    var event = result[1]
+                    var mncat = [];
+                    var mnvalues = [];
+                    for (var i = 0; i < event.length; i++) {
+                        if (event[i].name) {
+                            mncat[i] = event[i].name;
+                            console.log(mncat[i]);
+                        }
+                        if (event[i].y) {
+                            mnvalues[i] = event[i].y;
+                            console.log(mnvalues[i]);
+                        }
+                    }
+                    Highcharts.chart('container1', {
+                        chart: {
+                            type: 'column'
+                        },
+                        title: {
+                            text: 'Reclamations par mois'
+                        },
+                        subtitle: {
+                            text: ''
+                        },
+                        xAxis: {
+                            categories: mncat,
+                            crosshair: true,
+                        },
+                        yAxis: {
+                            min: 0,
+                            title: {
+                                text: "Nombre de reclamations"
+                            }
+                        },
+                        credits: {
+                            enabled: false
+                        },
+                        tooltip: {
+                            headerFormat: '<span style="font-size:10px">Mois du {point.key}</span><br><hr>',
+                            pointFormat: 
+                                '<span style=";font-size:12px"><b> {point.y}</b> Réclamations</span>',
+                            footerFormat: '',
+                            shared: true,
+                            useHTML: true
+                        },
+                        plotOptions: {
+                            column: {
+                                pointPadding: 0.2,
+                                borderWidth: 0
+                            }
+                        },
+                        series: [{
+                            name: 'Mois',
+                            colorByPoint: true,
+
+                            data: mnvalues
                         }]
                     });
 
@@ -54,16 +114,34 @@
 
 </script>
 
+<div class="col-span-12 lg:col-span-6 mt-8">
+    <div class="intro-y block sm:flex items-center h-10">
+        <h2 class="text-lg font-medium truncate mr-5">
+        </h2>
+       
+    </div>
+    <div class="intro-y box p-5 mt-12 sm:mt-5">
+        <div class="flex flex-col xl:flex-row xl:items-center">
+            
+            
+        </div>
+        <div class="report-chart">
+            <div id="container1"></div>
 
-<div class="intro-y flex items-center h-10">
-    <h2 class="text-lg font-medium truncate mr-5">
-        Weekly Top Seller
-    </h2>
-    <a href="" class="ml-auto text-theme-1 dark:text-theme-10 truncate">See all</a>
+        </div>
+    </div>
 </div>
-<div class="intro-y box p-5 mt-5">
-    <div id="container"></div>
+<div class="col-span-12 sm:col-span-6 lg:col-span-3 mt-8">
+    <div class="intro-y flex items-center h-10">
+        <h2 class="text-lg font-medium truncate mr-5">
+            Weekly Top Seller
+        </h2>
+        <a href="" class="ml-auto text-theme-1 dark:text-theme-10 truncate">See all</a>
+    </div>
+    <div class="intro-y box p-5 mt-5">
+        <div id="container"></div>
 
-    
-</div>
 
+    </div>
+
+    </div>
