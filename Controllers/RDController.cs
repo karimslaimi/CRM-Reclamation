@@ -178,6 +178,7 @@ namespace PFE_reclamation.Controllers
 
                 if (ModelState.IsValid)
                 {
+                    //get the rd id fetch it from db get his dep and put the dep in the agent
                     int idresp = int.Parse(ClaimsPrincipal.Current.Claims.FirstOrDefault(x => x.Type == "id").Value);
                     Responsable_departement _rd = db.Responsable_Departements.Find(idresp);
                     agent.departement = db.Departements.Where(x => x.id == _rd.departementId).FirstOrDefault();
@@ -289,6 +290,7 @@ namespace PFE_reclamation.Controllers
 
         //get the reclams that were sent to his departement
         public ActionResult reclams() {
+            //get the reclams for his dep
 
             int id = int.Parse(ClaimsPrincipal.Current.Claims.FirstOrDefault(x => x.Type == "id").Value);
             Responsable_departement _rd = db.Responsable_Departements.Include(x=>x.departement).Where(x=>x.id==id).FirstOrDefault();
@@ -303,6 +305,7 @@ namespace PFE_reclamation.Controllers
             }
 
         public ActionResult affecte_reclam(int idrec,int idage) {
+            //send a claim to an agent to treat it
             Traite _traite = new Traite();
             Reclamation _reclam = db.Reclamations.Find(idrec);
             Agent _agent = db.Agents.Find(idage);
@@ -327,6 +330,7 @@ namespace PFE_reclamation.Controllers
 
 
         public ActionResult messages(int? id) {
+            //the red can communicate with his agents
             int myid = int.Parse(ClaimsPrincipal.Current.Claims.FirstOrDefault(c => c.Type == "id").Value);
             Departement dep = db.Responsable_Departements.Find(myid).departement;
             ViewBag.agents = db.Agents.Include(x => x.receivedmessages).Include("receivedmessages.sentBy").Include("receivedmessages.sentTo").Include(s => s.sentmessages).Include("sentmessages.sentTo").Include("sentmessages.sentBy").Where(d => d.departementId == dep.id).ToList();

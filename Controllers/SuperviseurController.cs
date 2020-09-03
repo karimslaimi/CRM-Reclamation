@@ -23,7 +23,7 @@ namespace PFE_reclamation.Controllers
         public ActionResult Index()
         {
 
-
+            //get all the reclams and filter send in viewbag
             List<Reclamation> _reclams = db.Reclamations.ToList();
 
 
@@ -156,6 +156,7 @@ namespace PFE_reclamation.Controllers
             {
                 Authentication authservice = new Authentication();
                 responsable.password = authservice.HashPassword(responsable.password);
+                responsable.enabled = true;
                 db.Responsable_Departements.Add(responsable);
                 db.SaveChanges();
                 return RedirectToAction("responsables");

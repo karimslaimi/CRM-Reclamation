@@ -35,6 +35,7 @@ namespace PFE_reclamation.Controllers {
 
         public ActionResult Index() {
 
+            //getting all reclams from db , filter it and send it to the index for the charts
             List<Reclamation> _reclams = db.Reclamations.ToList();
 
 
@@ -50,6 +51,7 @@ namespace PFE_reclamation.Controllers {
             bool flag = true;
 
             if (item != null) {
+                //check if the size and the extension are ok
                 if (item.ContentLength > 0 && item.ContentLength < 5000000) {
                     if (!(Path.GetExtension(item.FileName).ToLower() == ".jpg" ||
                         Path.GetExtension(item.FileName).ToLower() == ".png" ||
@@ -90,19 +92,23 @@ namespace PFE_reclamation.Controllers {
 
             _admin.password = ad.password;
 
+            //we have done this one to ignore the password validation
             ModelState.Remove("password");
 
             if (ModelState.IsValid) {
                 try {
+                    //check if the file is allowed 
                     if (postedFile != null && verifyFiles(postedFile)) {
                         string path = Server.MapPath("/Content/images/");
                         if (!Directory.Exists(path)) {
                             Directory.CreateDirectory(path);
                             }
 
+                        //if the image exist then remove it
                         if (System.IO.File.Exists(Path.GetFullPath(path + "profile_" + _admin.id + Path.GetExtension(postedFile.FileName))))
                             System.IO.File.Delete(path + "profile_" + _admin.id + Path.GetExtension(postedFile.FileName));
 
+                        //save the new file
                         postedFile.SaveAs(path + "profile_" + _admin.id + Path.GetExtension(postedFile.FileName));
                         _admin.photo = Path.GetFileName("profile_" + _admin.id + Path.GetExtension(postedFile.FileName));
                         }
@@ -132,6 +138,7 @@ namespace PFE_reclamation.Controllers {
 
             if (pass.Equals(cpass) && !String.IsNullOrEmpty(pass) && !string.IsNullOrWhiteSpace(pass)) {
                 Admin _admin = db.Admins.Find(id);
+                //encrypt the password in the authservice 
                 _admin.password = authservice.HashPassword(pass);
                 db.Entry(_admin).State = EntityState.Modified;
                 db.SaveChanges();
@@ -178,7 +185,10 @@ namespace PFE_reclamation.Controllers {
                         _client.enabled = true;
                         db.Clients.Add(_client);
                         db.SaveChanges();
-                        apiservice.sendmail("Votre compte a été créé dans le crm vous pouvez vous connectez\nContactez l'administrateur pour le mot de passe ", "Compte créé", _client.mail);
+
+                        //send mail and sms to the client
+                        apiservice.sendmail(_client.mail,"Compte créé","Votre compte a été créé dans le crm vous pouvez vous connectez\nContactez l'administrateur pour le mot de passe") ;
+                        apiservice.sendSMS("Votre compte a été créé contacter l'administrateur pour le mot de passe", _client.tel);
                         } catch (Exception e) {
                         ViewBag.error = "vérifier mail ou nom d'utilisateur";
                         return View(_client);
@@ -259,14 +269,19 @@ namespace PFE_reclamation.Controllers {
             if (_client == null) {
                 return HttpNotFound();
                 } else {
+                //if we delete the client we have to delete his reclams so we should disable his account he won't be able to connect
                 _client.enabled = false;
                 db.Entry(_client).State = EntityState.Modified;
                 db.SaveChanges();
                 }
             return Redirect("clients");
             }
+
+
+
         public ActionResult enableclient(int id) {
             if (id != 0) {
+                //enable the client account in case he s back
                 Client _client = db.Clients.Find(id);
                 if (_client != null) {
                     _client.enabled = true;
@@ -327,13 +342,13 @@ namespace PFE_reclamation.Controllers {
         public ActionResult Vérifier_reclam(int? id) {
             if (id != null) {
                 // i have to implement mail to tell client about the verification
-
+                //verify the reclam and send mail to the creator of the reclam
                 Reclamation _reclam = db.Reclamations.Find(id);
                 if (_reclam.etat == Etat.Nouveau) {
                     _reclam.etat = Etat.En_cours;
                     db.Entry(_reclam).State = EntityState.Modified;
                     db.SaveChanges();
-                    apiservice.sendmail("Votre réclamation "+_reclam.titre+" a été approuvé et en cours de traitement", "réclamation vérifié", _reclam.Client.mail);
+                    apiservice.sendmail( _reclam.Client.mail, "réclamation vérifié","Votre réclamation "+_reclam.titre+" a été approuvé et en cours de traitement");
                     }
 
 
@@ -343,15 +358,18 @@ namespace PFE_reclamation.Controllers {
             }
 
         public ActionResult reclams() {
+            //get all the reclam even with orderby the datatable is ordering the data by the id 
             List<Reclamation> _reclamas = db.Reclamations.OrderBy(x => x.etat).ToList();
             return View(_reclamas);
             }
 
         public ActionResult traite_reclams() {
+            //find treated reclams
             IList<Reclamation> _reclams = db.Reclamations.Include(x => x.Traite.agent).Where(x => x.etat == Etat.Traite).ToList();
             return View(_reclams);
             }
         public ActionResult encours_reclams() {
+            //verified reclams but still not treated
             IList<Reclamation> _reclams = db.Reclamations.Where(x => x.etat == Etat.En_cours).ToList();
             return View(_reclams);
             }
@@ -381,21 +399,26 @@ namespace PFE_reclamation.Controllers {
             }
 
 
+
+
         [HttpPost]
         public ActionResult newResponsableDep(Responsable_departement responsable, string cpass, string select) {
 
             if (responsable.password.Equals(cpass)) {
+                //the select is the id of the departement
                 int id = Int32.Parse(select);
                 if (id != 0)
                     responsable.departementId = id;
 
                 if (ModelState.IsValid) {
                     Authentication authservice = new Authentication();
+                    //hash the password in the authservice
                     responsable.password = authservice.HashPassword(responsable.password);
+                    responsable.enabled = true;
                     db.Responsable_Departements.Add(responsable);
                     try {
                         db.SaveChanges();
-                        apiservice.sendmail("Votre compte a été créé dans le crm vous pouvez vous connectez\nContactez l'administrateur pour le mot de passe ", "Compte créé", responsable.mail);
+                        apiservice.sendmail(responsable.mail,  "Compte créé","Votre compte a été créé dans le crm vous pouvez vous connectez\nContactez l'administrateur pour le mot de passe");
                         return RedirectToAction("responsables");
                         } catch (Exception ee) { ViewBag.error = "Ce département à déja un responsable"; }
 
@@ -405,11 +428,17 @@ namespace PFE_reclamation.Controllers {
                 } else {
                 ViewBag.passerr = "vérifier les mots de passe";
                 }
-
+            //send back the dep list in the viewbag
+            //if he s here that means the validation failed and he have to fix the given informations
             List<Departement> dp = db.Departements.ToList();
             ViewBag.list = dp;
             return View(responsable);
             }
+
+
+
+
+
 
         [HttpGet]
         public ActionResult editResponsableDep(int? id) {
@@ -461,7 +490,8 @@ namespace PFE_reclamation.Controllers {
         // supprimer un responsable département
         public ActionResult deleteResponsableDep(int id) {
 
-            Responsable_departement rs = db.Responsable_Departements.Find(id);
+            //include his messages so it can be deleted along with the user
+            Responsable_departement rs = db.Responsable_Departements.Include(x=>x.sentmessages).Include(x=>x.receivedmessages).SingleOrDefault(x=>x.id==id);
 
             db.Responsable_Departements.Remove(rs);
             db.SaveChanges();
@@ -504,10 +534,12 @@ namespace PFE_reclamation.Controllers {
                 if (ModelState.IsValid) {
                     Authentication authservice = new Authentication();
                     superviseur.password = authservice.HashPassword(superviseur.password);
+                    superviseur.enabled = true;
                     db.Superviseurs.Add(superviseur);
-                    apiservice.sendmail("Votre compte a été créé dans le crm vous pouvez vous connectez\nContactez l'administrateur pour le mot de passe ", "Compte créé", superviseur.mail);
+                  
 
-                    db.SaveChanges();
+                    db.SaveChanges(); 
+                    apiservice.sendmail(superviseur.mail, "Compte créé","Votre compte a été créé dans le crm vous pouvez vous connectez\nContactez l'administrateur pour le mot de passe " );
 
                     return RedirectToAction("superviseurs");
                     } else {
@@ -611,6 +643,7 @@ namespace PFE_reclamation.Controllers {
 
 
             if (agent.password.Equals(cpass)) {
+                //the select is the id of the departement the agent belong to
                 int id = Int32.Parse(select);
                 if (id != 0)
                     agent.departement = db.Departements.Find(id);
@@ -618,9 +651,10 @@ namespace PFE_reclamation.Controllers {
                 if (ModelState.IsValid) {
                     Authentication authservice = new Authentication();
                     agent.password = authservice.HashPassword(agent.password);
+                    agent.enabled = true;
                     db.Agents.Add(agent);
                     db.SaveChanges();
-                    apiservice.sendmail("Votre compte a été créé dans le crm vous pouvez vous connectez\nContactez l'administrateur pour le mot de passe ", "Compte créé", agent.mail);
+                    apiservice.sendmail(agent.mail,"Compte créé","Votre compte a été créé dans le crm vous pouvez vous connectez\nContactez l'administrateur pour le mot de passe "  );
                     return RedirectToAction("agents");
                     } else {
                     ViewBag.error = "vérifier les données saisi";
@@ -646,9 +680,11 @@ namespace PFE_reclamation.Controllers {
 
         [ValidateAntiForgeryToken]
         public ActionResult deleteAgent(int id) {
-
+            //won't delete it because he may have entries in the traite table that way it will raise an exception and somehow we managed to bypass the exception 
+            //the reclams he treated will be deleted
             Agent rs = db.Agents.Find(id);
-            db.Agents.Remove(rs);
+            rs.enabled = false;
+            db.Entry(rs).State = EntityState.Modified;
             db.SaveChanges();
             return RedirectToAction("agents");
 
@@ -729,8 +765,9 @@ namespace PFE_reclamation.Controllers {
                     Authentication authservice = new Authentication();
                     _rrc.password = authservice.HashPassword(_rrc.password);
                     db.Responsable_Relation_Clients.Add(_rrc);
+                    _rrc.enabled = true;
                     db.SaveChanges();
-                    apiservice.sendmail("Votre compte a été créé dans le crm vous pouvez vous connectez\nContactez l'administrateur pour le mot de passe ", "Compte créé", _rrc.mail);
+                    apiservice.sendmail(_rrc.mail, "Compte créé","Votre compte a été créé dans le crm vous pouvez vous connectez\nContactez l'administrateur pour le mot de passe " );
                     return RedirectToAction("RRCs");
                     } else {
                     ViewBag.error = "vérifier les données saisi";
@@ -752,7 +789,7 @@ namespace PFE_reclamation.Controllers {
         // supprimer un RRC
         public ActionResult deleteRRC(int id) {
 
-            Responsable_relation_client rs = db.Responsable_Relation_Clients.Find(id);
+            Responsable_relation_client rs = db.Responsable_Relation_Clients.Include(x=>x.sentmessages).Include(x=>x.receivedmessages).SingleOrDefault(x=>x.id==id);
             db.Responsable_Relation_Clients.Remove(rs);
             db.SaveChanges();
             return RedirectToAction("RRCs");

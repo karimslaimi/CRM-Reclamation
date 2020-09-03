@@ -94,7 +94,7 @@ namespace PFE_reclamation.Controllers {
 
             if (ModelState.IsValid) {
                 try {
-
+                    //check the file if it s valid replace the old file if it exist with the new one
                     if (postedFile != null && verifyFiles(postedFile)) {
                         string path = Server.MapPath("/Content/images/");
                         if (!Directory.Exists(path)) {

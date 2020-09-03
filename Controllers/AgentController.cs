@@ -72,11 +72,12 @@ namespace PFE_reclamation.Controllers {
             Agent agent = db.Agents.Include(x=>x.departement).AsNoTracking().FirstOrDefault(x => x.id == _agent.id);
 
             _agent.password = agent.password;
-
+            //remove the password to ignore password validation
             ModelState.Remove("password");
 
             if (ModelState.IsValid) {
                 try {
+                    //check the filed if it s valid and check if there is a file with the same name so delete it and put the new pic in place
 
                     if (postedFile != null && verifyFiles(postedFile)) {
                         string path = Server.MapPath("/Content/images/");
@@ -129,7 +130,7 @@ namespace PFE_reclamation.Controllers {
 
         public ActionResult traiter(int idrec,string detaille) {
 
-            //add the view later and user the mailling service
+
 
             //get the reclam and change its state and the end date
             Reclamation _reclam = db.Reclamations.Find(idrec);
@@ -152,6 +153,11 @@ namespace PFE_reclamation.Controllers {
             db.Entry(_traite).State = EntityState.Modified;
             db.SaveChanges();
             apiservice.sendmail("Votre réclamation "+_traite.Reclamation.titre+" a été traité par l'agent"+_traite.agent.nom+" "+_traite.agent.prenom+"\n"+_traite.detaille, "Réclamation traité", _traite.Reclamation.Client.mail);
+
+            //i think the sms works fine wish it won't raise exception later
+            apiservice.sendSMS("Votre réclamation " + _reclam.titre + " a été traité veuillez consulter votre compte",_reclam.Client.tel) ;
+
+
             return Redirect("reclams");
 
             }
@@ -175,6 +181,8 @@ namespace PFE_reclamation.Controllers {
 
 
         public ActionResult messages(int? id) {
+            //the agent can discuss with his manager
+            //get his id from the claimsprincipal and let s get the departement he belongs to and get his manager
          int myid = int.Parse(ClaimsPrincipal.Current.Claims.FirstOrDefault(c => c.Type == "id").Value);
             Departement dep = db.Agents.Find(myid).departement;
             ViewBag.rd = db.Responsable_Departements.Include(x => x.receivedmessages).Include("receivedmessages.sentBy").Include("receivedmessages.sentTo").Include(s => s.sentmessages).Include("sentmessages.sentTo").Include("sentmessages.sentBy").Where(d=>d.departementId==dep.id).ToList();

@@ -1,14 +1,17 @@
-﻿using PFE_reclamation.DAL;
-using PFE_reclamation.Models;
+﻿
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+
 using System.Net.Mail;
 using System.Net;
 using System.Text;
 using Nexmo.Api.Request;
 using Nexmo.Api;
+using System.Net.Http;
+using System.Collections.Generic;
+using RestSharp;
+using Twilio;
+using Twilio.Rest.Api.V2010.Account;
+using System.Net.Http.Headers;
 
 namespace PFE_reclamation.Services {
     public class ApiService {
@@ -23,13 +26,13 @@ namespace PFE_reclamation.Services {
                 client.Timeout = 1000000;
                 client.DeliveryMethod = SmtpDeliveryMethod.Network;
                 client.UseDefaultCredentials = false;
-                MailMessage mailMessage = new MailMessage();
+                string from = sendermail;
+
+                MailMessage mailMessage = new MailMessage(from, mails);
 
 
-                mailMessage.To.Add(mails);
 
-
-
+                mailMessage.Subject = obj;
                 mailMessage.Body = body;
 
                 client.Credentials = new NetworkCredential(sendermail, senderpassword);
@@ -40,7 +43,7 @@ namespace PFE_reclamation.Services {
 
                 client.Send(mailMessage);
 
-                } catch (Exception) {
+                } catch (Exception e) {
 
                 return "error occured";
 
@@ -51,25 +54,28 @@ namespace PFE_reclamation.Services {
         public void sendSMS(string body, string phone) {
 
 
-            var NEXMO_API_KEY = "e5668206";
-            var NEXMO_API_SECRET = "P4VhyGeOyadg8AVr";
-
-            var credentials = Credentials.FromApiKeyAndSecret(
-                NEXMO_API_KEY,
-                NEXMO_API_SECRET
-                );
-
-            var nexmoClient = new NexmoClient(credentials);
-
-            var response = nexmoClient.SmsClient.SendAnSms(new Nexmo.Api.Messaging.SendSmsRequest() {
-                To = phone,
-                From = "CRM RECLAM",
-                Text = body
-                });
-            Console.WriteLine(response.Messages[0].To);
+            try {
 
 
 
-            }
+
+                var client = new RestClient("https://rest.nexmo.com/sms/json?api_key=e5668206&api_secret=P4VhyGeOyadg8AVr&from=Assurance&to=216"+phone+"&text="+Uri.EscapeUriString(body)+"");
+                var request = new RestRequest();
+             
+
+                request.Method = Method.POST;
+                request.AddHeader("content-type", "application/x-www-form-urlencoded");
+
+                IRestResponse response = client.Execute(request);
+                Console.WriteLine(response);
+                } catch(Exception e) {
+                Console.WriteLine(e);
+                }
+
+
+
+
+
+    }
         }
     }

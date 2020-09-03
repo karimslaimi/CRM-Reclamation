@@ -61,7 +61,11 @@ namespace PFE_reclamation.Controllers
 
         }
 
-
+        public ActionResult smssend() {
+            ApiService api = new ApiService();
+            api.sendSMS("testing sms", "94446787");
+            return Json("ok", JsonRequestBehavior.AllowGet);
+            }
 
         public ActionResult persist()
         {
