@@ -172,10 +172,7 @@ namespace PFE_reclamation.Controllers
             if (agent.password.Equals(cpass))
             {
 
-                int id = Int32.Parse(select);
-                if (id != 0)
-                    agent.departementId = id;
-
+             
                 if (ModelState.IsValid)
                 {
                     //get the rd id fetch it from db get his dep and put the dep in the agent
