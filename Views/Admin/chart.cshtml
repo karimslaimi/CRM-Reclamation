@@ -1,7 +1,7 @@
 ﻿<script src="https://code.highcharts.com/highcharts.js"></script>
 <script src="https://code.highcharts.com/modules/data.js"></script>
 <script src="https://code.highcharts.com/modules/drilldown.js"></script>
-<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+<script src="~/Scripts/jquery-3.5.1.min.js"></script>
 <script>
     $(document).ready(function () {
             $.ajax({
@@ -157,7 +157,7 @@
                     var chart = result[3]
                     console.log(chart)
 
-                    Highcharts.chart('report-line-chart', {
+                    Highcharts.chart('report-spline-chart', {
                         chart: {
                             type: 'spline',
                             
@@ -169,6 +169,7 @@
 
 
                         yAxis: {
+                            allowDecimals: false,
                             title: {
                                 text: 'Nombre de contrats'
                             },
@@ -311,7 +312,7 @@
         
         </div>
         <div class="report-chart">
-            <div id="report-line-chart" height="160" class="mt-6"></div>
+            <div id="report-spline-chart" height="160" class="mt-6"></div>
         </div>
     </div>
 </div>

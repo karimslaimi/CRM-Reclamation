@@ -225,8 +225,15 @@ namespace PFE_reclamation.Controllers {
                         db.SaveChanges();
 
                         //send mail and sms to the client
+                       
+                        
                         apiservice.sendmail(_client.mail,"Compte créé","Votre compte a été créé dans le crm vous pouvez vous connectez\nContactez l'administrateur pour le mot de passe") ;
-                        apiservice.sendSMS("Votre compte a été créé contacter l'administrateur pour le mot de passe", _client.tel);
+                      
+                        //put it in comment cause i don't want to waste sms
+                       // apiservice.sendSMS("Votre compte a été créé contacter l'administrateur pour le mot de passe", _client.tel);
+                      
+                        
+                        
                         } catch (Exception e) {
                         ViewBag.error = "vérifier mail ou nom d'utilisateur";
                         return View(_client);
