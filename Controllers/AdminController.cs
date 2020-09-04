@@ -47,6 +47,9 @@ namespace PFE_reclamation.Controllers {
 
             ViewBag.lastreclams = db.Reclamations.Where(x => x.etat == Etat.Nouveau).OrderBy(s => s.debut_reclam).Take(5);
 
+          
+
+
             return View();
             }
         public PartialViewResult chart()
@@ -71,7 +74,15 @@ namespace PFE_reclamation.Controllers {
             List<List<FirstChart>> final = new List<List<FirstChart>>();
             final.Add(chart1);
             final.Add(chart2);
-
+            List<FirstChart> chart3= db.Reclamations.GroupBy(x => x.etat).Select(s => new FirstChart { name = s.Key.ToString(), y = s.Count() }).ToList();
+            final.Add(chart3);
+            DateTime testDate = DateTime.Now.AddYears(-1);
+            DateTime testDate1 = DateTime.Now.AddYears(1);
+            DateTimeFormatInfo mn = CultureInfo.GetCultureInfo("fr-FR").DateTimeFormat;
+            List<Contrat> cn = db.Contrats.Where(x => x.deb_contrat > testDate && x.deb_contrat < testDate1).ToList();
+            List<FirstChart> chart4 = cn.OrderBy(x=>x.deb_contrat.Month).GroupBy(x => x.deb_contrat.Month).Select(s => new FirstChart { name = mn.GetMonthName(s.Key).ToString() , y = s.Count() }).ToList();
+              
+            final.Add(chart4);
             return Json(final, JsonRequestBehavior.AllowGet);
         }
         protected bool verifyFiles(HttpPostedFileBase item) {
