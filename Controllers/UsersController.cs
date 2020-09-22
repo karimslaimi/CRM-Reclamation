@@ -15,6 +15,7 @@ using Microsoft.Owin.Security;
 using PFE_reclamation.DAL;
 using PFE_reclamation.Models;
 using PFE_reclamation.Services;
+using RestSharp;
 
 namespace PFE_reclamation.Controllers
 {
@@ -28,12 +29,16 @@ namespace PFE_reclamation.Controllers
         [HttpGet]
         public ActionResult Signin()
         {
+
             if (User.Identity.IsAuthenticated)
                 {
                 return RedirectToAction("logout");
 
                 }
-           
+            if (TempData["error"] != null) {
+                ViewBag.passerr = TempData["error"];
+                }
+
 
             return View();
         }
@@ -165,6 +170,104 @@ namespace PFE_reclamation.Controllers
 
 
 
+        public ActionResult forgotpasswor(string email) {
+
+            User _user = db.Users.Where(x => x.mail == email).FirstOrDefault();
+            if(_user != null) {
+                //send verification sms
+                //and store the code in cookies must be encrypted
+
+                const string chars = "0123456789";
+                Random rand = new Random();
+                string key = new string(Enumerable.Repeat(chars, 6).Select(s => s[rand.Next(10)]).ToArray());
+
+                var cookie = new System.Web.HttpCookie("cookie");
+                cookie["key"] = authservice.Encrypt(key);
+                Response.Cookies.Add(cookie);
+
+                ApiService apiService = new ApiService();
+              //  apiService.sendSMS("Votre code de confirmation est : " + key, _user.tel);
+                ViewBag.email = email;
+                return View();
+
+                } else {
+                TempData["error"] = "email non trouvé";
+                return RedirectToAction("Signin");
+                }
+
+            }
+
+        [HttpGet]
+        public ActionResult verifyCode(string email,string code) {
+
+            System.Web.HttpCookie myCookie = Request.Cookies["cookie"];
+
+            if (myCookie != null && authservice.Decrypt(myCookie["key"]) == code) {
+                var cookie = new System.Web.HttpCookie("cookievalid");
+
+                cookie["valide"] = "true";
+                Response.Cookies.Add(myCookie); 
+                Response.Cookies.Add(cookie);
+
+
+                return RedirectToAction("NewPassword", new { email = email });
+
+                } else {
+
+                myCookie["valide"] = "false";
+                Response.Cookies.Add(myCookie);
+                ViewBag.error = "code incorrect";
+
+
+                return RedirectToAction("forgotpasswor");
+                }
+
+
+            }
+
+       
+        [HttpGet]
+        //it will return the view to put the new password
+        public ActionResult NewPassword(string email) {
+
+            System.Web.HttpCookie myCookie = Request.Cookies["cookievalid"];
+            if (myCookie != null && myCookie["valide"] == "true") {
+
+                ViewBag.email = email;
+                return View();
+                } else {
+                return RedirectToAction("Signin");
+                }
+
+            }  
+
+
+        [HttpPost]
+        public ActionResult NewPassword(string email, string pass, string cpass) {
+
+            System.Web.HttpCookie myCookie = Request.Cookies["cookievalid"];
+            if (myCookie != null && myCookie["valide"] == "true") {
+                if (pass.Equals(cpass) && !String.IsNullOrEmpty(pass) && !string.IsNullOrWhiteSpace(pass)) {
+                    User _us = db.Users.FirstOrDefault(x => x.mail == email);
+                    _us.password = authservice.HashPassword(pass);
+                    db.Entry(_us).State = EntityState.Modified;
+                    db.SaveChanges();
+
+                    return RedirectToAction("signin");
+                    } else {
+                    ViewBag.error = "les mots de passe ne correspondent pas";
+                    ViewBag.email = email;
+                    return View();
+                    }
+
+               
+                } else {
+                return RedirectToAction("Signin");
+                }
+
+            }
+
+       
 
         protected override void Dispose(bool disposing)
         {

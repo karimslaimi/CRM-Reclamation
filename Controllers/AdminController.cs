@@ -85,6 +85,9 @@ namespace PFE_reclamation.Controllers {
             final.Add(chart4);
             return Json(final, JsonRequestBehavior.AllowGet);
         }
+    
+        
+        
         protected bool verifyFiles(HttpPostedFileBase item) {
             bool flag = true;
 
@@ -103,6 +106,8 @@ namespace PFE_reclamation.Controllers {
             }
 
         [HttpGet]
+     
+        
         public ActionResult profile() {
             //get the userid from claims principal where we stored the user data after login
             string userid = ClaimsPrincipal.Current.Claims.FirstOrDefault(x => x.Type == "id").Value;
