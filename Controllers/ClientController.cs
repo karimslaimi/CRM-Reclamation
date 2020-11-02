@@ -39,7 +39,8 @@ namespace PFE_reclamation.Controllers {
             ViewBag.encourreclam = _reclams.Where(x => x.etat == Etat.En_cours).Count();
             ViewBag.traitereclam = _reclams.Where(x => x.etat == Etat.Traite).Count();
             ViewBag.contrat = db.Contrats.Where(x => x.Client.id == userid).Count();
-            ViewBag.reclams = _reclams.OrderBy(x=>x.debut_reclam).Take(5).ToList();
+
+            ViewBag.reclams = _reclams.OrderByDescending(x=>x.debut_reclam).Take(5).ToList();
 
 
 

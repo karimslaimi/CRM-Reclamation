@@ -48,7 +48,7 @@ namespace PFE_reclamation.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Signin(User user)
         {
-              User u = authservice.AuthUser(user.username, user.password);
+              User u = authservice.AuthUser(user.mail, user.password);
             if (u != null && u.enabled==true)
             {
                 string role="";
@@ -186,7 +186,8 @@ namespace PFE_reclamation.Controllers
                 Response.Cookies.Add(cookie);
 
                 ApiService apiService = new ApiService();
-              //  apiService.sendSMS("Votre code de confirmation est : " + key, _user.tel);
+                //  apiService.sendSMS("Votre code de confirmation est : " + key, _user.tel);
+                apiService.sendmail(email,"Code de confirmation", "Votre code de confirmation est : " + key);
                 ViewBag.email = email;
                 return View();
 

@@ -39,7 +39,7 @@ namespace PFE_reclamation.Controllers
             List<Agent> _agents = db.Agents.Include(x=>x.reclamTraite).Where(x => x.departementId == _dep.id).ToList();
             ViewBag.agent = _agents.Count();
             ViewBag.agents = _agents.OrderByDescending(x => x.reclamTraite!=null).ThenByDescending(x=>x.reclamTraite!=null? x.reclamTraite.Count() : x.id).Take(5);
-            ViewBag.latest = _reclam.Where(x => x.etat == Etat.Traite).OrderBy(x => x.fin_reclam).Take(5);
+            ViewBag.latest = _reclam.Where(x => x.etat == Etat.Traite).OrderByDescending(x => x.fin_reclam).Take(5);
 
 
 
